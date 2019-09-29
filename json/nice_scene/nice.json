@@ -1,0 +1,78 @@
+{
+  "quality": 100,
+  "camera": {
+    "id": 1,
+    "fov": 90.0,
+    "clipping_planes": {
+      "near": 0.5,
+      "far": 2000.0
+    },
+    "transform": {
+      "pos": {
+        "x": 0.0,
+        "y": 10.0,
+        "z": 50.0
+      },
+      "eulers": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    }
+  },
+  "lights": {
+    "ambient": {
+      "x": 0.7,
+      "y": 0.7,
+      "z": 0.7
+    },
+    "directional_lights": [
+      {
+        "color": {
+          "x": 0.3,
+          "y": 0.3,
+          "z": 0.3
+        },
+        "transform": {
+          "pos": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.0
+          },
+          "eulers": {
+            "x": 30.0,
+            "y": 30.0,
+            "z": 30.0
+          }
+        }
+      }
+    ]
+  },
+  "objects": [
+    {
+      "id": 2,
+      "type": "sphere",
+      "layer": "default_layer",
+      "texture": "nice",
+      "radius": 10.0,
+      "color": {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0,
+        "w": 0.0
+      },
+      "transform": {
+        "pos": {
+          "x": 0.0,
+          "y": 10.0,
+          "z": 0.0
+        },
+        "eulers": {
+          "x": 30.0,
+          "y": 30.0,
+          "z": 30.0
+        }
+      }
+    }
+  ]
+}

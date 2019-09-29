@@ -1,0 +1,14 @@
+{
+  "textures":
+   [
+     {
+       "path": "./textures/texture.png"
+     },
+     {
+       "path": "./textures/brick.jpg"
+     },
+     {
+       "path": "./textures/marble.png"
+     }
+   ]
+}
