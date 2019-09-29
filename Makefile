@@ -34,7 +34,9 @@ SRC		:=		main.c				            \
 				figures.c                       \
 				get_textures.c                  \
 				rt_jtoc/rt_jtoc_utilits.c       \
-				rt_jtoc/rt_jtoc_get_textures.c
+				rt_jtoc/rt_jtoc_get_textures.c  \
+				rt_jtoc/rt_jtoc_scene_setup.c  \
+				rt_jtoc/rt_jtoc_get_camera.c    \
 
 SRCS	:=		$(addprefix $(SRC_DIR)/, $(SRC))
 OBJ		:= 		$(SRC:.c=.o)

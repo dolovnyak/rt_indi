@@ -6,7 +6,7 @@
 /*   By: broggo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 16:43:50 by broggo            #+#    #+#             */
-/*   Updated: 2019/09/29 22:55:55 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/09/30 01:23:12 by rkeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ int			main(int argc, char **argv)
 			mlx.obj[9].mat.emission.y = 0.f;
 			mlx.obj[9].mat.emission.z = 0.f;
             rt_jtoc_textures_setup(&mlx, "json/textures.json");
+            rt_jtoc_scene_setup(&mlx, "json/nice_scene/nice.json");
 			initialization(&mlx);
 			draw_picture(&mlx);
 			
