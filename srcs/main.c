@@ -78,48 +78,47 @@ int	new_mlx(t_mlx *mlx, char *name)
 	return (1);
 }
 
-void		initialization(t_mlx *mlx)
+void		emission(t_mlx *mlx)
 {
-	int					err;
+	mlx->obj[0].mat.emission.x = 0.f;
+	mlx->obj[0].mat.emission.y = 0.f;
+	mlx->obj[0].mat.emission.z = 0.f;
 
-	err = 0;
-	mlx->cl.queue = clCreateCommandQueue(mlx->cl.context, mlx->cl.device, 0, &err);
-	if(err < 0) {
-		perror("Couldn't create a command queue");
-		exit(1);
-	};
+	mlx->obj[1].mat.emission.x = 0.f;
+	mlx->obj[1].mat.emission.y = 0.f;
+	mlx->obj[1].mat.emission.z = 0.f;
 
+	mlx->obj[2].mat.emission.x = 1.f;
+	mlx->obj[2].mat.emission.y = 1.f;
+	mlx->obj[2].mat.emission.z = 1.f;
 
-	mlx->gpu_mem =(t_gpu_mem *)ft_memalloc(sizeof(t_gpu_mem));
-	find_textures_size(mlx, mlx->texture->textures_path, mlx->texture->textures_count);
-	if (!(mlx->texture->texture = (int *)ft_memalloc(sizeof(int) * mlx->texture->texture_size)))
-		return ;
-	get_textures(mlx, mlx->texture->textures_path, mlx->texture->textures_count);
-	if (!(mlx->texture->texture = (int *)ft_memalloc(sizeof(int) * mlx->texture->texture_size)))
-	{
-		perror("Couldn't allocate memory");
-		exit (1);
-	}
-	get_textures(mlx, mlx->texture->textures_path, mlx->texture->textures_count);
-	mlx->gpu_mem->cl_texture = clCreateBuffer(mlx->cl.context,
-								CL_MEM_READ_ONLY, 4 * mlx->texture->texture_size,
-								NULL, NULL);
-	clEnqueueWriteBuffer(mlx->cl.queue, mlx->gpu_mem->cl_texture, CL_TRUE, 0,
-						 4 * mlx->texture->texture_size,
-						 mlx->texture->texture, 0, NULL, NULL);
-	mlx->gpu_mem->cl_texture_w = clCreateBuffer(mlx->cl.context,
-								  CL_MEM_READ_ONLY, sizeof(int) * 100, NULL, NULL);
-	clEnqueueWriteBuffer(mlx->cl.queue, mlx->gpu_mem->cl_texture_w, CL_TRUE, 0,
-						 sizeof(int) * 100, &mlx->texture->texture_w, 0, NULL, NULL);
-	mlx->gpu_mem->cl_texture_h = clCreateBuffer(mlx->cl.context,
-								  CL_MEM_READ_ONLY, sizeof(int) * 100, NULL, NULL);
-	clEnqueueWriteBuffer(mlx->cl.queue, mlx->gpu_mem->cl_texture_h, CL_TRUE, 0,
-						 sizeof(int) * 100, &mlx->texture->texture_h, 0, NULL, NULL);
-	mlx->gpu_mem->cl_prev_texture_size = clCreateBuffer(mlx->cl.context,
-										  CL_MEM_READ_ONLY, sizeof(int) * 100, NULL, NULL);
-	clEnqueueWriteBuffer(mlx->cl.queue, mlx->gpu_mem->cl_prev_texture_size, CL_TRUE, 0,
-						 sizeof(int) * 100, &mlx->texture->prev_texture_size, 0, NULL, NULL);
+	mlx->obj[3].mat.emission.x = 0.f;
+	mlx->obj[3].mat.emission.y = 0.f;
+	mlx->obj[3].mat.emission.z = 0.f;
 
+	mlx->obj[4].mat.emission.x = 0.f;
+	mlx->obj[4].mat.emission.y = 0.f;
+	mlx->obj[4].mat.emission.z = 0.f;
+
+	mlx->obj[5].mat.emission.x = 0.f;
+	mlx->obj[5].mat.emission.y = 0.f;
+	mlx->obj[5].mat.emission.z = 0.f;
+
+	mlx->obj[6].mat.emission.x = 0.f;
+	mlx->obj[6].mat.emission.y = 0.f;
+	mlx->obj[6].mat.emission.z = 0.f;
+
+	mlx->obj[7].mat.emission.x = 0.f;
+	mlx->obj[7].mat.emission.y = 0.f;
+	mlx->obj[7].mat.emission.z = 0.f;
+
+	mlx->obj[8].mat.emission.x = 0.f;
+	mlx->obj[8].mat.emission.y = 0.f;
+	mlx->obj[8].mat.emission.z = 0.f;
+
+	mlx->obj[9].mat.emission.x = 0.f;
+	mlx->obj[9].mat.emission.y = 0.f;
+	mlx->obj[9].mat.emission.z = 0.f;
 }
 
 int			main(int argc, char **argv)
@@ -131,51 +130,11 @@ int			main(int argc, char **argv)
 		if (new_mlx(&mlx, argv[1]))
 		{
 			mlx.aux = (int *)malloc(sizeof(int) * WIDTH * HEIGHT);
-		//	mlx.obj[0].type = 7;
-			
-			mlx.obj[0].mat.emission.x = 0.f;
-			mlx.obj[0].mat.emission.y = 0.f;
-			mlx.obj[0].mat.emission.z = 0.f;
-			
-			mlx.obj[1].mat.emission.x = 0.f;
-			mlx.obj[1].mat.emission.y = 0.f;
-			mlx.obj[1].mat.emission.z = 0.f;
-			
-			mlx.obj[2].mat.emission.x = 1.f;
-			mlx.obj[2].mat.emission.y = 1.f;
-			mlx.obj[2].mat.emission.z = 1.f;
-			
-			mlx.obj[3].mat.emission.x = 0.f;
-			mlx.obj[3].mat.emission.y = 0.f;
-			mlx.obj[3].mat.emission.z = 0.f;
-			
-			mlx.obj[4].mat.emission.x = 0.f;
-			mlx.obj[4].mat.emission.y = 0.f;
-			mlx.obj[4].mat.emission.z = 0.f;
-			
-			mlx.obj[5].mat.emission.x = 0.f;
-			mlx.obj[5].mat.emission.y = 0.f;
-			mlx.obj[5].mat.emission.z = 0.f;
-			
-			mlx.obj[6].mat.emission.x = 0.f;
-			mlx.obj[6].mat.emission.y = 0.f;
-			mlx.obj[6].mat.emission.z = 0.f;
-			
-			mlx.obj[7].mat.emission.x = 0.f;
-			mlx.obj[7].mat.emission.y = 0.f;
-			mlx.obj[7].mat.emission.z = 0.f;
-			
-			mlx.obj[8].mat.emission.x = 0.f;
-			mlx.obj[8].mat.emission.y = 0.f;
-			mlx.obj[8].mat.emission.z = 0.f;
-			
-			mlx.obj[9].mat.emission.x = 0.f;
-			mlx.obj[9].mat.emission.y = 0.f;
-			mlx.obj[9].mat.emission.z = 0.f;
-            rt_jtoc_textures_setup(&mlx, "json/textures.json");
-			initialization(&mlx);
+
+			emission(&mlx);
+			rt_jtoc_textures_setup(&mlx, "json/textures.json");
+			fill_gpu_mem(&mlx);
 			draw_picture(&mlx);
-			
 			mlx_hook(mlx.win, 2, 0, check_key, &mlx);
 			mlx_hook(mlx.win, 17, 0, ft_esc, &mlx);
 			mlx_hook(mlx.win, 4, 0, mouse_press, &mlx);

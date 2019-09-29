@@ -33,6 +33,7 @@ SRC		:=		main.c				            \
 				cam_and_screen.c	            \
 				figures.c                       \
 				get_textures.c                  \
+				gpu_mem.c						\
 				rt_jtoc/rt_jtoc_utilits.c       \
 				rt_jtoc/rt_jtoc_get_textures.c
 
@@ -45,6 +46,11 @@ FT_LIB	:=		$(addprefix $(FT),libft.a)
 FT_INC	:=		-I ./libft/includes
 FT_LNK	:=		-L ./libft -l ft
 
+CL		:=		./libcl/
+CL_LIB	:=		$(addprefix $(FT),libcl.a)
+CL_INC	:=		-I ./libcl/include
+CL_LNK	:=		-L ./libcl -l cl
+
 JC		:=		./libjtoc/
 JC_LIB	:=		$(addprefix $(JC),libjtoc.a)
 JC_INC	:=		-I ./libjtoc/include
@@ -56,7 +62,7 @@ MLX_LIB	:=		$(addprefix $(MLX),libmlx.a)
 MLX_INC	:=		-I ./minilibx
 MLX_LNK	:=		-L ./minilibx -l mlx -framework OpenGL -framework AppKit
 
-all:			dirs $(MLX_LIB) $(FT_LIB) $(JC_LIB) $(OBJ_DIR) $(IMG_DIR) $(NAME)
+all:			dirs $(MLX_LIB) $(FT_LIB) $(CL_LIB) $(JC_LIB) $(OBJ_DIR) $(IMG_DIR) $(NAME)
 
 $(FT_LIB):
 				make -C $(FT)
@@ -66,6 +72,9 @@ $(MLX_LIB):
 
 $(JC_LIB):
 				make -C $(JC)
+
+$(CL_LIB):
+				make -C $(CL)
 
 dirs:			$(OBJ_DIR) $(JC_DIR)
 
@@ -79,20 +88,22 @@ $(IMG_DIR):
 				mkdir -p $(IMG_DIR)
 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c
-				$(CC) $(CFLAGS) -I $(INC_DIR) $(FT_INC) $(MLX_INC) $(JC_INC) -o $@ -c $<
+				$(CC) $(CFLAGS) -I $(INC_DIR) $(FT_INC) $(CL_INC) $(MLX_INC) $(JC_INC) -o $@ -c $<
 
 $(NAME):		$(OBJS)
-				$(CC) $(CFLAGS) $(FT_LNK) $(MLX_LNK) $(JC_LNK) $(OBJS) -o $(NAME) -framework OpenCL
+				$(CC) $(CFLAGS) $(FT_LNK) $(CL_LNK) $(MLX_LNK) $(JC_LNK) $(OBJS) -o $(NAME) -framework OpenCL
 
 clean:
 				rm -f $(OBJS)
 				make -C $(FT) clean
 				make -C $(MLX) clean
 				make -C $(JC) clean
+				make -C $(CL) clean
 
 fclean: 		clean
 				rm -f $(NAME)
 				make -C $(FT) fclean
 				make -C $(JC) fclean
+				make -C $(CL) clean
 
 re: 			fclean all

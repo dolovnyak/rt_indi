@@ -16,6 +16,7 @@
 # include "mlx.h"
 # include "libft.h"
 # include "libjtoc.h"
+# include "libcl.h"
 # include "get_next_line.h"
 # include <math.h>
 # include <stdlib.h>
@@ -203,6 +204,7 @@ void				calc_screen(t_screen *screen, t_cam *cam);
 
 void get_textures(t_mlx *mlx, char **texture_file, int number_of_texture);
 void				find_textures_size(t_mlx *mlx, char **texture_file, int number_of_texture);
+void				fill_gpu_mem(t_mlx *mlx);
 
 
 #endif

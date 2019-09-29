@@ -23,6 +23,8 @@
 # define KYEL				"\x1B[33m"
 # define KBLU				"\x1B[34m"
 # define KMAG				"\x1B[35m"
+# define HASH_P				31
+# define HASH_M				1000000009
 
 typedef struct		s_list
 {
@@ -99,5 +101,7 @@ void				ft_lstiter(t_list *lst, void (*f)(t_list *elem));
 t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 int					ft_lstpush(t_list **begin_list, void *data,
 					size_t content_size);
+void				*ft_x_memalloc(size_t size);
+int					ft_strhash(const char *str);
 
 #endif

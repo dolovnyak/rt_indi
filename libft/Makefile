@@ -81,7 +81,9 @@ SRC 	:=		getnbr.c		\
 				ft_lstiter.c	\
 				ft_lstmap.c		\
 				get_next_line.c	\
-				ft_lstpush.c
+				ft_lstpush.c	\
+				ft_x_memalloc.c	\
+				ft_strhash.c
 
 SRCS	:=		$(addprefix $(SRC_DIR)/, $(SRC))
 OBJ		:= 		$(SRC:.c=.o)
