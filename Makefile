@@ -15,6 +15,7 @@ NAME	:= 		RT
 SRC_DIR := 		./srcs
 INC_DIR := 		./includes
 OBJ_DIR	:=		./obj
+JC_DIR	:=		./obj/rt_jtoc
 LIB_DIR	:=		./libft
 IMG_DIR :=		./images
 
@@ -33,7 +34,7 @@ SRC		:=		main.c				            \
 				figures.c                       \
 				get_textures.c                  \
 				rt_jtoc/rt_jtoc_utilits.c       \
-				rt_jtoc/rt_jtoc_get_textures.c  \
+				rt_jtoc/rt_jtoc_get_textures.c
 
 SRCS	:=		$(addprefix $(SRC_DIR)/, $(SRC))
 OBJ		:= 		$(SRC:.c=.o)
@@ -66,10 +67,14 @@ $(MLX_LIB):
 $(JC_LIB):
 				make -C $(JC)
 
-dirs:			$(OBJ_DIR)
+dirs:			$(OBJ_DIR) $(JC_DIR)
 
 $(OBJ_DIR):
 				mkdir -p $(OBJ_DIR)
+
+$(JC_DIR):
+				mkdir -p $(JC_DIR)
+
 $(IMG_DIR):
 				mkdir -p $(IMG_DIR)
 
