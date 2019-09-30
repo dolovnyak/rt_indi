@@ -104,13 +104,13 @@ cl_program build_program(cl_context ctx, cl_device_id dev, const char* filename)
 
 int			cl_worker(t_mlx *mlx)
 {
-	cl_mem				img_buffer;
+	cl_mem				img_buffer;		//
 	cl_mem				cam_buffer;
 	cl_mem				screen_buffer;
-	cl_mem				counter_buffer;
-	cl_mem				light_buffer;
-	cl_mem				obj_buffer;
-	cl_mem				aux_buffer;
+	cl_mem				counter_buffer;	//
+	cl_mem				light_buffer;	//
+	cl_mem				obj_buffer;		//
+	cl_mem				aux_buffer;		//
 	cl_int				err;
 	size_t				global_size[2];
 	size_t				local_size[2];

@@ -106,7 +106,6 @@ typedef struct		s_cam
 
 typedef struct		s_counter
 {
-	int				s;
 	int				l;
 	int				all_obj;
 }					t_counter;
@@ -142,6 +141,10 @@ typedef struct 		s_gpu_mem
 	cl_mem			cl_texture_w;
 	cl_mem			cl_texture_h;
 	cl_mem			cl_prev_texture_size;
+	cl_mem			img_buffer;
+	cl_mem			aux_buffer;
+	cl_mem			light_buffer;
+	cl_mem			obj_buffer;
 }					t_gpu_mem;
 
 typedef struct		s_mlx

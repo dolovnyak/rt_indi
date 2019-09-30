@@ -64,7 +64,6 @@ typedef struct	s_light
 
 typedef struct	s_counter
 {
-	int			s;
 	int			l;
 	int			all_obj;
 }				t_counter;
