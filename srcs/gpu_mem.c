@@ -37,15 +37,18 @@ void		fill_gpu_mem(t_rt *rt)
 	err = 0;
 	rt->gpu_mem->cl_img_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_WRITE_ONLY,
 			WIDTH * HEIGHT * sizeof(int), NULL, &err);
-	cl_error_handler("Couldn't create img_buffer", err);
+	cl_error_handler("Couldn't create img buffer", err);
 	rt->gpu_mem->cl_aux_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_READ_WRITE,
 			WIDTH * HEIGHT * sizeof(int), NULL, &err);
-	cl_error_handler("Couldn't create aux_buffer", err);
+	cl_error_handler("Couldn't create aux buffer", err);
 	rt->gpu_mem->cl_light_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
 			rt->counter.l * sizeof(t_light), rt->light, &err);
-	cl_error_handler("Couldn't create light_buffer", err);
+	cl_error_handler("Couldn't create light buffer", err);
 	rt->gpu_mem->cl_obj_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
 			rt->counter.all_obj * sizeof(t_object), rt->obj, &err);
-	cl_error_handler("Couldn't create obj_buffer", err);
+	cl_error_handler("Couldn't create obj buffer", err);
+	rt->gpu_mem->cl_counter_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR,
+			sizeof(t_counter), &(rt->counter), &err);
+	cl_error_handler("Couldn't create counter buffer", err);
 }
 

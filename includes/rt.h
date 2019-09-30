@@ -140,6 +140,7 @@ typedef struct 		s_gpu_mem
 	cl_mem			cl_aux_buffer;
 	cl_mem			cl_light_buffer;
 	cl_mem			cl_obj_buffer;
+	cl_mem			cl_counter_buffer;
 }					t_gpu_mem;
 
 typedef struct		s_rt
