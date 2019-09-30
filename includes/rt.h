@@ -33,12 +33,6 @@
 #define	SPEED3 1.f
 #define	SPEED4 1.f
 
-#define PROGRAM_FILE "./scls/rt.cl"
-#define KERNEL_FUNC_RT "rt"
-#define KERNEL_FUNC_PP "post_processing"
-#define KERNEL_FUNC_GB_X "gauss_blur_x"
-#define KERNEL_FUNC_GB_Y "gauss_blur_y"
-
 #define CHANNEL_NUM 3
 
 enum					e_object_type
@@ -124,16 +118,16 @@ typedef struct		s_mouse
 
 typedef struct 			s_obj_texture
 {
-    char				**textures_path;
-    unsigned int		textures_count;
-    int 				w;
-    int 				h;
-    int 				*texture;
-    int 				bpp;
-    int					texture_w[100];
-    int					texture_h[100];
-    int					prev_texture_size[100];
-    size_t				texture_size;
+	char				**textures_path;
+	unsigned int		textures_count;
+	int 				w;
+	int 				h;
+	int 				*texture;
+	int 				bpp;
+	int					texture_w[100];
+	int					texture_h[100];
+	int					prev_texture_size[100];
+	size_t				texture_size;
 }						t_obj_texture;
 
 typedef struct 		s_gpu_mem
@@ -210,6 +204,5 @@ void				calc_screen(t_screen *screen, t_cam *cam);
 void				get_textures(t_mlx *mlx, char **texture_file, int number_of_texture);
 void				find_textures_size(t_mlx *mlx, char **texture_file, int number_of_texture);
 void				fill_gpu_mem(t_mlx *mlx);
-
 
 #endif
