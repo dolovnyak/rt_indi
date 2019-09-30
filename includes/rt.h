@@ -162,7 +162,6 @@ typedef struct		s_mlx
 	int				*aux;
 }					t_mlx;
 
-
 int					check_key(int keycode, t_mlx *mlx);
 int					ft_esc(t_mlx *mlx);
 int					ft_move_x(int keycode, t_mlx *mlx);
@@ -188,7 +187,6 @@ cl_float3			cl_normalize(cl_float3 v1);
 cl_float3			cl_cross(cl_float3 v1, cl_float3 v2);
 float				cl_dot(cl_float3 v1, cl_float3 v2);
 float				cl_angle(cl_float3 v1, cl_float3 v2);
-
 
 void 				draw_picture(t_mlx *mlx);
 int					cl_worker(t_mlx *mlx);

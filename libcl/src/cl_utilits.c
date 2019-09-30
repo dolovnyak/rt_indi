@@ -12,10 +12,16 @@
 
 #include "libcl.h"
 
-void	cl_exit_error(char *error)
+void	cl_exit_error(char *output_error)
 {
-	printf("ERROR: %s\n", error);
+	printf("ERROR: %s\n", output_error);
 	exit(-1);
+}
+
+void	cl_error_handler(char *output_error, int err)
+{
+	if (err != 0)
+		cl_exit_error(output_error);
 }
 
 size_t	cl_get_files_num(char **files)

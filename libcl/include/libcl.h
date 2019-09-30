@@ -38,6 +38,7 @@ char					*cl_get_file_buf(const char *name,
 		size_t *program_size);
 size_t					cl_get_files_num(char **files);
 void					cl_fill_kernels(t_cl *cl, char **kernels);
-void					cl_exit_error(char *error);
+void					cl_exit_error(char *output_error);
+void					cl_error_handler(char *output_error, int err);
 
 #endif
