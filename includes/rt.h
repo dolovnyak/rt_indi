@@ -142,13 +142,11 @@ typedef struct 		s_gpu_mem
 	cl_mem			cl_obj_buffer;
 }					t_gpu_mem;
 
-typedef struct		s_mlx
+typedef struct		s_rt
 {
 	void			*mlx_ptr;
 	void			*win;
 	t_img			img;
-	int				h;
-	int				len;
 	t_cl			*cl;
 	t_screen		screen;
 	t_cam			cam;
@@ -160,23 +158,23 @@ typedef struct		s_mlx
 	cl_uint 		objects_count;
 	t_gpu_mem		*gpu_mem;
 	int				*aux;
-}					t_mlx;
+}					t_rt;
 
-int					check_key(int keycode, t_mlx *mlx);
-int					ft_esc(t_mlx *mlx);
-int					ft_move_x(int keycode, t_mlx *mlx);
-int					ft_move_y(int keycode, t_mlx *mlx);
-int					ft_move_alpha(int keycode, t_mlx *mlx);
-int					ft_move_betta(int keycode, t_mlx *mlx);
-int					ft_move_z(int keycode, t_mlx *mlx);
+int					check_key(int keycode, t_rt *rt);
+int					ft_esc(t_rt *rt);
+int					ft_move_x(int keycode, t_rt *rt);
+int					ft_move_y(int keycode, t_rt *rt);
+int					ft_move_alpha(int keycode, t_rt *rt);
+int					ft_move_betta(int keycode, t_rt *rt);
+int					ft_move_z(int keycode, t_rt *rt);
 
 
-int					mouse_press(int button, int x, int y, t_mlx *mlx);
-int					mouse_move(int x, int y, t_mlx *mlx);
-int					mouse_release(int button, int x, int y, t_mlx *mlx);
-int					ft_move_mouse(t_mlx *mlx, int button, int x, int y);
-int					ft_mouse_alpha_betta(t_mlx *mlx, int x, int y);
-int					ft_mouse_x_y(t_mlx *mlx, int x, int y);
+int					mouse_press(int button, int x, int y, t_rt *rt);
+int					mouse_move(int x, int y, t_rt *rt);
+int					mouse_release(int button, int x, int y, t_rt *rt);
+int					ft_move_mouse(t_rt *rt, int button, int x, int y);
+int					ft_mouse_alpha_betta(t_rt *rt, int x, int y);
+int					ft_mouse_x_y(t_rt *rt, int x, int y);
 
 cl_float3			cl_sum(cl_float3 v1, cl_float3 v2);
 cl_float3			cl_minus(cl_float3 v1, cl_float3 v2);
@@ -188,19 +186,19 @@ cl_float3			cl_cross(cl_float3 v1, cl_float3 v2);
 float				cl_dot(cl_float3 v1, cl_float3 v2);
 float				cl_angle(cl_float3 v1, cl_float3 v2);
 
-void 				draw_picture(t_mlx *mlx);
-int					cl_worker(t_mlx *mlx);
+void 				draw_picture(t_rt *rt);
+int					cl_worker(t_rt *rt);
 cl_device_id		create_device();
 cl_program			build_program(cl_context ctx, cl_device_id dev, const char* filename);
-int					read_map(char *name, t_mlx *mlx);
+int					read_map(char *name, t_rt *rt);
 
 
 cl_float3			spherical(float phi, float tetta);
 cl_float3			spher_norm(cl_float3 v);
 void				calc_screen(t_screen *screen, t_cam *cam);
 
-void				get_textures(t_mlx *mlx, char **texture_file, int number_of_texture);
-void				find_textures_size(t_mlx *mlx, char **texture_file, int number_of_texture);
-void				fill_gpu_mem(t_mlx *mlx);
+void				get_textures(t_rt *rt, char **texture_file, int number_of_texture);
+void				find_textures_size(t_rt *rt, char **texture_file, int number_of_texture);
+void				fill_gpu_mem(t_rt *rt);
 
 #endif

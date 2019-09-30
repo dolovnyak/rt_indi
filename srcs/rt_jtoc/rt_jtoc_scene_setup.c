@@ -2,7 +2,7 @@
 #include "rt_jtoc.h"
 
 
-static int	rt_jtoc_get_scene(const char *path, t_mlx *mlx, t_obj_texture *texture)
+static int	rt_jtoc_get_scene(const char *path, t_rt *rt, t_obj_texture *texture)
 {
 	t_jnode	*root;
 	t_jnode	*tmp;
@@ -13,7 +13,7 @@ static int	rt_jtoc_get_scene(const char *path, t_mlx *mlx, t_obj_texture *textur
 	(void)texture;
 	if (!(tmp = jtoc_node_get_by_path(root, "camera")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("CAMERA TYPE ERROR OR CAMERA IS NOT SET", -1));
-	if (rt_jtoc_get_camera(&(mlx->cam), tmp))
+	if (rt_jtoc_get_camera(&(rt->cam), tmp))
 		return (rt_jtoc_sdl_log_error("CAMERA DATA ERROR", -1));
 //
 //	if (!(tmp = jtoc_node_get_by_path(root, "lights")) || tmp->type != object)
@@ -23,7 +23,7 @@ static int	rt_jtoc_get_scene(const char *path, t_mlx *mlx, t_obj_texture *textur
 //
 	if (!(tmp = jtoc_node_get_by_path(root, "objects")) || tmp->type != array)
 		return (rt_jtoc_sdl_log_error("OBJECTS TYPE ERROR OR OBJECTS AREN'T SET", -1));
-	if (rt_jtoc_get_objects(mlx, tmp, texture))
+	if (rt_jtoc_get_objects(rt, tmp, texture))
 		return (rt_jtoc_sdl_log_error("OBJECTS ERROR", -1));
 ////
 //	if (!(tmp = jtoc_node_get_by_path(root, "quality")) || tmp->type != integer)
@@ -35,23 +35,23 @@ static int	rt_jtoc_get_scene(const char *path, t_mlx *mlx, t_obj_texture *textur
 	return (FUNCTION_SUCCESS);
 }
 
-int rt_jtoc_scene_setup(t_mlx *mlx, const char *json)
+int rt_jtoc_scene_setup(t_rt *rt, const char *json)
 {
 	int		i;
-	t_mlx	*tmp_mlx;
+	t_rt	*tmp_rt;
 
-	tmp_mlx = (t_mlx *)ft_memalloc(sizeof(t_mlx));
-//	tmp_mlx = mlx;
-//	tmp_mlx->cam.center.x = 20.f;
+	tmp_rt = (t_rt *)ft_memalloc(sizeof(t_rt));
+//	tmp_rt = rt;
+//	tmp_rt->cam.center.x = 20.f;
 //	(void)json;
 //	(void)i;
 	i = -1;
-	if (rt_jtoc_get_scene(json, mlx, mlx->texture))
+	if (rt_jtoc_get_scene(json, rt, rt->texture))
 	{
 		rt_jtoc_sdl_log_error("SCENE ERROR", i);
 		exit(-1);
 	}
-	mlx = tmp_mlx;
-//	printf("%f", mlx->cam.center.x);
+	rt = tmp_rt;
+//	printf("%f", rt->cam.center.x);
 	return (FUNCTION_SUCCESS);
 }

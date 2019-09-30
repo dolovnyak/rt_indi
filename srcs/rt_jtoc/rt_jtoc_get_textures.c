@@ -55,7 +55,7 @@ int 	rt_jtoc_get_textures(const char *path, t_obj_texture *texture)
 	return (FUNCTION_SUCCESS);
 }
 
-int		rt_jtoc_textures_setup(t_mlx *mlx, const char *json)
+int		rt_jtoc_textures_setup(t_rt *rt, const char *json)
 {
 	int				i;
 	t_obj_texture	*texture;
@@ -68,6 +68,6 @@ int		rt_jtoc_textures_setup(t_mlx *mlx, const char *json)
 		rt_jtoc_sdl_log_error("TEXTURE ERROR", i);
 		exit(-1);
 	}
-	mlx->texture = texture;
+	rt->texture = texture;
 	return (FUNCTION_SUCCESS);
 }

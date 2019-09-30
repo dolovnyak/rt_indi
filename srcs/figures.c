@@ -150,7 +150,7 @@ void		vect_is_not_null(cl_float3 v, int *err)
 	*err = 1;
 }
 
-int		new_objects_f(int fd, t_mlx *mlx, t_counter *counter)
+int		new_objects_f(int fd, t_rt *rt, t_counter *counter)
 {
 	char	*s;
 	int		i;
@@ -159,7 +159,7 @@ int		new_objects_f(int fd, t_mlx *mlx, t_counter *counter)
 	get_next_line(fd, &s);
 	counter->all_obj = getnbr(s, &err);
 	free(s);
-	if (!(mlx->obj = (t_object *)malloc(counter->all_obj * sizeof(t_object))))
+	if (!(rt->obj = (t_object *)malloc(counter->all_obj * sizeof(t_object))))
 		return (0);
 	i = 0;
 	while ((i < counter->all_obj) && (get_next_line(fd, &s) == 1))
@@ -172,26 +172,26 @@ int		new_objects_f(int fd, t_mlx *mlx, t_counter *counter)
 		{
 			str_cleaner(arr, j);
 			ft_putstr("Error 2\n");
-			free(mlx->obj);
+			free(rt->obj);
 			return (0);
 		}
-		mlx->obj[i].type = getnbr(arr[0], &err);
-		mlx->obj[i].center =  get_vector(arr[1], arr[2], arr[3], &err);
-		mlx->obj[i].vector =  get_vector(arr[4], arr[5], arr[6], &err);
-		mlx->obj[i].radius = get_float(arr[7], &err);
-		mlx->obj[i].param = get_float(arr[8], &err);
-		mlx->obj[i].mat = new_mat(arr, 9, &err);
+		rt->obj[i].type = getnbr(arr[0], &err);
+		rt->obj[i].center =  get_vector(arr[1], arr[2], arr[3], &err);
+		rt->obj[i].vector =  get_vector(arr[4], arr[5], arr[6], &err);
+		rt->obj[i].radius = get_float(arr[7], &err);
+		rt->obj[i].param = get_float(arr[8], &err);
+		rt->obj[i].mat = new_mat(arr, 9, &err);
 		str_cleaner(arr, 13);
         
-        cl_to_norm(&mlx->obj[i].vector);
-        vect_is_not_null(mlx->obj[i].vector, &err);
-		if (mlx->obj[i].radius < 0)
+        cl_to_norm(&rt->obj[i].vector);
+        vect_is_not_null(rt->obj[i].vector, &err);
+		if (rt->obj[i].radius < 0)
             err = 1;
         
 		free(s);
 		if (err == 1)
 		{
-			free(mlx->obj);
+			free(rt->obj);
 			return (0);
 		}
 		i++;
@@ -201,7 +201,7 @@ int		new_objects_f(int fd, t_mlx *mlx, t_counter *counter)
 	return (1);
 }
 
-int	new_lights_f(int fd, t_mlx *mlx, t_counter *counter)
+int	new_lights_f(int fd, t_rt *rt, t_counter *counter)
 {
 	char	*s;
 	int		i;
@@ -210,7 +210,7 @@ int	new_lights_f(int fd, t_mlx *mlx, t_counter *counter)
 	get_next_line(fd, &s);
 	counter->l = getnbr(s, &err);
 	free(s);
-	if (!(mlx->light = (t_light *)malloc(counter->l * sizeof(t_light))))
+	if (!(rt->light = (t_light *)malloc(counter->l * sizeof(t_light))))
 		return (0);
 	i = 0;
 	while ((i < counter->l) && (get_next_line(fd, &s) == 1))
@@ -223,16 +223,16 @@ int	new_lights_f(int fd, t_mlx *mlx, t_counter *counter)
 		{
 			str_cleaner(arr, j);
 			ft_putstr("Error 1\n");
-			free(mlx->light);
+			free(rt->light);
 			return (0);
 		}
-		mlx->light[i].center =  get_vector(arr[0], arr[1], arr[2], &err);
-		mlx->light[i].intens = get_float(arr[3], &err);
+		rt->light[i].center =  get_vector(arr[0], arr[1], arr[2], &err);
+		rt->light[i].intens = get_float(arr[3], &err);
 		str_cleaner(arr, 4);
 		free(s);
 		if (err == 1)
 		{
-			free(mlx->light);
+			free(rt->light);
 			return (0);
 		}
 		i++;
@@ -242,7 +242,7 @@ int	new_lights_f(int fd, t_mlx *mlx, t_counter *counter)
 	return (1);
 }
 
-int	read_map(char *name, t_mlx *mlx)
+int	read_map(char *name, t_rt *rt)
 {
 	int		fd;
 
@@ -251,9 +251,9 @@ int	read_map(char *name, t_mlx *mlx)
 		ft_putstr("Error name\n");
 		return (0);
 	}
-	if (new_lights_f(fd, mlx, &mlx->counter))
+	if (new_lights_f(fd, rt, &rt->counter))
 	{
-		if (new_objects_f(fd, mlx, &mlx->counter))
+		if (new_objects_f(fd, rt, &rt->counter))
 		{
 			close(fd);
 			return (1);

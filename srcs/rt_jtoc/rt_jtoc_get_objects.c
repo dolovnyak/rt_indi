@@ -107,17 +107,17 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_obj_texture *texture)
 	return (FUNCTION_SUCCESS);
 }
 
-int rt_jtoc_get_objects(t_mlx *mlx, t_jnode *n, t_obj_texture *texture)
+int rt_jtoc_get_objects(t_rt *rt, t_jnode *n, t_obj_texture *texture)
 {
 	t_jnode		*tmp;
 	t_object	*objects;
 	int			i;
 
-	mlx->objects_count = 0;
-	if (rt_jtoc_get_objects_num_in_arr(&mlx->objects_count, n))
+	rt->objects_count = 0;
+	if (rt_jtoc_get_objects_num_in_arr(&rt->objects_count, n))
 		return (FUNCTION_FAILURE);
-	printf("%d\n", mlx->objects_count);
-	objects = ft_memalloc(sizeof(t_object) * mlx->objects_count);
+	printf("%d\n", rt->objects_count);
+	objects = ft_memalloc(sizeof(t_object) * rt->objects_count);
 	tmp = n->down;
 	i = 0;
 	while (tmp)
@@ -129,6 +129,6 @@ int rt_jtoc_get_objects(t_mlx *mlx, t_jnode *n, t_obj_texture *texture)
 		i++;
 		tmp = tmp->right;
 	}
-	mlx->obj = objects;
+	rt->obj = objects;
 	return (FUNCTION_SUCCESS);
 }

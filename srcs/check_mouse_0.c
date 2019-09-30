@@ -12,56 +12,56 @@
 
 #include "rt.h"
 
-int	mouse_press(int button, int x, int y, t_mlx *mlx)
+int	mouse_press(int button, int x, int y, t_rt *rt)
 {
-	mlx->screen.fsaa_n = 0;
-	if (((button == 4) || (button == 5)) && (mlx->mouse.r == 0 && mlx->mouse.l == 0))
+	rt->screen.fsaa_n = 0;
+	if (((button == 4) || (button == 5)) && (rt->mouse.r == 0 && rt->mouse.l == 0))
 	{
-		ft_move_mouse(mlx, button, x, y);
-		mlx_clear_window(mlx->mlx_ptr, mlx->win);
-		draw_picture(mlx);
+		ft_move_mouse(rt, button, x, y);
+		mlx_clear_window(rt->mlx_ptr, rt->win);
+		draw_picture(rt);
 	}
-	else if ((button == 1) && (mlx->mouse.l == 0) && (mlx->mouse.r == 0))
+	else if ((button == 1) && (rt->mouse.l == 0) && (rt->mouse.r == 0))
 	{
-		mlx->mouse.alpha = mlx->cam.alpha;
-		mlx->mouse.betta = mlx->cam.betta;
-		mlx->mouse.x = x;
-		mlx->mouse.y = y;
-		mlx->mouse.l = 1;
+		rt->mouse.alpha = rt->cam.alpha;
+		rt->mouse.betta = rt->cam.betta;
+		rt->mouse.x = x;
+		rt->mouse.y = y;
+		rt->mouse.l = 1;
 	}
-	else if ((button == 2) && (mlx->mouse.l == 0) && (mlx->mouse.r == 0))
+	else if ((button == 2) && (rt->mouse.l == 0) && (rt->mouse.r == 0))
 	{
-		mlx->mouse.center = mlx->cam.center;
-		mlx->mouse.x = x;
-		mlx->mouse.y = y;
-		mlx->mouse.r = 1;
+		rt->mouse.center = rt->cam.center;
+		rt->mouse.x = x;
+		rt->mouse.y = y;
+		rt->mouse.r = 1;
 	}
 	else
 		return (0);
 	return (0);
 }
 
-int    mouse_move(int x, int y, t_mlx *mlx)
+int    mouse_move(int x, int y, t_rt *rt)
 {
-	if ((mlx->mouse.l == 1) && (mlx->mouse.r == 0))
-		ft_mouse_alpha_betta(mlx, x, y);
-	else if (mlx->mouse.r == 1)
-		ft_mouse_x_y(mlx, x, y);
+	if ((rt->mouse.l == 1) && (rt->mouse.r == 0))
+		ft_mouse_alpha_betta(rt, x, y);
+	else if (rt->mouse.r == 1)
+		ft_mouse_x_y(rt, x, y);
 	else
 		return (0);
 	
-	mlx_clear_window(mlx->mlx_ptr, mlx->win);
-	draw_picture(mlx);
+	mlx_clear_window(rt->mlx_ptr, rt->win);
+	draw_picture(rt);
 	return (0);
 }
 
-int		mouse_release(int button, int x, int y, t_mlx *mlx)
+int		mouse_release(int button, int x, int y, t_rt *rt)
 {
 	x = 0;
 	y = 0;
 	if  (button == 1)
-		mlx->mouse.l = 0;
+		rt->mouse.l = 0;
 	else if (button == 2)
-		mlx->mouse.r = 0;
+		rt->mouse.r = 0;
 	return (0);
 }

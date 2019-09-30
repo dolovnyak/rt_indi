@@ -16,37 +16,37 @@
 #include "stb_image_write.h"
 
 
-int	ft_esc(t_mlx *mlx)
+int	ft_esc(t_rt *rt)
 {
-	mlx_destroy_image(mlx->mlx_ptr, mlx->img.img_ptr);
-	mlx_destroy_window(mlx->mlx_ptr, mlx->win);
+	mlx_destroy_image(rt->mlx_ptr, rt->img.img_ptr);
+	mlx_destroy_window(rt->mlx_ptr, rt->win);
 	exit(0);
 	return (0);
 }
 
-int	ft_aa(int keycode, t_mlx *mlx)
+int	ft_aa(int keycode, t_rt *rt)
 {
-	mlx->screen.fsaa_n = 2 * (keycode - 18);
+	rt->screen.fsaa_n = 2 * (keycode - 18);
 	return (0);
 }
 
-int ft_effects(int keycode, t_mlx *mlx)
+int ft_effects(int keycode, t_rt *rt)
 {
 	if (keycode == 6)
-		mlx->screen.effects.x = (mlx->screen.effects.x + 1) % 2;
+		rt->screen.effects.x = (rt->screen.effects.x + 1) % 2;
 	else if (keycode == 7)
 	{
-		mlx->screen.effects.w = 0;
-		mlx->screen.effects.y = (mlx->screen.effects.y + 1) % 2;
+		rt->screen.effects.w = 0;
+		rt->screen.effects.y = (rt->screen.effects.y + 1) % 2;
 	}
 	else if (keycode == 8)
 	{
-		mlx->screen.effects.z = (mlx->screen.effects.z + 1) % 2;
+		rt->screen.effects.z = (rt->screen.effects.z + 1) % 2;
 	}
 	else if (keycode == 9)
 	{
-		mlx->screen.effects.y = 0;
-		mlx->screen.effects.w = (mlx->screen.effects.w + 1) % 2;
+		rt->screen.effects.y = 0;
+		rt->screen.effects.w = (rt->screen.effects.w + 1) % 2;
 	}
 	return (0);
 }
@@ -74,7 +74,7 @@ char * settime(struct tm *u)
 	return(tmp);
 }
 
-int	ft_save(t_mlx *mlx)
+int	ft_save(t_rt *rt)
 {
 	uint8_t* rgb_image;
 	rgb_image = malloc(WIDTH * HEIGHT * CHANNEL_NUM);
@@ -84,7 +84,7 @@ int	ft_save(t_mlx *mlx)
 	{
 		for (int j = 0; j < HEIGHT; j++)
 		{
-			color = int_color(mlx->img.data[j * WIDTH + i]);
+			color = int_color(rt->img.data[j * WIDTH + i]);
 			
 			rgb_image[3 * (j * WIDTH + i)] = (uint8_t)color.x;
 			rgb_image[3 * (j * WIDTH + i) + 1] = (uint8_t)color.y;
@@ -103,32 +103,32 @@ int	ft_save(t_mlx *mlx)
 	return (0);
 }
 
-int	check_key(int keycode, t_mlx *mlx)
+int	check_key(int keycode, t_rt *rt)
 {
-	if (mlx->mouse.r == 1 || mlx->mouse.l == 1)
+	if (rt->mouse.r == 1 || rt->mouse.l == 1)
 		return(0);
 	
 	if (keycode == 123 || keycode == 124)
-		ft_move_alpha(keycode, mlx);
+		ft_move_alpha(keycode, rt);
 	else if (keycode == 125 || keycode == 126)
-		ft_move_betta(keycode, mlx);
+		ft_move_betta(keycode, rt);
 	else if (keycode == 13 || keycode == 1)
-		ft_move_x(keycode, mlx);
+		ft_move_x(keycode, rt);
 	else if (keycode == 0 || keycode == 2)
-		ft_move_y(keycode, mlx);
+		ft_move_y(keycode, rt);
 	else if (keycode == 15 || keycode == 3)
-		ft_move_z(keycode, mlx);
+		ft_move_z(keycode, rt);
 	else if ((keycode > 17) && (keycode < 22))
-		ft_aa(keycode, mlx);
+		ft_aa(keycode, rt);
 	else if ((keycode > 5) && (keycode < 10))
-		ft_effects(keycode, mlx);
+		ft_effects(keycode, rt);
 	else if (keycode == 29)
-		return (ft_save(mlx));
+		return (ft_save(rt));
 	else if (keycode == 53)
-		return (ft_esc(mlx));
+		return (ft_esc(rt));
 	else
 		return (0);
-	mlx_clear_window(mlx->mlx_ptr, mlx->win);
-	draw_picture(mlx);
+	mlx_clear_window(rt->mlx_ptr, rt->win);
+	draw_picture(rt);
 	return (0);
 }
