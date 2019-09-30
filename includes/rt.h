@@ -89,14 +89,6 @@ typedef struct		s_img
 	int				endian;
 }					t_img;
 
-typedef struct			s_cl_arg
-{
-	cl_device_id		device;
-	cl_context			context;
-	cl_program			program;
-	cl_command_queue	queue;
-}						t_cl_arg;
-
 typedef struct		s_screen
 {
 	cl_float3		v1;
@@ -150,10 +142,10 @@ typedef struct 		s_gpu_mem
 	cl_mem			cl_texture_w;
 	cl_mem			cl_texture_h;
 	cl_mem			cl_prev_texture_size;
-	cl_mem			img_buffer;
-	cl_mem			aux_buffer;
-	cl_mem			light_buffer;
-	cl_mem			obj_buffer;
+	cl_mem			cl_img_buffer;
+	cl_mem			cl_aux_buffer;
+	cl_mem			cl_light_buffer;
+	cl_mem			cl_obj_buffer;
 }					t_gpu_mem;
 
 typedef struct		s_mlx
@@ -163,7 +155,7 @@ typedef struct		s_mlx
 	t_img			img;
 	int				h;
 	int				len;
-	t_cl_arg		cl;
+	t_cl			*cl;
 	t_screen		screen;
 	t_cam			cam;
 	t_counter		counter;

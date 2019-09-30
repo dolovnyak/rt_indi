@@ -54,24 +54,12 @@ void	default_mlx(t_mlx *mlx)
 
 int	new_mlx(t_mlx *mlx, char *name)
 {
-	t_cl_arg	cl_arg;
-	cl_int		err;
-
 	default_mlx(mlx);
 	mlx->mlx_ptr = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx_ptr, WIDTH, HEIGHT, "RT");
 	mlx->img.img_ptr = mlx_new_image(mlx->mlx_ptr, WIDTH, HEIGHT);
 	mlx->img.data = (int *)mlx_get_data_addr(mlx->img.img_ptr,
-											 &mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
-	cl_arg.device = create_device();
-	cl_arg.context = clCreateContext(NULL, 1, &cl_arg.device, NULL, NULL, &err);
-	if(err < 0) {
-		perror("Couldn't create a context");
-		exit(1);
-	}
-	cl_arg.program = build_program(cl_arg.context, cl_arg.device, PROGRAM_FILE);
-	mlx->cl = cl_arg;
-	
+			&mlx->img.bpp, &mlx->img.size_l, &mlx->img.endian);
 	if (!(read_map(name, mlx)))
 		return (0);
 	
@@ -121,34 +109,41 @@ void		emission(t_mlx *mlx)
 	mlx->obj[9].mat.emission.z = 0.f;
 }
 
+//TODO MAKE ERROR CHECKER INSTEAD IFS
+
 int			main(int argc, char **argv)
 {
 	t_mlx		mlx;
 
-	if (argc == 2)
+	if (argc != 2)
+		ft_putstr("usage: ./RT path_file\n");
+	mlx.cl = cl_setup((char *[]){"scls/rt.cl", NULL},
+			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
+	if (new_mlx(&mlx, argv[1]))
 	{
-		if (new_mlx(&mlx, argv[1]))
-		{
-			mlx.aux = (int *)malloc(sizeof(int) * WIDTH * HEIGHT);
-			emission(&mlx);
-			rt_jtoc_textures_setup(&mlx, "json/textures.json");
-            rt_jtoc_scene_setup(&mlx, "json/nice_scene/nice.json");
-			fill_gpu_mem(&mlx);
-			draw_picture(&mlx);
-			mlx_hook(mlx.win, 2, 0, check_key, &mlx);
-			mlx_hook(mlx.win, 17, 0, ft_esc, &mlx);
-			mlx_hook(mlx.win, 4, 0, mouse_press, &mlx);
-			mlx_hook(mlx.win, 5, 0, mouse_release, &mlx);
-			mlx_hook(mlx.win, 6, 0, mouse_move, &mlx);
-			
-			mlx_loop(mlx.mlx_ptr);
-			
-			clReleaseProgram(mlx.cl.program);
-			clReleaseContext(mlx.cl.context);
-			clReleaseCommandQueue(mlx.cl.queue);
-		}
+		mlx.aux = (int *)malloc(sizeof(int) * WIDTH * HEIGHT);
+		emission(&mlx);
+		rt_jtoc_textures_setup(&mlx, "json/textures.json");
+		rt_jtoc_scene_setup(&mlx, "json/nice_scene/nice.json");
+		fill_gpu_mem(&mlx);
+		draw_picture(&mlx);
+		mlx_hook(mlx.win, 2, 0, check_key, &mlx);
+		mlx_hook(mlx.win, 17, 0, ft_esc, &mlx);
+		mlx_hook(mlx.win, 4, 0, mouse_press, &mlx);
+		mlx_hook(mlx.win, 5, 0, mouse_release, &mlx);
+		mlx_hook(mlx.win, 6, 0, mouse_move, &mlx);
+
+		mlx_loop(mlx.mlx_ptr);
+
+		clReleaseProgram(*mlx.cl->program);
+		clReleaseContext(*mlx.cl->context);
+		clReleaseCommandQueue(*mlx.cl->queue);
+		clReleaseMemObject(mlx.gpu_mem->cl_texture);
+		clReleaseMemObject(mlx.gpu_mem->cl_texture_w);
+		clReleaseMemObject(mlx.gpu_mem->cl_texture_h);
+		clReleaseMemObject(mlx.gpu_mem->cl_prev_texture_size);
+		clReleaseMemObject(mlx.gpu_mem->cl_img_buffer);
 	}
-	ft_putstr("usage: ./RT path_file\n");
 	return (0);
 }
 
