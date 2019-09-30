@@ -117,7 +117,7 @@ int			main(int argc, char **argv)
 
 	if (argc != 2)
 		ft_putstr("usage: ./RT path_file\n");
-	rt.cl = cl_setup((char *[]){"scls/rt.cl", NULL},
+	rt.cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
 			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
 	if (new_mlx(&rt, argv[1]))
 	{
