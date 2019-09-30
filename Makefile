@@ -35,7 +35,11 @@ SRC		:=		main.c				            \
 				get_textures.c                  \
 				gpu_mem.c						\
 				rt_jtoc/rt_jtoc_utilits.c       \
-				rt_jtoc/rt_jtoc_get_textures.c
+				rt_jtoc/rt_jtoc_get_textures.c  \
+				rt_jtoc/rt_jtoc_scene_setup.c  \
+				rt_jtoc/rt_jtoc_get_camera.c    \
+				rt_jtoc/rt_jtoc_get_objects.c    \
+				rt_jtoc/rt_jtoc_get_objects_params.c    \
 
 SRCS	:=		$(addprefix $(SRC_DIR)/, $(SRC))
 OBJ		:= 		$(SRC:.c=.o)

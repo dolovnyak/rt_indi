@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(1_92 C)
+project(rt_indi C)
 
 set(CMAKE_C_STANDARD 11)
 
@@ -7,9 +7,10 @@ include_directories(includes)
 include_directories(libft/includes)
 include_directories(libjtoc/include)
 
-add_executable(1_92
+add_executable(rt_indi
         includes/kernel.h
         includes/rt.h
+        includes/rt_jtoc.h
         includes/stb_image.h
         includes/stb_image_write.h
         libft/includes/get_next_line.h
@@ -91,12 +92,9 @@ add_executable(1_92
         libjtoc/src/jtoc_validate_value.c
         libjtoc/src/jtoc_write.c
         srcs/rt_jtoc/rt_jtoc_get_camera.c
-        srcs/rt_jtoc/rt_jtoc_get_lights.c
         srcs/rt_jtoc/rt_jtoc_get_objects.c
         srcs/rt_jtoc/rt_jtoc_get_objects_params.c
         srcs/rt_jtoc/rt_jtoc_get_textures.c
-        srcs/rt_jtoc/rt_jtoc_get_transform.c
-        srcs/rt_jtoc/rt_jtoc_ps_setup.c
         srcs/rt_jtoc/rt_jtoc_scene_setup.c
         srcs/rt_jtoc/rt_jtoc_utilits.c
         srcs/cam_and_screen.c
@@ -109,4 +107,4 @@ add_executable(1_92
         srcs/float3_1.c
         srcs/get_textures.c
         srcs/kernel.c
-        srcs/main.c includes/rt_jtoc.h)
+        srcs/main.c)

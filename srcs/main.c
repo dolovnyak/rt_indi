@@ -6,13 +6,14 @@
 /*   By: broggo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/08 16:43:50 by broggo            #+#    #+#             */
-/*   Updated: 2019/09/29 22:55:55 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/09/30 01:23:12 by rkeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "rt.h"
 # include "rt_jtoc.h"
 #include <sys/time.h>
+
 
 void	draw_picture(t_mlx *mlx)
 {
@@ -73,6 +74,7 @@ int	new_mlx(t_mlx *mlx, char *name)
 	
 	if (!(read_map(name, mlx)))
 		return (0);
+	
 	return (1);
 }
 
@@ -130,6 +132,7 @@ int			main(int argc, char **argv)
 			mlx.aux = (int *)malloc(sizeof(int) * WIDTH * HEIGHT);
 			emission(&mlx);
 			rt_jtoc_textures_setup(&mlx, "json/textures.json");
+            rt_jtoc_scene_setup(&mlx, "json/nice_scene/nice.json");
 			fill_gpu_mem(&mlx);
 			draw_picture(&mlx);
 			mlx_hook(mlx.win, 2, 0, check_key, &mlx);

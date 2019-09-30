@@ -6,7 +6,7 @@
 /*   By: broggo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/07 13:57:47 by broggo            #+#    #+#             */
-/*   Updated: 2019/09/29 20:53:08 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/09/30 02:12:51 by rkeli            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,14 @@
 
 #define CHANNEL_NUM 3
 
+enum					e_object_type
+{
+	o_sphere = 1,
+	o_torus,
+	o_cylinder,
+	o_cone,
+	o_plane,
+};
 
 typedef struct		s_light
 {
@@ -59,16 +67,17 @@ typedef struct		s_material
 
 typedef struct		s_object
 {
-	int				type;
-	cl_float3		center;
-	cl_float3		vector;
-	float			radius;
-	float			param;
-	cl_float3		a;
-	cl_float3		b;
-	cl_float3		c;
-	cl_float3		d;
-	t_material		mat;
+	int					type;
+	cl_float3			center;
+	cl_float3			vector;
+	float				radius;
+	float				param;
+	cl_float3			a;
+	cl_float3			b;
+	cl_float3			c;
+	cl_float3			d;
+	enum e_object_type	e_type;
+	t_material			mat;
 }					t_object;
 
 typedef struct		s_img
@@ -162,6 +171,7 @@ typedef struct		s_mlx
 	t_light			*light;
 	t_mouse			mouse;
 	t_obj_texture	*texture;
+	cl_uint 		objects_count;
 	t_gpu_mem		*gpu_mem;
 	int				*aux;
 }					t_mlx;
@@ -205,7 +215,7 @@ cl_float3			spherical(float phi, float tetta);
 cl_float3			spher_norm(cl_float3 v);
 void				calc_screen(t_screen *screen, t_cam *cam);
 
-void get_textures(t_mlx *mlx, char **texture_file, int number_of_texture);
+void				get_textures(t_mlx *mlx, char **texture_file, int number_of_texture);
 void				find_textures_size(t_mlx *mlx, char **texture_file, int number_of_texture);
 void				fill_gpu_mem(t_mlx *mlx);
 

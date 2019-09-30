@@ -146,27 +146,13 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 	uv = (float2){-1.f, -1.f};
 	found_texture_for_obj = 1;
 	if (tmp_obj.type == 0)
-	{
 		uv = uv_mapping_for_sphere(lighting, tmp_obj);
-		tmp_obj.mat.texture_id = 1;
-	}
 	else if (tmp_obj.type == 2)
-	{
 		uv = uv_mapping_for_cylinder(lighting);
-		tmp_obj.mat.texture_id = 0;
-	}
 	else if (tmp_obj.type == 5)
-	{
 		uv = uv_mapping_for_torus(lighting, tmp_obj);
-		tmp_obj.mat.texture_id = 1;
-	}
 	else if (tmp_obj.type == 1)
-	{
 		uv = uv_mapping_for_plane(lighting, tmp_obj);
-//		uv.x = 0.1;
-//		uv.y = 0.1;
-		tmp_obj.mat.texture_id = 0;
-	}
 	if (uv.x != -1.f && uv.y != -1.f)
 	{
 		found_texture_for_obj = 0;
