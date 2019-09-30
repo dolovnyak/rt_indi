@@ -109,7 +109,21 @@ void		emission(t_rt *rt)
 	rt->obj[9].mat.emission.z = 0.f;
 }
 
-//TODO MAKE ERROR CHECKER INSTEAD IFS
+void		release_gpu_mem(t_rt *rt)
+{
+	clReleaseProgram(*rt->cl->program);
+	clReleaseContext(*rt->cl->context);
+	clReleaseCommandQueue(*rt->cl->queue);
+	clReleaseMemObject(rt->gpu_mem->cl_texture);
+	clReleaseMemObject(rt->gpu_mem->cl_texture_w);
+	clReleaseMemObject(rt->gpu_mem->cl_texture_h);
+	clReleaseMemObject(rt->gpu_mem->cl_prev_texture_size);
+	clReleaseMemObject(rt->gpu_mem->cl_img_buffer);
+	clReleaseMemObject(rt->gpu_mem->cl_aux_buffer);
+	clReleaseMemObject(rt->gpu_mem->cl_light_buffer);
+	clReleaseMemObject(rt->gpu_mem->cl_obj_buffer);
+	clReleaseMemObject(rt->gpu_mem->cl_counter_buffer);
+}
 
 int			main(int argc, char **argv)
 {
@@ -132,18 +146,7 @@ int			main(int argc, char **argv)
 		mlx_hook(rt.win, 4, 0, mouse_press, &rt);
 		mlx_hook(rt.win, 5, 0, mouse_release, &rt);
 		mlx_hook(rt.win, 6, 0, mouse_move, &rt);
-
 		mlx_loop(rt.mlx_ptr);
-
-		clReleaseProgram(*rt.cl->program);
-		clReleaseContext(*rt.cl->context);
-		clReleaseCommandQueue(*rt.cl->queue);
-		clReleaseMemObject(rt.gpu_mem->cl_texture);
-		clReleaseMemObject(rt.gpu_mem->cl_texture_w);
-		clReleaseMemObject(rt.gpu_mem->cl_texture_h);
-		clReleaseMemObject(rt.gpu_mem->cl_prev_texture_size);
-		clReleaseMemObject(rt.gpu_mem->cl_img_buffer);
-		clReleaseMemObject(rt.gpu_mem->cl_aux_buffer);
 	}
 	return (0);
 }
