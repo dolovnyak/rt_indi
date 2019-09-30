@@ -16,27 +16,22 @@
   "objects":
   [
     {
-      "id": 2,
       "type": "sphere",
-      "layer": "default_layer",
-      "texture": "nice",
-      "radius": 10.0,
-      "color": {
+      "texture": "none",
+      "radius": 5.0,
+      "color":
+      {
         "x": 1.0,
         "y": 0.0,
-        "z": 1.0,
-        "w": 0.0
+        "z": 1.0
       },
-      "transform": {
-        "pos": {
+      "transform":
+      {
+        "pos":
+        {
           "x": 0.0,
           "y": 10.0,
           "z": 0.0
-        },
-        "eulers": {
-          "x": 30.0,
-          "y": 30.0,
-          "z": 30.0
         }
       }
     }

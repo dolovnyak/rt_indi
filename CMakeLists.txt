@@ -91,7 +91,11 @@ add_executable(rt_indi
         libjtoc/src/jtoc_validate.c
         libjtoc/src/jtoc_validate_value.c
         libjtoc/src/jtoc_write.c
+        srcs/rt_jtoc/rt_jtoc_get_camera.c
+        srcs/rt_jtoc/rt_jtoc_get_objects.c
+        srcs/rt_jtoc/rt_jtoc_get_objects_params.c
         srcs/rt_jtoc/rt_jtoc_get_textures.c
+        srcs/rt_jtoc/rt_jtoc_scene_setup.c
         srcs/rt_jtoc/rt_jtoc_utilits.c
         srcs/cam_and_screen.c
         srcs/check_key_0.c
@@ -103,4 +107,4 @@ add_executable(rt_indi
         srcs/float3_1.c
         srcs/get_textures.c
         srcs/kernel.c
-        srcs/main.c srcs/rt_jtoc/rt_jtoc_scene_setup.c)
+        srcs/main.c)

@@ -21,10 +21,10 @@ static int	rt_jtoc_get_scene(const char *path, t_mlx *mlx, t_obj_texture *textur
 //	if (rt_jtoc_get_lights(scene, tmp))
 //		return (rt_jtoc_sdl_log_error("LIGHTS ERROR", -1));
 //
-//	if (!(tmp = jtoc_node_get_by_path(root, "objects")) || tmp->type != array)
-//		return (rt_jtoc_sdl_log_error("OBJECTS TYPE ERROR OR OBJECTS AREN'T SET", -1));
-//	if (rt_jtoc_get_objects(scene, tmp, texture))
-//		return (rt_jtoc_sdl_log_error("OBJECTS ERROR", -1));
+	if (!(tmp = jtoc_node_get_by_path(root, "objects")) || tmp->type != array)
+		return (rt_jtoc_sdl_log_error("OBJECTS TYPE ERROR OR OBJECTS AREN'T SET", -1));
+	if (rt_jtoc_get_objects(mlx, tmp, texture))
+		return (rt_jtoc_sdl_log_error("OBJECTS ERROR", -1));
 ////
 //	if (!(tmp = jtoc_node_get_by_path(root, "quality")) || tmp->type != integer)
 //		return (rt_jtoc_sdl_log_error("QUALITY ERROR", -1));
