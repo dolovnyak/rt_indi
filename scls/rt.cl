@@ -71,12 +71,6 @@ void	normalize_coord_for_texture(t_object obj, float2 uv, float3 *color,
 	color->x = (RED(texture[coord]));
 	color->y = (GREEN(texture[coord]));
 	color->z = (BLUE(texture[coord]));
-//	red = get_light((start >> 16) & 0xFF, (end >> 16) & 0xFF, color->x);
-//	green = get_light((start >> 8) & 0xFF, (end >> 8) & 0xFF, color->y);
-//	blue = get_light(start & 0xFF, end & 0xFF, color->z);
-//	color->x = red;
-//	color->y = green;
-//	color->z = blue;
 	color->x /= 255;
 	color->y /= 255;
 	color->z /= 255;
@@ -84,8 +78,6 @@ void	normalize_coord_for_texture(t_object obj, float2 uv, float3 *color,
 
 float2			uv_mapping_for_sphere(t_lighting *lighting, t_object obj)
 {
-//	float3	point = rh.point;
-//	float3	obj_pos = rh.hit->transform.pos;
 	float3	vec;
 	float 	v;
 	float 	u;
@@ -110,9 +102,7 @@ float2			uv_mapping_for_cylinder(t_lighting *lighting)
 
 float2			uv_mapping_for_torus(t_lighting *lighting, t_object obj)
 {
-//	float3	vec = rh.point - rh.hit->transform.pos;
-//	float3	vec = lighting->hit - obj.center;
-	float3	vec = lighting->n;
+	float3	vec = (lighting->hit - obj.center);
 	float	u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
 	float 	v = 0.5f - asin(vec.z / obj.param) / M_PI_F;
 	return ((float2){u, v});
@@ -513,7 +503,18 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 				lighting->n = fast_normalize(lighting->n);
 				if (j == 2)
 					lighting->n = -lighting->n;
-
+				if (length(lighting->hit - (*(obj + i)).center) > 100.f)
+				{
+					orig = lighting->hit + 1e-3f * dir;
+					j = hyper_intersect(orig, dir, (obj + i), &dist_i);
+					dist = dist_i;
+					lighting->hit = orig + dir * dist_i;
+					lighting->mat = (*(obj + i)).mat;
+					lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
+					lighting->n = fast_normalize(lighting->n);
+					if (length(lighting->hit - (*(obj + i)).center) > 100.f)
+						dist = MAX_DIST;
+				}
 			}
 		}
 		else if ((*(obj + i)).type == 5)
@@ -555,7 +556,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-		else if ((*(obj + i)).type == 7)
+		else if ((*(obj + i)).type == 6)
 		{
 			dist_i = 0.f;
 			j = quad_intersect(orig, dir, (obj + i), &dist_i);

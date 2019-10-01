@@ -24,5 +24,6 @@ int				rt_jtoc_get_torus(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_plane(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cone(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cylinder(t_object *obj, t_jnode *n);
-
+int				rt_jtoc_get_hyper(t_object *obj, t_jnode *n);
+int				rt_jtoc_get_sqr(t_object *obj, t_jnode *n);
 #endif //INC_1_92_RT_JTOC_H

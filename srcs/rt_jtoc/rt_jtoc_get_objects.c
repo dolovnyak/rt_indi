@@ -47,6 +47,9 @@ int	rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 	obj->e_type = ft_strcmp(str, "cylinder") ? obj->e_type : o_cylinder;
 	obj->e_type = ft_strcmp(str, "cone") ? obj->e_type : o_cone;
 	obj->e_type = ft_strcmp(str, "plane") ? obj->e_type : o_plane;
+	obj->e_type = ft_strcmp(str, "hyper") ? obj->e_type : o_hyper;
+	obj->e_type = ft_strcmp(str, "sqr") ? obj->e_type : o_sqr;
+	obj->type = obj->e_type - 1;
 //	obj->type = ft_strcmp(str, "prm") ? obj->type : o_prm;
 	if (obj->e_type == 0)
 		return (FUNCTION_FAILURE);
@@ -100,6 +103,8 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_obj_texture *texture)
 	err = obj->e_type == o_plane ? rt_jtoc_get_plane(obj, n) : err;
 	err = obj->e_type == o_cone ? rt_jtoc_get_cone(obj, n) : err;
 	err = obj->e_type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
+	err = obj->e_type == o_hyper ? rt_jtoc_get_hyper(obj, n) : err;
+	err = obj->e_type == o_sqr ? rt_jtoc_get_sqr(obj, n) : err;
 	if (err != 0)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
@@ -116,6 +121,7 @@ int rt_jtoc_get_objects(t_rt *rt, t_jnode *n, t_obj_texture *texture)
 	if (rt_jtoc_get_objects_num_in_arr(&g, n))
 		return (FUNCTION_FAILURE);
 	rt->counter.all_obj = g;
+	printf("%d\n", g);
 	objects = ft_memalloc(sizeof(t_object) * rt->counter.all_obj);
 	tmp = n->down;
 	i = 0;

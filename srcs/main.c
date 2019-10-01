@@ -77,37 +77,37 @@ void		emission(t_rt *rt)
 	rt->obj[1].mat.emission.y = 0.f;
 	rt->obj[1].mat.emission.z = 0.f;
 
-/*	rt->obj[2].mat.emission.x = 1.f;
-	rt->obj[2].mat.emission.y = 1.f;
-	rt->obj[2].mat.emission.z = 1.f;
-
-	rt->obj[3].mat.emission.x = 0.f;
-	rt->obj[3].mat.emission.y = 0.f;
-	rt->obj[3].mat.emission.z = 0.f;
-
-	rt->obj[4].mat.emission.x = 0.f;
-	rt->obj[4].mat.emission.y = 0.f;
-	rt->obj[4].mat.emission.z = 0.f;
-
-	rt->obj[5].mat.emission.x = 0.f;
-	rt->obj[5].mat.emission.y = 0.f;
-	rt->obj[5].mat.emission.z = 0.f;
-
-	rt->obj[6].mat.emission.x = 0.f;
-	rt->obj[6].mat.emission.y = 0.f;
-	rt->obj[6].mat.emission.z = 0.f;
-
-	rt->obj[7].mat.emission.x = 0.f;
-	rt->obj[7].mat.emission.y = 0.f;
-	rt->obj[7].mat.emission.z = 0.f;
-
-	rt->obj[8].mat.emission.x = 0.f;
-	rt->obj[8].mat.emission.y = 0.f;
-	rt->obj[8].mat.emission.z = 0.f;
-
-	rt->obj[9].mat.emission.x = 0.f;
-	rt->obj[9].mat.emission.y = 0.f;
-	rt->obj[9].mat.emission.z = 0.f;*/
+//	rt->obj[2].mat.emission.x = 1.f;
+//	rt->obj[2].mat.emission.y = 1.f;
+//	rt->obj[2].mat.emission.z = 1.f;
+//
+//	rt->obj[3].mat.emission.x = 0.f;
+//	rt->obj[3].mat.emission.y = 0.f;
+//	rt->obj[3].mat.emission.z = 0.f;
+//
+//	rt->obj[4].mat.emission.x = 0.f;
+//	rt->obj[4].mat.emission.y = 0.f;
+//	rt->obj[4].mat.emission.z = 0.f;
+//
+//	rt->obj[5].mat.emission.x = 0.f;
+//	rt->obj[5].mat.emission.y = 0.f;
+//	rt->obj[5].mat.emission.z = 0.f;
+//
+//	rt->obj[6].mat.emission.x = 0.f;
+//	rt->obj[6].mat.emission.y = 0.f;
+//	rt->obj[6].mat.emission.z = 0.f;
+//
+//	rt->obj[7].mat.emission.x = 0.f;
+//	rt->obj[7].mat.emission.y = 0.f;
+//	rt->obj[7].mat.emission.z = 0.f;
+//
+//	rt->obj[8].mat.emission.x = 0.f;
+//	rt->obj[8].mat.emission.y = 0.f;
+//	rt->obj[8].mat.emission.z = 0.f;
+//
+//	rt->obj[9].mat.emission.x = 0.f;
+//	rt->obj[9].mat.emission.y = 0.f;
+//	rt->obj[9].mat.emission.z = 0.f;
 }
 
 void		release_gpu_mem(t_rt *rt)
