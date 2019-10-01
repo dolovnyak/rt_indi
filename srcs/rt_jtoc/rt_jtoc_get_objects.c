@@ -102,15 +102,22 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_obj_texture *texture)
 		return (rt_jtoc_sdl_log_error("COLOR TYPE ERROR OR COLOR IS MISSING", -1));
 	if (rt_jtoc_get_float3(&obj->mat.diffuse_color, tmp))
 		return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
+	if ((obj->mat.diffuse_color.x < 0 || obj->mat.diffuse_color.y < 0 || obj->mat.diffuse_color.z < 0)
+		|| obj->mat.diffuse_color.x > 1 || obj->mat.diffuse_color.y > 1 || obj->mat.diffuse_color.z > 1)
+		return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
 	if (rt_jtoc_phong_processing(obj, n))
 		return (rt_jtoc_sdl_log_error("PHONG ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "emission")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("EMISSION ERROR OR MISSING", -1));
 	if (rt_jtoc_get_float3(&obj->mat.emission, tmp))
 		return (rt_jtoc_sdl_log_error("EMISSION PARAM ERROR", -1));
+	if ((obj->mat.emission.x < 0 || obj->mat.emission.y < 0 || obj->mat.emission.z < 0))
+		return (rt_jtoc_sdl_log_error("EMISSION ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "reflection")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("REFLECTION ERROR OR MISSING", -1));
 	obj->mat.reflection = jtoc_get_float(tmp);
+	if (obj->mat.reflection >= 1.f)
+		return (rt_jtoc_sdl_log_error("REFLECTION ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "refraction")) || tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("REFRACTION ERROR OR MISSING", -1));
 	obj->mat.refraction = jtoc_get_float(tmp);
@@ -139,7 +146,6 @@ int rt_jtoc_get_objects(t_rt *rt, t_jnode *n, t_obj_texture *texture)
 	if (rt_jtoc_get_objects_num_in_arr(&g, n))
 		return (FUNCTION_FAILURE);
 	rt->counter.all_obj = g;
-	printf("%d\n", g);
 	objects = ft_memalloc(sizeof(t_object) * rt->counter.all_obj);
 	tmp = n->down;
 	i = 0;

@@ -123,16 +123,20 @@ typedef struct		s_screen
 	cl_float3		v1;
 	cl_float3		v2;
 	cl_float3		center;
+	cl_float		brightness;
 	cl_int			fsaa_n;
 	cl_int8			effects;
 	cl_int			params;
+	cl_int			samples;
 #else
 	float3			v1;
 	float3			v2;
 	float3			center;
+	float			brightness;
 	int				fsaa_n;
 	int8			effects;
 	int				params;
+	int				samples;
 #endif
 }					t_screen;
 

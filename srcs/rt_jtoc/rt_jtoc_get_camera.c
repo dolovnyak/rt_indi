@@ -18,10 +18,13 @@ int			rt_jtoc_get_camera(t_cam *camera, t_jnode *n)
 											|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("ALPHA ERROR", -1));
 	camera->alpha = jtoc_get_float(tmp);
+	if (camera->alpha < 0 || camera->alpha > 2 * M_PI)
+		camera->alpha = 0;
 	if (!(tmp = jtoc_node_get_by_path(n, "betta"))
 											|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("BETTA ERROR", -1));
 	camera->betta = jtoc_get_float(tmp);
-
+	if (camera->betta < 0 || camera->betta > M_PI)
+		camera->betta = M_PI_2;
 	return (FUNCTION_SUCCESS);
 }

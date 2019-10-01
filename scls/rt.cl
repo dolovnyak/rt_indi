@@ -164,6 +164,8 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 
 	uv = (float2){-1.f, -1.f};
 	found_texture_for_obj = 1;
+	if (tmp_obj.mat.texture_id == -1)
+		return (found_texture_for_obj);
 	if (tmp_obj.type == 0)
 		uv = uv_mapping_for_sphere(lighting, tmp_obj);
 	else if (tmp_obj.type == 2)
@@ -276,8 +278,6 @@ int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 				ft_dot2(ad*clamp(dot(ad,pd)/ft_dot2(ad),0.0f,1.0f)-pd) )
 			:
 		dot(nor,pa)*dot(nor,pa)/ft_dot2(nor) );
-		//if (x < 1e-20)
-		//	return 0;
 		distance_to_closest = sqrt(x);
 		if ((*t0) > 10000.f)
 			return (0);
@@ -750,7 +750,7 @@ float3 refract2(const float3 I, const float3 N, const float refractive_index) { 
 float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 			const int* seed0, const int* seed1,
 			__global int *texture_w, __global int *texture_h,
-			__global int *prev_texture_size, __global int *texture)
+			__global int *prev_texture_size, __global int *texture, float brightness)
 {
 	float3 path_color = (float3)(0.0f, 0.0f, 0.0f);
 	float3 mask = (float3)(1.0f, 1.0f, 1.0f);
@@ -768,54 +768,50 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 		if(!scene_intersect(path_orig, path_dir, obj, &lighting, count,
 		texture_w, texture_h, prev_texture_size, texture))
 		{
-			path_color += mask * 0.4f;
+			path_color += mask * 0.5f;
 			break;
 		}
-	float rand1 = get_random(randSeed0, randSeed1) * 2.0f * M_PI_F;
-	float rand2 = get_random(randSeed1, randSeed0);
-	float rand2s = sqrt(rand2);
-	lighting.n = dot(lighting.n, path_dir) < 0.0f ? lighting.n : lighting.n * (-1.0f);
-	float3 w = lighting.n;
-	float3 axis = fabs(w.x) > 0.1f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
-	float3 u = fast_normalize(cross(axis, w));
-	float3 v = cross(w, u);
-	float3 newdir = fast_normalize(u * cos(rand1) * rand2s + v * sin(rand1) * rand2s + w * sqrt(1.0f - rand2));
-	path_orig = lighting.hit + lighting.n * 3e-3f;
+		float rand1 = get_random(randSeed0, randSeed1) * 2.0f * M_PI_F;
+		float rand2 = get_random(randSeed1, randSeed0);
+		float rand2s = sqrt(rand2);
+		lighting.n = dot(lighting.n, path_dir) < 0.0f ? lighting.n : lighting.n * (-1.0f);
+		float3 w = lighting.n;
+		float3 axis = fabs(w.x) > 0.1f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
+		float3 u = fast_normalize(cross(axis, w));
+		float3 v = cross(w, u);
+		float3 newdir = fast_normalize(u * cos(rand1) * rand2s + v * sin(rand1) * rand2s + w * sqrt(1.0f - rand2));
+		path_orig = lighting.hit + lighting.n * 3e-3f;
 
-	float part = pow((8.f - bounces + mirr) / 8, 5);		// вклад следующего меньше, кроме зеркала и линзы
-	path_color += mask * lighting.mat.emission * part;
+		float part = pow((8.f - bounces + mirr) / 8, 5);		// вклад следующего меньше, кроме зеркала и линзы
+		path_color += mask * lighting.mat.emission * part;
 
-	if (lighting.mat.reflection > 0)							// ЗЕРКАЛО
-	{
-		mirr += 1;
-//		float	a = 0.99f;									// параметр. на сколько мутное стекло. диапазон 0.9f - 1.0f
-		newdir = fast_normalize(lighting.mat.reflection * fast_normalize(reflect(path_dir, lighting.n)) + (1.f - lighting.mat.reflection) * newdir);
-		float	cos_n = fabs(dot(path_dir, lighting.n));
-		mask *= pow(cos_n, 0.01f);							// затемнеяет зеркало. чем больше угол между нормалью зеркала и dir и больше параметр, тем темнее
-		mask *= 0.9f;										// затемняет зеркало
-		//path_color += mask;
+		if (lighting.mat.reflection > 0)							// ЗЕРКАЛО
+		{
+			mirr += 1;
+		//	float	a = 0.99f;									// параметр. на сколько мутное стекло. диапазон 0.9f - 1.0f
+			newdir = fast_normalize(lighting.mat.reflection * fast_normalize(reflect(path_dir, lighting.n)) + (1.f - lighting.mat.reflection) * newdir);
+			float	cos_n = fabs(dot(path_dir, lighting.n));
+			mask *= pow(cos_n, 0.01f);							// затемнеяет зеркало. чем больше угол между нормалью зеркала и dir и больше параметр, тем темнее
+			mask *= 0.9f;										// затемняет зеркало
+				//path_color += mask;
+		}
+		else if (lighting.mat.refraction > 0)						// ЛИНЗА
+		{
+			newdir = fast_normalize(refract(path_dir, lighting.n, lighting.mat.refraction));
+			path_orig = lighting.hit - lighting.n * 3e-1f;
+			mirr += 1;
+			float	cos_n = fabs(dot(path_dir, lighting.n));
+			mask *= pow(cos_n, 0.3f);							// аналогично, как и у зеркала
+			mask *= 0.9f;										// аналогично, как и у зеркала
+		}
+		else if (lighting.mat.sp_ex == 30)						// Источник света
+			mask *= dot(newdir, lighting.n);
+		else
+			mask *= dot(newdir, lighting.n);
+		path_dir = newdir;
+		mask *= lighting.mat.diffuse_color;
 	}
-	else if (lighting.mat.refraction > 0)						// ЛИНЗА
-	{
-		newdir = fast_normalize(refract(path_dir, lighting.n, lighting.mat.refraction));
-		path_orig = lighting.hit - lighting.n * 3e-1f;
-		mirr += 1;
-		float	cos_n = fabs(dot(path_dir, lighting.n));
-		mask *= pow(cos_n, 0.3f);							// аналогично, как и у зеркала
-		mask *= 0.9f;										// аналогично, как и у зеркала
-	}
-	else if (lighting.mat.sp_ex == 30)						// Источник света
-	{
-		mask *= dot(newdir, lighting.n);
-	}
-	else
-	{
-		mask *= dot(newdir, lighting.n);
-	}
-	path_dir = newdir;
-	mask *= lighting.mat.diffuse_color;
-	}
-	return path_color * 2.f + float3(0.05f);					// 2.f высветляет всю картинку
+	return path_color * brightness;					// 2.f высветляет всю картинку
 }
 
 float	reverse(int n)
@@ -861,7 +857,7 @@ __kernel void	rt(
 				dir = dir - (*screen).center;
 				dir = fast_normalize(dir);
 
-				int N = 10;
+				int N = screen->samples;
 				unsigned int seed0 = tx * framenumber % WIDTH + (rands.x * WIDTH / 10);
 				unsigned int seed1 = ty * framenumber % HEIGHT + (rands.y * HEIGHT / 10);
 				for (int k = 0; k <= N; k++)
@@ -870,7 +866,7 @@ __kernel void	rt(
 					get_random(&seed0, &seed1);
 					get_random(&seed1, &seed0);
 					color += trace(orig, dir, obj, counter->all_obj, &seed0, &seed1,
-								   texture_w, texture_h, prev_texture_size, texture) / N;
+								   texture_w, texture_h, prev_texture_size, texture, screen->brightness) / N;
 				}
 			}
 		}

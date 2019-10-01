@@ -1,10 +1,10 @@
 #include "rt.h"
 #include "rt_jtoc.h"
 
-static int 		rt_jtoc_get_texture_path(char **textures, t_jnode *n, int i)
+static int	rt_jtoc_get_texture_path(char **textures, t_jnode *n, int i)
 {
 	t_jnode	*tmp;
-	char 	*str;
+	char	*str;
 
 	if (!(tmp = jtoc_node_get_by_path(n, "path")) || tmp->type != string)
 		return (rt_jtoc_sdl_log_error("PATH ERROR OR PATH IS MISSING", -1));
@@ -23,7 +23,8 @@ int			rt_jtoc_get_textures_by_path(t_obj_texture *texture, t_jnode *n)
 	texture->textures_count = 0;
 	if (rt_jtoc_get_objects_num_in_arr(&texture->textures_count, n))
 		return (FUNCTION_FAILURE);
-	if (!(textures = (char **)ft_memalloc(sizeof(char*) * texture->textures_count)))
+	if (!(textures = (char **)ft_memalloc(sizeof(char*)
+			* texture->textures_count)))
 		return (FUNCTION_FAILURE);
 	tmp = n->down;
 	i = 0;
@@ -40,7 +41,7 @@ int			rt_jtoc_get_textures_by_path(t_obj_texture *texture, t_jnode *n)
 	return (FUNCTION_SUCCESS);
 }
 
-int 	rt_jtoc_get_textures(const char *path, t_obj_texture *texture)
+int			rt_jtoc_get_textures(const char *path, t_obj_texture *texture)
 {
 	t_jnode	*root;
 	t_jnode	*tmp;

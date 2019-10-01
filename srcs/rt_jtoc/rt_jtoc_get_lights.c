@@ -15,6 +15,8 @@ int	rt_jtoc_get_light(t_light *light, t_jnode *n)
 		return (rt_jtoc_sdl_log_error("INTENS ERROR OR INTENS MISSING",
 				-1));
 	light->intens = jtoc_get_float(tmp);
+	if (light->intens < 0)
+		return (rt_jtoc_sdl_log_error("INTENS ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }
 

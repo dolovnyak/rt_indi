@@ -1,7 +1,21 @@
 {
   "type": "plane",
   "texture": "none",
+  "reflection": 0.0,
+  "refraction": 0.0,
   "param": 1.0,
+  "phong":
+  {
+    "al1": 1.0,
+    "al2": 0.4,
+    "sp_ex": 50.0
+  },
+  "emission":
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
   "vec":
   {
     "x": 0.0,
@@ -27,7 +41,21 @@
 {
   "type": "cylinder",
   "texture": "none",
+  "reflection": 0.0,
+  "refraction": 0.0,
   "radius": 5.0,
+  "phong":
+  {
+    "al1": 1.0,
+    "al2": 0.4,
+    "sp_ex": 50.0
+  },
+  "emission":
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
   "vec":
   {
     "x": 1.0,
@@ -78,13 +106,27 @@
 {
   "type": "torus",
   "texture": "texture",
+  "reflection": 0.0,
+  "refraction": 0.0,
   "radius": 20.0,
+  "phong":
+  {
+    "al1": 1.0,
+    "al2": 0.4,
+    "sp_ex": 50.0
+  },
+  "emission":
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
   "inner_radius": 5.0,
   "vec":
   {
-    "x": 1.0,
+    "x": 0.0,
     "y": 0.0,
-    "z": 0.0
+    "z": 1.0
   },
   "color":
   {
@@ -105,7 +147,21 @@
 {
   "type": "hyper",
   "texture": "none",
+   "reflection": 0.0,
+  "refraction": 0.0,
   "param": 0.5,
+  "phong":
+  {
+    "al1": 1.0,
+    "al2": 0.4,
+    "sp_ex": 50.0
+  },
+  "emission":
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
   "vec":
   {
     "x": 0.0,
@@ -131,7 +187,21 @@
 {
   "type": "sqr",
   "texture": "none",
-  "first":
+  "reflection": 0.0,
+  "refraction": 0.0,
+  "first": "phong",
+  :
+  {
+    "al1": 1.0,
+    "al2": 0.4,
+    "sp_ex": 50.0
+  },
+  "emission":
+  {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
   {
     "x": 0.0,
     "y": 0.0,

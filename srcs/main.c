@@ -67,50 +67,6 @@ int	new_mlx(t_rt *rt, char *name)
 	return (1);
 }
 
-void		emission(t_rt *rt)
-{
-	(void)rt;
-//	rt->obj[0].mat.emission.x = 0.f;
-//	rt->obj[0].mat.emission.y = 0.f;
-//	rt->obj[0].mat.emission.z = 0.f;
-//
-//	rt->obj[1].mat.emission.x = 0.f;
-//	rt->obj[1].mat.emission.y = 0.f;
-//	rt->obj[1].mat.emission.z = 0.f;
-//
-//	rt->obj[2].mat.emission.x = 1.f;
-//	rt->obj[2].mat.emission.y = 1.f;
-//	rt->obj[2].mat.emission.z = 1.f;
-//
-//	rt->obj[3].mat.emission.x = 0.f;
-//	rt->obj[3].mat.emission.y = 0.f;
-//	rt->obj[3].mat.emission.z = 0.f;
-//
-//	rt->obj[4].mat.emission.x = 0.f;
-//	rt->obj[4].mat.emission.y = 0.f;
-//	rt->obj[4].mat.emission.z = 0.f;
-//
-//	rt->obj[5].mat.emission.x = 0.f;
-//	rt->obj[5].mat.emission.y = 0.f;
-//	rt->obj[5].mat.emission.z = 0.f;
-//
-//	rt->obj[6].mat.emission.x = 0.f;
-//	rt->obj[6].mat.emission.y = 0.f;
-//	rt->obj[6].mat.emission.z = 0.f;
-//
-//	rt->obj[7].mat.emission.x = 0.f;
-//	rt->obj[7].mat.emission.y = 0.f;
-//	rt->obj[7].mat.emission.z = 0.f;
-//
-//	rt->obj[8].mat.emission.x = 0.f;
-//	rt->obj[8].mat.emission.y = 0.f;
-//	rt->obj[8].mat.emission.z = 0.f;
-//
-//	rt->obj[9].mat.emission.x = 0.f;
-//	rt->obj[9].mat.emission.y = 0.f;
-//	rt->obj[9].mat.emission.z = 0.f;
-}
-
 void		release_gpu_mem(t_rt *rt)
 {
 	clReleaseProgram(*rt->cl->program);
@@ -138,10 +94,12 @@ int			main(int argc, char **argv)
 			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
 	if (new_mlx(&rt, argv[1]))
 	{
+
 		rt_jtoc_textures_setup(&rt, "json/textures.json");
 		rt_jtoc_scene_setup(&rt, "json/nice_scene/nice.json");
 		rt_jtoc_mouse_setup(&rt, "json/mouse.json");
-		emission(&rt);
+
+
 		rt.screen.params |= PHONG;
 		fill_gpu_mem(&rt);
 		draw_picture(&rt);

@@ -14,7 +14,8 @@
 
 int	mouse_press(int button, int x, int y, t_rt *rt)
 {
-	rt->screen.fsaa_n = 0; //TODO WHAT THE FUCK?!
+	rt->screen.fsaa_n = 0;
+	rt->screen.params = PHONG;
 	if (((button == 4) || (button == 5)) && (rt->mouse.r == 0 && rt->mouse.l == 0))
 	{
 		ft_move_mouse(rt, button, x, y);

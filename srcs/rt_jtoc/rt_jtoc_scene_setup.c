@@ -36,7 +36,18 @@ static int	rt_jtoc_get_scene(const char *path, t_rt *rt, t_obj_texture *texture)
 	rt->screen.fsaa_n = jtoc_get_int(tmp);
 	if (rt->screen.fsaa_n % 2 != 0)
 		rt->screen.fsaa_n += 1;
-
+	if (rt->screen.fsaa_n > 6 || rt->screen.fsaa_n < 0)
+		rt->screen.fsaa_n = 0;
+	if (!(tmp = jtoc_node_get_by_path(root, "samples")) || tmp->type != integer)
+		return (rt_jtoc_sdl_log_error("SAMPLES ERRROR OR SAMPLES MISSING", -1));
+	rt->screen.samples = jtoc_get_int(tmp);
+	if (rt->screen.samples < 2 || rt->screen.samples > 900)
+		return (rt_jtoc_sdl_log_error("SAMPLES ERROR", -1));
+	if (!(tmp = jtoc_node_get_by_path(root, "brightness")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("BRIGHTNESS ERROR", -1));
+	rt->screen.brightness = jtoc_get_float(tmp);
+	if (rt->screen.brightness < 0 || rt->screen.brightness > 5)
+		rt->screen.brightness = 0;
 	jtoc_node_clear(root);
 	return (FUNCTION_SUCCESS);
 }

@@ -1,6 +1,8 @@
 {
   "antialiasing": 0,
   "ambient" : 0.1,
+  "samples": 400,
+  "brightness": 1.0,
   "camera":
   {
     "transform":
@@ -46,12 +48,11 @@
   "objects":
   [
     {
-      "type": "torus",
+      "type": "sphere",
       "texture": "texture",
-      "reflection": 0.0,
+      "reflection": 0.99,
       "refraction": 0.0,
-      "radius": 20.0,
-      "inner_radius": 5.0,
+      "radius": 5.0,
       "phong":
       {
         "al1": 1.0,
@@ -64,11 +65,39 @@
         "y": 0.0,
         "z": 0.0
       },
-      "vec":
+      "color":
+      {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 0.0,
+          "y": 10.0,
+          "z": 0.0
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "radius": 10.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
       {
         "x": 0.0,
         "y": 0.0,
-        "z": 1.0
+        "z": 0.0
       },
       "color":
       {
@@ -80,7 +109,7 @@
       {
         "pos":
         {
-          "x": 0.0,
+          "x": 20.0,
           "y": 10.0,
           "z": 0.0
         }
