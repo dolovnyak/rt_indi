@@ -1,5 +1,6 @@
 {
   "antialiasing": 0,
+  "ambient" : 0.1,
   "camera":
   {
     "transform":
@@ -21,7 +22,7 @@
       {
         "x": 0.0,
         "y": 14.0,
-        "z": 0.0
+        "z": 30.0
       },
       "intens": 1.0
     },
@@ -29,8 +30,8 @@
       "pos":
       {
         "x": 0.0,
-        "y": 6.0,
-        "z": 0.0
+        "y": -16.0,
+        "z": 30.0
       },
       "intens": 1.0
     }
@@ -45,6 +46,12 @@
   "objects":
   [
     {
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
       "type": "torus",
       "texture": "texture",
       "radius": 20.0,
