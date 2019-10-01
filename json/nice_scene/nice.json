@@ -37,17 +37,24 @@
   ],
   "effects":
   {
-    "1": 0,
-    "2": 0,
-    "3": 0,
-    "4": 0
+    "gray": 0,
+    "3d": 0,
+    "gauss_blure": 0,
+    "dithering": 0
   },
   "objects":
   [
     {
-      "type": "sphere",
-      "texture": "none",
-      "radius": 5.0,
+      "type": "torus",
+      "texture": "texture",
+      "radius": 20.0,
+      "inner_radius": 5.0,
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
       "color":
       {
         "x": 1.0,
@@ -61,26 +68,6 @@
           "x": 0.0,
           "y": 10.0,
           "z": 0.0
-        }
-      }
-    },
-    {
-      "type": "sphere",
-      "texture": "texture",
-      "radius": 3.0,
-      "color":
-      {
-        "x": 1.0,
-        "y": 0.0,
-        "z": 1.0
-      },
-      "transform":
-      {
-        "pos":
-        {
-          "x": 0.0,
-          "y": 10.0,
-          "z": 10.0
         }
       }
     }

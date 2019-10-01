@@ -38,10 +38,12 @@
 enum					e_object_type
 {
 	o_sphere = 1,
-	o_torus,
+	o_plane,
 	o_cylinder,
 	o_cone,
-	o_plane,
+	o_hyper,
+	o_torus,
+	o_sqr,
 };
 
 typedef struct		s_light
