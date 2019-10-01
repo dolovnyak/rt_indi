@@ -50,31 +50,10 @@ int	rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 	obj->e_type = ft_strcmp(str, "hyper") ? obj->e_type : o_hyper;
 	obj->e_type = ft_strcmp(str, "sqr") ? obj->e_type : o_sqr;
 	obj->type = obj->e_type - 1;
-//	obj->type = ft_strcmp(str, "prm") ? obj->type : o_prm;
 	if (obj->e_type == 0)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
 }
-//
-//int	rt_jtoc_check_and_get_id_for_object(t_scene *scene, t_jnode *n, t_object *object)
-//{
-//	t_jnode		*tmp;
-//	cl_uint		id;
-//
-//	if (!(tmp = jtoc_node_get_by_path(n, "id")) || tmp->type != integer)
-//		return (rt_jtoc_sdl_log_error("ID ERROR", -1));
-//		id = jtoc_get_int(tmp);
-//		if (id <= 0)
-//			return (FUNCTION_FAILURE);
-//		if (scene->camera.transform.id == (cl_uint)id)
-//			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN CAMERA", id));
-//		if (rt_find_light_by_id(scene->lights, id))
-//			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN LIGHTS", id));
-//		if (rt_find_object_by_id(scene->objects, id))
-//			return (rt_jtoc_sdl_log_error("THAT ID ALREADY EXISTS IN OBJECTS", id));
-//	object->transform.id = id;
-//	return (FUNCTION_SUCCESS);
-//}
 
 int	rt_jtoc_phong_processing(t_object *obj, t_jnode *n)
 {
@@ -125,6 +104,16 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_obj_texture *texture)
 		return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
 	if (rt_jtoc_phong_processing(obj, n))
 		return (rt_jtoc_sdl_log_error("PHONG ERROR", -1));
+	if (!(tmp = jtoc_node_get_by_path(n, "emission")) || tmp->type != object)
+		return (rt_jtoc_sdl_log_error("EMISSION ERROR OR MISSING", -1));
+	if (rt_jtoc_get_float3(&obj->mat.emission, tmp))
+		return (rt_jtoc_sdl_log_error("EMISSION PARAM ERROR", -1));
+	if (!(tmp = jtoc_node_get_by_path(n, "reflection")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("REFLECTION ERROR OR MISSING", -1));
+	obj->mat.reflection = jtoc_get_float(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "refraction")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("REFRACTION ERROR OR MISSING", -1));
+	obj->mat.refraction = jtoc_get_float(tmp);
 
 	err = 0;
 	err = obj->e_type == o_sphere ? rt_jtoc_get_sphere(obj, n) : err;

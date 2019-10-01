@@ -73,12 +73,16 @@ typedef struct		s_material
 	cl_float3		diffuse_color;
 	cl_float2		al;
 	float			sp_ex;
+	float 			refraction;
+	float 			reflection;
 	cl_float3		emission;
 	int				texture_id;
 #else
     float3			diffuse_color;
 	float2			al;
 	float			sp_ex;
+	float 			refraction;
+	float 			reflection;
 	float3			emission;
 	int				texture_id;
 #endif

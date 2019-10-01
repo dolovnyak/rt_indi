@@ -120,4 +120,4 @@ add_executable(rt_in
         srcs/get_textures.c
         srcs/gpu_mem.c
         srcs/kernel.c
-        srcs/main.c)
+        srcs/main.c srcs/rt_jtoc/rt_jtoc_get_refl.c)

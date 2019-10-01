@@ -69,14 +69,15 @@ int	new_mlx(t_rt *rt, char *name)
 
 void		emission(t_rt *rt)
 {
-	rt->obj[0].mat.emission.x = 0.f;
-	rt->obj[0].mat.emission.y = 0.f;
-	rt->obj[0].mat.emission.z = 0.f;
-
-	rt->obj[1].mat.emission.x = 0.f;
-	rt->obj[1].mat.emission.y = 0.f;
-	rt->obj[1].mat.emission.z = 0.f;
-
+	(void)rt;
+//	rt->obj[0].mat.emission.x = 0.f;
+//	rt->obj[0].mat.emission.y = 0.f;
+//	rt->obj[0].mat.emission.z = 0.f;
+//
+//	rt->obj[1].mat.emission.x = 0.f;
+//	rt->obj[1].mat.emission.y = 0.f;
+//	rt->obj[1].mat.emission.z = 0.f;
+//
 //	rt->obj[2].mat.emission.x = 1.f;
 //	rt->obj[2].mat.emission.y = 1.f;
 //	rt->obj[2].mat.emission.z = 1.f;

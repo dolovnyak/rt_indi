@@ -785,19 +785,19 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 	float part = pow((8.f - bounces + mirr) / 8, 5);		// вклад следующего меньше, кроме зеркала и линзы
 	path_color += mask * lighting.mat.emission * part;
 
-	if (lighting.mat.sp_ex == 10)							// ЗЕРКАЛО
+	if (lighting.mat.reflection > 0)							// ЗЕРКАЛО
 	{
 		mirr += 1;
-		float	a = 0.99f;									// параметр. на сколько мутное стекло. диапазон 0.9f - 1.0f
-		newdir = fast_normalize(a * fast_normalize(reflect(path_dir, lighting.n)) + (1.f - a) * newdir);
+//		float	a = 0.99f;									// параметр. на сколько мутное стекло. диапазон 0.9f - 1.0f
+		newdir = fast_normalize(lighting.mat.reflection * fast_normalize(reflect(path_dir, lighting.n)) + (1.f - lighting.mat.reflection) * newdir);
 		float	cos_n = fabs(dot(path_dir, lighting.n));
 		mask *= pow(cos_n, 0.01f);							// затемнеяет зеркало. чем больше угол между нормалью зеркала и dir и больше параметр, тем темнее
 		mask *= 0.9f;										// затемняет зеркало
 		//path_color += mask;
 	}
-	else if (lighting.mat.sp_ex == 20)						// ЛИНЗА
+	else if (lighting.mat.refraction > 0)						// ЛИНЗА
 	{
-		newdir = fast_normalize(refract(path_dir, lighting.n, 0.8f));
+		newdir = fast_normalize(refract(path_dir, lighting.n, lighting.mat.refraction));
 		path_orig = lighting.hit - lighting.n * 3e-1f;
 		mirr += 1;
 		float	cos_n = fabs(dot(path_dir, lighting.n));
