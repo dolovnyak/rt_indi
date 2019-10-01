@@ -49,6 +49,16 @@ int ft_effects(int keycode, t_rt *rt)
 		rt->screen.effects.y = 0;
 		rt->screen.effects.w = (rt->screen.effects.w + 1) % 2;
 	}
+	else if (keycode == 37 && (rt->screen.params & PATH_TRACE))
+	{
+		rt->screen.params &= !(PATH_TRACE);
+		rt->screen.params |= PHONG;
+	}
+	else if (keycode == 37)
+	{
+		rt->screen.params &= !(PHONG);
+		rt->screen.params |= PATH_TRACE;
+	}
 	return (0);
 }
 
@@ -121,7 +131,7 @@ int	check_key(int keycode, t_rt *rt)
 		ft_move_z(keycode, rt);
 	else if ((keycode > 17) && (keycode < 22))
 		ft_aa(keycode, rt);
-	else if ((keycode > 5) && (keycode < 10))
+	else if (((keycode > 5) && (keycode < 10)) || keycode == 37)
 		ft_effects(keycode, rt);
 	else if (keycode == 29)
 		return (ft_save(rt));

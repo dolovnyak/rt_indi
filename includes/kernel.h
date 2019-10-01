@@ -25,7 +25,6 @@ typedef struct	t_lighting
 }				t_lighting;
 
 float	reverse(int n);
-float3	light_shadow(float3 dir, const __global t_object *obj, const __global t_light *l, t_lighting *lighting, const __global t_counter *counter);
 int 	scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 		t_lighting *lighting, int count, __global int *texture_w, __global int *texture_h,
 		__global int *prev_texture_size, __global int *texture);

@@ -1,6 +1,7 @@
 
 #include "./includes/kernel.h"
 #include "./includes/rt.h"
+
 #  define RED(c)			(((int)c >> 16) & 0xFF)
 #  define GREEN(c)			(((int)c >> 8) & 0xFF)
 #  define BLUE(c)			((int)c & 0xFF)
@@ -574,43 +575,51 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 	return (dist < MAX_DIST);
 }
 
-//float3	light_shadow(float3 dir, const __global t_object *obj, const __global t_light *l, t_lighting *lighting, const __global t_counter *counter)
-//{
-//	float		light_dist = 0;
-//	float3		light_dir = (float3) 0;
-//	float3		shadow_orig = (float3) 0;
-//	float		a = 0;
-//	float		b = 0;
-//	t_lighting	shadow_lighting;
-//	int			i = 0;
-//	float3		r = (float3) 0;
-//	float		e = 0;
-//
-//	shadow_lighting.n = (float3) 0;
-//	shadow_lighting.hit = (float3) 0;
-//	i = 0;
-//	a = 0.f;
-//	b = 0.f;
-//	while (i < counter->l)
-//	{
-//		light_dir = fast_normalize(l[i].center - lighting->hit);
-//		light_dist = length(l[i].center - lighting->hit);
-//		if (dot(light_dir, lighting->n) > 0)
-//		{
-//			if (!scene_intersect(l[i].center, -light_dir, obj, &shadow_lighting, counter->all_obj) || (length(shadow_lighting.hit - l[i].center) > light_dist - 1e-1f && length(shadow_lighting.hit - l[i].center) < light_dist + 1e-1f))
-//			{
-//				a += dot(light_dir, lighting->n) * l[i].intens;
-//				b += pow(max(0.f, -dot(lighting->n * 2.f * dot(light_dir, lighting->n) - light_dir, dir)), lighting->mat.sp_ex) * l[i].intens;
-//			}
-//		}
-//		i++;
-//	}
+float3	light_shadow(float3 dir, const __global t_object *obj,
+		const __global t_light *l, t_lighting *lighting,
+		const __global t_counter *counter, __global int *texture_w,
+		__global int *texture_h, __global int *prev_texture_size,
+		__global int *texture)
+{
+	float		light_dist = 0;
+	float3		light_dir = (float3) 0;
+	float3		shadow_orig = (float3) 0;
+	float		a = 0;
+	float		b = 0;
+	t_lighting	shadow_lighting;
+	int			i = 0;
+	float3		r = (float3) 0;
+	float		e = 0;
+
+	shadow_lighting.n = (float3) 0;
+	shadow_lighting.hit = (float3) 0;
+	i = 0;
+	a = 0.f;
+	b = 0.f;
+	while (i < counter->l)
+	{
+		light_dir = fast_normalize(l[i].center - lighting->hit);
+		light_dist = length(l[i].center - lighting->hit);
+		if (dot(light_dir, lighting->n) > 0)
+		{
+			if (!scene_intersect(l[i].center, -light_dir, obj, &shadow_lighting, counter->all_obj,
+					texture_w, texture_h, prev_texture_size, texture) ||
+					(length(shadow_lighting.hit - l[i].center) > light_dist - 1e-1f &&
+					length(shadow_lighting.hit - l[i].center) < light_dist + 1e-1f))
+			{
+				a += dot(light_dir, lighting->n) * l[i].intens;
+				b += pow(max(0.f, -dot(lighting->n * 2.f * dot(light_dir, lighting->n) - light_dir, dir)), lighting->mat.sp_ex) * l[i].intens;
+			}
+		}
+		i++;
+	}
 //	r = lighting->mat.diffuse_color * a * lighting->mat.al.x + (float3)(1) * lighting->mat.al.y * b;
-//	e = max(max(r.x, r.y), r.z);
-//	if (e > 1.f)
-//		return (r * (1.f / e));
-//	return (r);
-//}
+	r = lighting->mat.diffuse_color;
+	e = max(max(r.x, r.y), r.z);
+	if (e > 1.f)
+		return (r * (1.f / e));
+	return (r);
+}
 
 static float get_random(unsigned int *seed0, unsigned int *seed1) {
 
@@ -767,11 +776,11 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 	}
 	else if (lighting.mat.sp_ex == 30)						// Источник света
 	{
-	mask *= dot(newdir, lighting.n);
+		mask *= dot(newdir, lighting.n);
 	}
 	else
 	{
-	mask *= dot(newdir, lighting.n);
+		mask *= dot(newdir, lighting.n);
 	}
 	path_dir = newdir;
 	mask *= lighting.mat.diffuse_color;
@@ -811,28 +820,56 @@ __kernel void	rt(
 	orig = (*cam).center;
 	color = (float3) 0;
 
-//	if (screen->params & PATH_TRACE)
-	for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+	if (screen->params & PATH_TRACE)
 	{
-		for (int j = -fsaa / 2; j <= fsaa / 2; j++)
+		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
-			dir = (*screen).v1 * ((float) (tx + i * reverse(fsaa)) / WIDTH - 0.5f) - (*screen).v2 * ((float)(ty + j * reverse(fsaa)) / WIDTH - 0.5f);
-			dir = dir - (*screen).center;
-			dir = fast_normalize(dir);
-
-			int N = 10;
-			unsigned int seed0 = tx * framenumber % WIDTH + (rands.x * WIDTH / 10);
-			unsigned int seed1 = ty * framenumber % HEIGHT + (rands.y * HEIGHT / 10);
-			for (int k = 0; k <= N; k++)
+			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
 			{
-				//framenumber = k;
-				get_random(&seed0, &seed1);
-				get_random(&seed1, &seed0);
-				color += trace(orig, dir, obj, counter->all_obj, &seed0, &seed1,
-								texture_w, texture_h, prev_texture_size, texture) / N;
+				dir = (*screen).v1 * ((float) (tx + i * reverse(fsaa)) / WIDTH - 0.5f) -
+					  (*screen).v2 * ((float) (ty + j * reverse(fsaa)) / WIDTH - 0.5f);
+				dir = dir - (*screen).center;
+				dir = fast_normalize(dir);
+
+				int N = 10;
+				unsigned int seed0 = tx * framenumber % WIDTH + (rands.x * WIDTH / 10);
+				unsigned int seed1 = ty * framenumber % HEIGHT + (rands.y * HEIGHT / 10);
+				for (int k = 0; k <= N; k++)
+				{
+					//framenumber = k;
+					get_random(&seed0, &seed1);
+					get_random(&seed1, &seed0);
+					color += trace(orig, dir, obj, counter->all_obj, &seed0, &seed1,
+								   texture_w, texture_h, prev_texture_size, texture) / N;
+				}
 			}
 		}
 	}
+	else if (screen->params & PHONG)
+	{
+		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+		{
+			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
+			{
+				t_lighting	lighting;
+
+				dir = (*screen).v1 * ((float) (tx + i * reverse(fsaa)) / WIDTH - 0.5f) -
+					  (*screen).v2 * ((float) (ty + j * reverse(fsaa)) / WIDTH - 0.5f);
+				dir = dir - (*screen).center;
+				dir = fast_normalize(dir);
+				lighting.n = (float3) 0;
+				lighting.hit = (float3) 0;
+
+				if(scene_intersect(orig, dir, obj, &lighting, counter->all_obj,
+						texture_w, texture_h, prev_texture_size, texture))
+					color += light_shadow(dir, obj, l, &lighting, counter,
+							texture_w, texture_h, prev_texture_size, texture);
+				else
+					color += (float3)(1.f);
+			}
+		}
+	}
+
 	color = color / ((fsaa + 1) * (fsaa + 1));
 
 	data[index] = get_color(color, screen->effects);
