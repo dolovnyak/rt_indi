@@ -20,6 +20,15 @@
 #define	MAX_DIST	10000.f
 #define	SIGMA		3
 
+enum					e_object_type
+{
+	o_sphere = 1,
+	o_torus,
+	o_cylinder,
+	o_cone,
+	o_plane,
+};
+
 typedef struct	s_material
 {
 	float3		diffuse_color;
@@ -40,6 +49,7 @@ typedef struct	s_object
 	float3		b;
 	float3		c;
 	float3		d;
+	enum e_object_type	e_type;
 	t_material	mat;
 }				t_object;
 

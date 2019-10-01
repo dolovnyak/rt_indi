@@ -138,7 +138,7 @@ int			main(int argc, char **argv)
 		rt.aux = (int *)malloc(sizeof(int) * WIDTH * HEIGHT);
 		emission(&rt);
 		rt_jtoc_textures_setup(&rt, "json/textures.json");
-		rt_jtoc_scene_setup(&rt, "json/nice_scene/nice.json");
+//		rt_jtoc_scene_setup(&rt, "json/nice_scene/nice.json");
 		fill_gpu_mem(&rt);
 		draw_picture(&rt);
 		mlx_hook(rt.win, 2, 0, check_key, &rt);
