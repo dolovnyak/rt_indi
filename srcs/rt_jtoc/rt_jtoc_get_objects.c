@@ -76,6 +76,33 @@ int	rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 //	return (FUNCTION_SUCCESS);
 //}
 
+int	rt_jtoc_phong_processing(t_object *obj, t_jnode *n)
+{
+	t_jnode	*tmp;
+
+	if (!(n = jtoc_node_get_by_path(n, "phong")) || n->type != object)
+		return (rt_jtoc_sdl_log_error("PHONG TYPE ERROR OR PHONG IS MISSING", -1));
+
+	if (!(tmp = jtoc_node_get_by_path(n, "al1")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("PHONG al1 ERROR", -1));
+	obj->mat.al.x = jtoc_get_float(tmp);
+	if (obj->mat.al.x <= 0)
+		return (rt_jtoc_sdl_log_error("PHONG al1 ERROR", -1));
+
+	if (!(tmp = jtoc_node_get_by_path(n, "al2")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("PHONG al2 ERROR", -1));
+	obj->mat.al.y = jtoc_get_float(tmp);
+	if (obj->mat.al.y < 0)
+		return (rt_jtoc_sdl_log_error("PHONG al2 ERROR", -1));
+
+	if (!(tmp = jtoc_node_get_by_path(n, "sp_ex")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("PHONG sp_ex ERROR", -1));
+	obj->mat.sp_ex = jtoc_get_float(tmp);
+	if (obj->mat.sp_ex < 1)
+		return (rt_jtoc_sdl_log_error("PHONG sp_ex ERROR", -1));
+	return (FUNCTION_SUCCESS);
+}
+
 int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_obj_texture *texture)
 {
 	t_jnode	*tmp;
@@ -96,6 +123,8 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_obj_texture *texture)
 		return (rt_jtoc_sdl_log_error("COLOR TYPE ERROR OR COLOR IS MISSING", -1));
 	if (rt_jtoc_get_float3(&obj->mat.diffuse_color, tmp))
 		return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
+	if (rt_jtoc_phong_processing(obj, n))
+		return (rt_jtoc_sdl_log_error("PHONG ERROR", -1));
 
 	err = 0;
 	err = obj->e_type == o_sphere ? rt_jtoc_get_sphere(obj, n) : err;

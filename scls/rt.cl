@@ -580,7 +580,7 @@ float3	light_shadow(float3 dir, const __global t_object *obj,
 		const __global t_light *l, t_lighting *lighting,
 		const __global t_counter *counter, __global int *texture_w,
 		__global int *texture_h, __global int *prev_texture_size,
-		__global int *texture)
+		__global int *texture, float ambient)
 {
 	float		light_dist = 0;
 	float3		light_dir = (float3) 0;
@@ -614,8 +614,7 @@ float3	light_shadow(float3 dir, const __global t_object *obj,
 		}
 		i++;
 	}
-//	r = lighting->mat.diffuse_color * a * lighting->mat.al.x + (float3)(1) * lighting->mat.al.y * b;
-	r = lighting->mat.diffuse_color;
+	r = lighting->mat.diffuse_color * (a + ambient) * lighting->mat.al.x + (float3)(1) * lighting->mat.al.y * b;
 	e = max(max(r.x, r.y), r.z);
 	if (e > 1.f)
 		return (r * (1.f / e));
@@ -803,7 +802,7 @@ __kernel void	rt(
 					const __global t_counter	*counter,
 					const __global t_light		*l,
 					const __global t_object		*obj,
-					int2 rands,
+					int2 rands, float ambient,
 					__global int *texture,	__global int *texture_w,
 					__global int *texture_h,
 					__global int *prev_texture_size)
@@ -864,7 +863,7 @@ __kernel void	rt(
 				if(scene_intersect(orig, dir, obj, &lighting, counter->all_obj,
 						texture_w, texture_h, prev_texture_size, texture))
 					color += light_shadow(dir, obj, l, &lighting, counter,
-							texture_w, texture_h, prev_texture_size, texture);
+							texture_w, texture_h, prev_texture_size, texture, ambient);
 				else
 					color += (float3)(1.f);
 			}

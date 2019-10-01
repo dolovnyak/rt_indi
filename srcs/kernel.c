@@ -32,10 +32,11 @@ void		render(t_rt *rt, cl_mem screen_buffer, size_t global_size[2], size_t local
 	err |= clSetKernelArg(*kernel, 4, sizeof(cl_mem), &rt->gpu_mem->cl_light_buffer);
 	err |= clSetKernelArg(*kernel, 5, sizeof(cl_mem), &rt->gpu_mem->cl_obj_buffer);
 	err |= clSetKernelArg(*kernel, 6, sizeof(cl_int2), &rands);
-	err |= clSetKernelArg(*kernel, 7, sizeof(cl_mem), &rt->gpu_mem->cl_texture);
-	err |= clSetKernelArg(*kernel, 8, sizeof(cl_mem), &rt->gpu_mem->cl_texture_w);
-	err |= clSetKernelArg(*kernel, 9, sizeof(cl_mem), &rt->gpu_mem->cl_texture_h);
-	err |= clSetKernelArg(*kernel, 10, sizeof(cl_mem), &rt->gpu_mem->cl_prev_texture_size);
+	err |= clSetKernelArg(*kernel, 7, sizeof(cl_float), &rt->ambient);
+	err |= clSetKernelArg(*kernel, 8, sizeof(cl_mem), &rt->gpu_mem->cl_texture);
+	err |= clSetKernelArg(*kernel, 9, sizeof(cl_mem), &rt->gpu_mem->cl_texture_w);
+	err |= clSetKernelArg(*kernel, 10, sizeof(cl_mem), &rt->gpu_mem->cl_texture_h);
+	err |= clSetKernelArg(*kernel, 11, sizeof(cl_mem), &rt->gpu_mem->cl_prev_texture_size);
 	cl_error_handler("Couldn't create a kernel rt argument", err);
 	err = clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 2, NULL, global_size,
 								 local_size, 0, NULL, NULL);

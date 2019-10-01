@@ -45,7 +45,7 @@
 #define PHONG		(1 << 0)
 #define PATH_TRACE	(1 << 1)
 
-enum					e_object_type
+enum				e_object_type
 {
 	o_sphere = 1,
 	o_plane,
@@ -74,7 +74,7 @@ typedef struct		s_material
 	cl_float2		al;
 	float			sp_ex;
 	cl_float3		emission;
-    int             texture_id;
+	int				texture_id;
 #else
     float3			diffuse_color;
 	float2			al;
@@ -206,6 +206,7 @@ typedef struct 		s_gpu_mem
 
 typedef struct		s_rt
 {
+	cl_float		ambient;
 	void			*mlx_ptr;
 	void			*win;
 	t_img			img;

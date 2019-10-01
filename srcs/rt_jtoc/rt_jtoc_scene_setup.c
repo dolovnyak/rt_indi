@@ -10,6 +10,11 @@ static int	rt_jtoc_get_scene(const char *path, t_rt *rt, t_obj_texture *texture)
 	if (!(root = jtoc_read(path)))
 		return (rt_jtoc_sdl_log_error("JSON", -1));
 
+	if (!(tmp = jtoc_node_get_by_path(root, "ambient")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("AMBIENT TYPE ERROR OR AMBIENT IS NOT SET", -1));
+	rt->ambient = jtoc_get_float(tmp);
+	if (rt->ambient < 0.f || rt->ambient > 1.f)
+		return (rt_jtoc_sdl_log_error("AMBIENT ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(root, "camera")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("CAMERA TYPE ERROR OR CAMERA IS NOT SET", -1));
 	if (rt_jtoc_get_camera(&(rt->cam), tmp))

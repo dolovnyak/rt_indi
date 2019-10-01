@@ -130,6 +130,7 @@ int			main(int argc, char **argv)
 {
 	t_rt		rt;
 
+	ft_bzero(&rt, sizeof(t_rt));
 	if (argc != 2)
 		ft_putstr("usage: ./RT path_file\n");
 	rt.cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
@@ -140,6 +141,7 @@ int			main(int argc, char **argv)
 		rt_jtoc_scene_setup(&rt, "json/nice_scene/nice.json");
 		rt_jtoc_mouse_setup(&rt, "json/mouse.json");
 		emission(&rt);
+		rt.screen.params |= PHONG;
 		fill_gpu_mem(&rt);
 		draw_picture(&rt);
 		mlx_hook(rt.win, 2, 0, check_key, &rt);
