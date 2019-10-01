@@ -1,4 +1,5 @@
 {
+  "fsaa": 0,
   "camera":
   {
     "transform":
@@ -13,11 +14,39 @@
       "betta": 1.57079632679489661923132169163975144
     }
   },
+  "lights":
+  [
+    {
+      "pos":
+      {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 0.0
+      },
+      "intens": 1.0
+    },
+    {
+      "pos":
+      {
+        "x": 0.0,
+        "y": 6.0,
+        "z": 0.0
+      },
+      "intens": 1.0
+    }
+  ],
+  "effects":
+  {
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0
+  },
   "objects":
   [
     {
       "type": "sphere",
-      "texture": "none",
+      "texture": "brick",
       "radius": 5.0,
       "color":
       {

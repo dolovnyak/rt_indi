@@ -7,4 +7,5 @@ target_sources(rt PUBLIC
         rt_jtoc_utilits.c
         rt_jtoc_get_camera.c
         rt_jtoc_scene_setup.c
+        rt_jtoc_get_effects.c.
         )

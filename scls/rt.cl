@@ -152,7 +152,10 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 	else if (tmp_obj.type == 5)
 		uv = uv_mapping_for_torus(lighting, tmp_obj);
 	else if (tmp_obj.type == 1)
+{
 		uv = uv_mapping_for_plane(lighting, tmp_obj);
+		tmp_obj.mat.texture_id = 0;
+}
 	if (uv.x != -1.f && uv.y != -1.f)
 	{
 		found_texture_for_obj = 0;
