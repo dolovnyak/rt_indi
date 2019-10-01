@@ -40,6 +40,9 @@ SRC		:=		main.c				            \
 				rt_jtoc/rt_jtoc_get_camera.c    \
 				rt_jtoc/rt_jtoc_get_objects.c    \
 				rt_jtoc/rt_jtoc_get_objects_params.c    \
+				rt_jtoc/rt_jtoc_get_lights.c    \
+				rt_jtoc/rt_jtoc_get_effects.c    \
+				rt_jtoc/rt_jtoc_mouse_setup.c    \
 
 SRCS	:=		$(addprefix $(SRC_DIR)/, $(SRC))
 OBJ		:= 		$(SRC:.c=.o)

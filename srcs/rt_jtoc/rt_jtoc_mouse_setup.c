@@ -33,7 +33,7 @@ int 			rt_jtoc_get_mouse(t_mouse *mouse, const char *path)
 	return (FUNCTION_SUCCESS);
 }
 
-int 			rt_jtoc_mouse_setup(t_mlx *mlx, const char *json)
+int 			rt_jtoc_mouse_setup(t_rt *rt, const char *json)
 {
 	int				i;
 	t_mouse			mouse;
@@ -44,6 +44,6 @@ int 			rt_jtoc_mouse_setup(t_mlx *mlx, const char *json)
 		rt_jtoc_sdl_log_error("MOUSE ERROR", i);
 		exit(-1);
 	}
-	mlx->mouse = mouse;
+	rt->mouse = mouse;
 	return (FUNCTION_SUCCESS);
 }

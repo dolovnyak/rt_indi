@@ -162,7 +162,7 @@ int		new_objects_f(int fd, t_rt *rt, t_counter *counter)
 	if (!(rt->obj = (t_object *)malloc(counter->all_obj * sizeof(t_object))))
 		return (0);
 	i = 0;
-	while ((i < counter->all_obj) && (get_next_line(fd, &s) == 1))
+	while ((i < (int)counter->all_obj) && (get_next_line(fd, &s) == 1))
 	{
 		char		**arr;
 		size_t		j;
@@ -196,7 +196,7 @@ int		new_objects_f(int fd, t_rt *rt, t_counter *counter)
 		}
 		i++;
 	}
-	if (i != counter->all_obj)
+	if (i != (int)counter->all_obj)
 		return (0);
 	return (1);
 }
@@ -213,7 +213,7 @@ int	new_lights_f(int fd, t_rt *rt, t_counter *counter)
 	if (!(rt->light = (t_light *)malloc(counter->l * sizeof(t_light))))
 		return (0);
 	i = 0;
-	while ((i < counter->l) && (get_next_line(fd, &s) == 1))
+	while ((i < (int)counter->l) && (get_next_line(fd, &s) == 1))
 	{
 		char		**arr;
 		size_t		j;
@@ -237,7 +237,7 @@ int	new_lights_f(int fd, t_rt *rt, t_counter *counter)
 		}
 		i++;
 	}
-	if (i != counter->l)
+	if (i != (int)counter->l)
 		return (0);
 	return (1);
 }

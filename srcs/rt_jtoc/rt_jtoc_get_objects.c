@@ -112,12 +112,13 @@ int rt_jtoc_get_objects(t_rt *rt, t_jnode *n, t_obj_texture *texture)
 	t_jnode		*tmp;
 	t_object	*objects;
 	int			i;
+	unsigned int	g;
 
-	rt->objects_count = 0;
-	if (rt_jtoc_get_objects_num_in_arr(&rt->objects_count, n))
+	g = 0;
+	if (rt_jtoc_get_objects_num_in_arr(&g, n))
 		return (FUNCTION_FAILURE);
-	printf("%d\n", rt->objects_count);
-	objects = ft_memalloc(sizeof(t_object) * rt->objects_count);
+	rt->counter.all_obj = g;
+	objects = ft_memalloc(sizeof(t_object) * rt->counter.all_obj);
 	tmp = n->down;
 	i = 0;
 	while (tmp)

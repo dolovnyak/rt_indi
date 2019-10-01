@@ -54,14 +54,15 @@ void	default_mlx(t_rt *rt)
 
 int	new_mlx(t_rt *rt, char *name)
 {
-	default_mlx(rt);
+//	default_mlx(rt);
 	rt->mlx_ptr = mlx_init();
 	rt->win = mlx_new_window(rt->mlx_ptr, WIDTH, HEIGHT, "RT");
 	rt->img.img_ptr = mlx_new_image(rt->mlx_ptr, WIDTH, HEIGHT);
 	rt->img.data = (int *)mlx_get_data_addr(rt->img.img_ptr,
 			&rt->img.bpp, &rt->img.size_l, &rt->img.endian);
-	if (!(read_map(name, rt)))
-		return (0);
+	(void)name;
+//	if (!(read_map(name, rt)))
+//		return (0);
 	
 	return (1);
 }
@@ -136,9 +137,10 @@ int			main(int argc, char **argv)
 	if (new_mlx(&rt, argv[1]))
 	{
 		rt.aux = (int *)malloc(sizeof(int) * WIDTH * HEIGHT);
-		emission(&rt);
 		rt_jtoc_textures_setup(&rt, "json/textures.json");
 		rt_jtoc_scene_setup(&rt, "json/nice_scene/nice.json");
+		rt_jtoc_mouse_setup(&rt, "json/mouse.json");
+		emission(&rt);
 		fill_gpu_mem(&rt);
 		draw_picture(&rt);
 		mlx_hook(rt.win, 2, 0, check_key, &rt);

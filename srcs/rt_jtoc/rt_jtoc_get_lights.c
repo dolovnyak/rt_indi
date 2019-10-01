@@ -22,13 +22,15 @@ int rt_jtoc_get_lights(t_rt *rt, t_jnode *n)
 	t_jnode		*tmp;
 	t_light		*lights;
 	int			i;
+	unsigned int g;
 
-	rt->counter.l = 0;
-	if (rt_jtoc_get_objects_num_in_arr(&rt->counter.l, n))
+	g = 0;
+	if (rt_jtoc_get_objects_num_in_arr(&g, n))
 		return (FUNCTION_FAILURE);
-	lights = ft_memalloc(sizeof(t_light) * rt->objects_count);
-	tmp = n->down;
+	rt->counter.l = g;
+	lights = ft_memalloc(sizeof(t_light) * rt->texture->textures_count);
 	i = 0;
+	tmp = n->down;
 	while (tmp)
 	{
 		if (tmp->type != object)

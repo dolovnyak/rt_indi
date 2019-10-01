@@ -1,5 +1,5 @@
 {
-  "fsaa": 0,
+  "antialiasing": 0,
   "camera":
   {
     "transform":
@@ -46,7 +46,7 @@
   [
     {
       "type": "sphere",
-      "texture": "brick",
+      "texture": "none",
       "radius": 5.0,
       "color":
       {
@@ -61,6 +61,26 @@
           "x": 0.0,
           "y": 10.0,
           "z": 0.0
+        }
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "texture",
+      "radius": 3.0,
+      "color":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 0.0,
+          "y": 10.0,
+          "z": 10.0
         }
       }
     }
