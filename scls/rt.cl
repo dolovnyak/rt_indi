@@ -127,6 +127,33 @@ float2			uv_mapping_for_plane(t_lighting *lighting, t_object obj)
 	return ((float2){u, v});
 }
 
+float2 			uv_mapping_for_cone(t_lighting *lighting, t_object obj)
+{
+	float3 vec = lighting->hit;
+	//float u = 0.5 + fmod(acos((vec.x / vec.z) / tan(obj.param)), 1.f) * M_2_PI;
+	float u;
+	float p = (vec.x / vec.z) / tan(obj.param); // cos()
+/*	if (acos(p) < M_PI_2)
+		u = (2 * M_PI - acos(p)) / (2 * M_PI);
+	else
+		u = acos(p) / (2 * M_PI);*/
+
+	u = acos(p) / (2 * M_PI);
+
+	float cos1, sin1;
+	cos1 = acos(p); // [0, Pi]
+	if (p < 0)
+		cos1 *= -1;
+
+	sin1 = sqrt(1 - p * p);
+	if (sin1 < 6)
+		u = 0;
+
+//	float u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
+	float v = 0.5 - modf(vec.z * 100 / 1024, &v) / 2;
+	return ((float2){u, v});
+}
+
 int		choose_texture_for_object(const __global t_object *obj,  __global int *texture,
 		float3 *color, __global int *texture_w, __global int *texture_h,
 		__global int *prev_texture_size, t_lighting *lighting, int i)
@@ -144,10 +171,9 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 	else if (tmp_obj.type == 5)
 		uv = uv_mapping_for_torus(lighting, tmp_obj);
 	else if (tmp_obj.type == 1)
-{
 		uv = uv_mapping_for_plane(lighting, tmp_obj);
-		tmp_obj.mat.texture_id = 0;
-}
+	else if (tmp_obj.type == 3)
+		uv = uv_mapping_for_cone(lighting, tmp_obj);
 	if (uv.x != -1.f && uv.y != -1.f)
 	{
 		found_texture_for_obj = 0;
@@ -488,6 +514,10 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 				if (j == 2)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
+				float3 col1 = (float3){1, 0, 0};
+				if (!(choose_texture_for_object(obj, texture, &col1,
+					texture_w, texture_h, prev_texture_size, lighting, i)))
+					lighting->mat.diffuse_color = col1;
 			}
 		}
 		else if ((*(obj + i)).type == 4)

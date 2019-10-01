@@ -52,7 +52,7 @@
 }
 {
   "type": "cone",
-  "texture": "none",
+  "texture": "texture",
   "param": 0.2,
   "vec": {
     "x": 1.0,
