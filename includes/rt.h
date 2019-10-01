@@ -13,6 +13,7 @@
 #ifndef RT_H
 # define RT_H
 
+#ifndef OPENCL___
 # include "mlx.h"
 # include "libft.h"
 # include "libjtoc.h"
@@ -24,16 +25,25 @@
 # include <stdio.h>
 # include <time.h>
 # include <OpenCL/cl.h>
+#endif
 
 # define WIDTH		1280
 # define HEIGHT		1024
 
-#define	SPEED1 0.5f
-#define	SPEED2 (float)(M_PI / 90)
-#define	SPEED3 1.f
-#define	SPEED4 1.f
-
+#ifndef OPENCL___
+#define SPEED1 0.5f
+#define SPEED2 (float)(M_PI / 90)
+#define SPEED3 1.f
+#define SPEED4 1.f
 #define CHANNEL_NUM 3
+#else
+#define MAX_DIST	10000.f
+#define SIGMA		3
+#endif
+
+
+#define PHONG		(1 << 0)
+#define PATH_TRACE	(1 << 1)
 
 enum					e_object_type
 {
@@ -46,21 +56,35 @@ enum					e_object_type
 
 typedef struct		s_light
 {
+#ifndef OPENCL___
 	cl_float3		center;
 	cl_float		intens;
+#else
+	float3			center;
+	float			intens;
+#endif
 }					t_light;
 
 typedef struct		s_material
 {
+#ifndef OPENCL___
 	cl_float3		diffuse_color;
 	cl_float2		al;
 	float			sp_ex;
 	cl_float3		emission;
     int             texture_id;
+#else
+    float3			diffuse_color;
+	float2			al;
+	float			sp_ex;
+	float3			emission;
+	int				texture_id;
+#endif
 }					t_material;
 
 typedef struct		s_object
 {
+#ifndef	OPENCL___
 	int					type;
 	cl_float3			center;
 	cl_float3			vector;
@@ -72,39 +96,65 @@ typedef struct		s_object
 	cl_float3			d;
 	enum e_object_type	e_type;
 	t_material			mat;
+#else
+	int					type;
+	float3				center;
+	float3				vector;
+	float				radius;
+	float				param;
+	float3				a;
+	float3				b;
+	float3				c;
+	float3				d;
+	enum e_object_type	e_type;
+	t_material			mat;
+#endif
 }					t_object;
-
-typedef struct		s_img
-{
-	void			*img_ptr;
-	int				*data;
-	int				size_l;
-	int				bpp;
-	int				endian;
-}					t_img;
 
 typedef struct		s_screen
 {
+#ifndef OPENCL___
 	cl_float3		v1;
 	cl_float3		v2;
 	cl_float3		center;
-	int				fsaa_n;
+	cl_int			fsaa_n;
 	cl_int8			effects;
+	cl_int			params;
+#else
+	float3			v1;
+	float3			v2;
+	float3			center;
+	int				fsaa_n;
+	int8			effects;
+	int				params;
+#endif
 }					t_screen;
 
 typedef struct		s_cam
 {
+#ifndef OPENCL___
 	cl_float3		center;
 	cl_float		alpha;
 	cl_float		betta;
+#else
+	float3		center;
+	float		alpha;
+	float		betta;
+#endif
 }					t_cam;
 
 typedef struct		s_counter
 {
-	int				l;
-	int				all_obj;
+#ifndef OPENCL___
+	cl_int			l;
+	cl_int			all_obj;
+#else
+	int			l;
+	int			all_obj;
+#endif
 }					t_counter;
 
+#ifndef OPENCL___
 typedef struct		s_mouse
 {
 	int				r;
@@ -115,6 +165,15 @@ typedef struct		s_mouse
 	int				y;
 	cl_float3		center;
 }					t_mouse;
+
+typedef struct		s_img
+{
+	void			*img_ptr;
+	int				*data;
+	int				size_l;
+	int				bpp;
+	int				endian;
+}					t_img;
 
 typedef struct 			s_obj_texture
 {
@@ -156,9 +215,7 @@ typedef struct		s_rt
 	t_light			*light;
 	t_mouse			mouse;
 	t_obj_texture	*texture;
-	cl_uint 		objects_count;
 	t_gpu_mem		*gpu_mem;
-	int				*aux;
 }					t_rt;
 
 int					check_key(int keycode, t_rt *rt);
@@ -202,5 +259,6 @@ void				get_textures(t_rt *rt, char **texture_file, int number_of_texture);
 void				find_textures_size(t_rt *rt, char **texture_file, int number_of_texture);
 void				fill_gpu_mem(t_rt *rt);
 void				release_gpu_mem(t_rt *rt);
+#endif
 
 #endif

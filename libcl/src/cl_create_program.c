@@ -6,7 +6,7 @@
 /*   By: sbecker <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/24 21:39:01 by sbecker           #+#    #+#             */
-/*   Updated: 2019/07/24 21:39:37 by sbecker          ###   ########.fr       */
+/*   Updated: 2019/10/01 12:16:30 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@ static void	cl_build_program(cl_device_id device, cl_program *program)
 	char	*log;
 	size_t	log_size;
 
-	err = clBuildProgram(*program, 1, &device, "-DOPENCL___ -I include/ ", NULL, NULL);
-	if (err != 0){
+	err = clBuildProgram(*program, 1, &device, "-DOPENCL___ -I include/ ",
+			NULL, NULL);
+	if (err != 0)
+	{
 		clGetProgramBuildInfo(*program, device, CL_PROGRAM_BUILD_LOG,
 				0, NULL, &log_size);
 		log = (char*)malloc(log_size);

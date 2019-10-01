@@ -15,77 +15,7 @@
 #ifndef KERNEL_H
 # define KERNEL_H
 
-#define WIDTH 		1280
-#define HEIGHT		1024
-#define	MAX_DIST	10000.f
-#define	SIGMA		3
-
-enum					e_object_type
-{
-	o_sphere = 1,
-	o_torus,
-	o_cylinder,
-	o_cone,
-	o_plane,
-};
-
-typedef struct	s_material
-{
-	float3		diffuse_color;
-	float2		al;
-	float		sp_ex;
-	float3		emission;
-    int         texture_id;
-}				t_material;
-
-typedef struct	s_object
-{
-	int			type;
-	float3		center;
-	float3		vector;
-	float		radius;
-	float		param;
-	float3		a;
-	float3		b;
-	float3		c;
-	float3		d;
-	enum e_object_type	e_type;
-	t_material	mat;
-}				t_object;
-
-typedef struct	s_cam
-{
-#ifndef OPENCL___
-	cl_float3		center;
-	cl_float		alpha;
-	cl_float		betta;
-#else
-	float3		center;
-	float		alpha;
-	float		betta;
-#endif
-}				t_cam;
-
-typedef struct	s_light
-{
-	float3		center;
-	float		intens;
-}				t_light;
-
-typedef struct	s_counter
-{
-	int			l;
-	int			all_obj;
-}				t_counter;
-
-typedef struct	s_screen
-{
-	float3		v1;
-	float3		v2;
-	float3		center;
-	int			fsaa_n;
-	int8		effects;
-}				t_screen;
+#include "rt.h"
 
 typedef struct	t_lighting
 {
@@ -94,17 +24,6 @@ typedef struct	t_lighting
 	t_material	mat;
 }				t_lighting;
 
-
-
-
-__kernel void	display(
-						__global int				*data,
-						const __global t_cam		*cam,
-						const __global t_screen		*screen,
-						const __global t_counter	*counter,
-						const __global t_light		*l,
-						const __global t_object		*obj
-						);
 float	reverse(int n);
 float3	light_shadow(float3 dir, const __global t_object *obj, const __global t_light *l, t_lighting *lighting, const __global t_counter *counter);
 int 	scene_intersect(float3 orig, float3 dir, const __global t_object *obj,

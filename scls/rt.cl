@@ -1,5 +1,6 @@
 
 #include "./includes/kernel.h"
+#include "./includes/rt.h"
 #  define RED(c)			(((int)c >> 16) & 0xFF)
 #  define GREEN(c)			(((int)c >> 8) & 0xFF)
 #  define BLUE(c)			((int)c & 0xFF)
@@ -810,6 +811,7 @@ __kernel void	rt(
 	orig = (*cam).center;
 	color = (float3) 0;
 
+//	if (screen->params & PATH_TRACE)
 	for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 	{
 		for (int j = -fsaa / 2; j <= fsaa / 2; j++)

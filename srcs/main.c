@@ -77,7 +77,7 @@ void		emission(t_rt *rt)
 	rt->obj[1].mat.emission.y = 0.f;
 	rt->obj[1].mat.emission.z = 0.f;
 
-	rt->obj[2].mat.emission.x = 1.f;
+/*	rt->obj[2].mat.emission.x = 1.f;
 	rt->obj[2].mat.emission.y = 1.f;
 	rt->obj[2].mat.emission.z = 1.f;
 
@@ -107,7 +107,7 @@ void		emission(t_rt *rt)
 
 	rt->obj[9].mat.emission.x = 0.f;
 	rt->obj[9].mat.emission.y = 0.f;
-	rt->obj[9].mat.emission.z = 0.f;
+	rt->obj[9].mat.emission.z = 0.f;*/
 }
 
 void		release_gpu_mem(t_rt *rt)
@@ -136,7 +136,6 @@ int			main(int argc, char **argv)
 			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
 	if (new_mlx(&rt, argv[1]))
 	{
-		rt.aux = (int *)malloc(sizeof(int) * WIDTH * HEIGHT);
 		rt_jtoc_textures_setup(&rt, "json/textures.json");
 		rt_jtoc_scene_setup(&rt, "json/nice_scene/nice.json");
 		rt_jtoc_mouse_setup(&rt, "json/mouse.json");
