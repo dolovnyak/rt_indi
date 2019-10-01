@@ -29,7 +29,6 @@ static int	rt_jtoc_get_scene(const char *path, t_rt *rt, t_obj_texture *texture)
 	if (!(tmp = jtoc_node_get_by_path(root, "antialiasing")) || tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("ANTIALIASING ERRROR OR ANTIALIASING MISSING", -1));
 	rt->screen.fsaa_n = jtoc_get_int(tmp);
-	printf("%d\n", rt->screen.fsaa_n);
 	if (rt->screen.fsaa_n % 2 != 0)
 		rt->screen.fsaa_n += 1;
 
@@ -42,7 +41,6 @@ int rt_jtoc_scene_setup(t_rt *rt, const char *json)
 	int		i;
 	t_rt	*tmp_rt;
 
-//	tmp_rt = (t_rt *)ft_memalloc(sizeof(t_rt));
 	tmp_rt = rt;
 	i = -1;
 	if (rt_jtoc_get_scene(json, rt, rt->texture))

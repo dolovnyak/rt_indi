@@ -1,7 +1,6 @@
 #include "rt.h"
 #include "rt_jtoc.h"
-//#include "rt_raycast.h"
-//
+
 int 		rt_jtoc_compare_str_with_texture_name(t_obj_texture *texture, char *str)
 {
 	int i;
@@ -101,9 +100,8 @@ int rt_jtoc_get_object(t_object *obj, t_jnode *n, t_obj_texture *texture)
 	err = obj->e_type == o_plane ? rt_jtoc_get_plane(obj, n) : err;
 	err = obj->e_type == o_cone ? rt_jtoc_get_cone(obj, n) : err;
 	err = obj->e_type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
-//	if (err != 0)
-//		return (FUNCTION_FAILURE);
-
+	if (err != 0)
+		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
 }
 
