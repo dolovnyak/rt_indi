@@ -1,7 +1,7 @@
 #include "rt.h"
 #include "rt_jtoc.h"
 
-char  *g_err_str;
+char	*g_err_str;
 
 static int	rt_jtoc_get_texture_path(char **textures, t_jnode *n, int i)
 {

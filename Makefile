@@ -38,7 +38,9 @@ SRC		:=		main.c				            \
 				rt_jtoc/rt_jtoc_scene_setup.c  \
 				rt_jtoc/rt_jtoc_get_camera.c    \
 				rt_jtoc/rt_jtoc_get_objects.c    \
-				rt_jtoc/rt_jtoc_get_objects_params.c    \
+				rt_jtoc/rt_jtoc_get_object_params.c    \
+				rt_jtoc/rt_jtoc_get_extraordinary_obj.c    \
+				rt_jtoc/rt_jtoc_get_basic_obj.c    \
 				rt_jtoc/rt_jtoc_get_lights.c    \
 				rt_jtoc/rt_jtoc_get_effects.c    \
 				rt_jtoc/rt_jtoc_mouse_setup.c    \

@@ -102,7 +102,7 @@ add_executable(rt_in
         libjtoc/src/jtoc_write.c
         srcs/rt_jtoc/rt_jtoc_get_camera.c
         srcs/rt_jtoc/rt_jtoc_get_objects.c
-        srcs/rt_jtoc/rt_jtoc_get_objects_params.c
+        srcs/rt_jtoc/rt_jtoc_get_extraordinary_obj.c
         srcs/rt_jtoc/rt_jtoc_get_textures.c
         srcs/rt_jtoc/rt_jtoc_scene_setup.c
         srcs/rt_jtoc/rt_jtoc_utilits.c
@@ -114,10 +114,10 @@ add_executable(rt_in
         srcs/check_key_1.c
         srcs/check_mouse_0.c
         srcs/check_mouse_1.c
-        srcs/figures.c
         srcs/float3_0.c
         srcs/float3_1.c
         srcs/get_textures.c
         srcs/gpu_mem.c
         srcs/kernel.c
-        srcs/main.c srcs/rt_jtoc/rt_jtoc_get_refl.c)
+        srcs/main.c
+        srcs/rt_jtoc/rt_jtoc_get_basic_obj.c srcs/rt_jtoc/rt_jtoc_get_object_params.c)
