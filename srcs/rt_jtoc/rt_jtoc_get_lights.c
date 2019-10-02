@@ -2,6 +2,8 @@
 #include "rt.h"
 #include "rt_jtoc.h"
 
+char		*g_err_str;
+
 int	rt_jtoc_get_light(t_light *light, t_jnode *n)
 {
 	t_jnode *tmp;
@@ -12,20 +14,19 @@ int	rt_jtoc_get_light(t_light *light, t_jnode *n)
 		return (rt_jtoc_sdl_log_error("POS PARAM ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "intens"))
 												|| tmp->type != fractional)
-		return (rt_jtoc_sdl_log_error("INTENS ERROR OR INTENS MISSING",
-				-1));
+		return (rt_jtoc_sdl_log_error("INTENS ERROR OR INTENS MISSING", -1));
 	light->intens = jtoc_get_float(tmp);
 	if (light->intens < 0)
 		return (rt_jtoc_sdl_log_error("INTENS ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }
 
-int rt_jtoc_get_lights(t_rt *rt, t_jnode *n)
+int	rt_jtoc_get_lights(t_rt *rt, t_jnode *n)
 {
-	t_jnode		*tmp;
-	t_light		*lights;
-	int			i;
-	unsigned int g;
+	t_jnode			*tmp;
+	t_light			*lights;
+	int				i;
+	unsigned int	g;
 
 	g = 0;
 	if (rt_jtoc_get_objects_num_in_arr(&g, n))
@@ -34,11 +35,11 @@ int rt_jtoc_get_lights(t_rt *rt, t_jnode *n)
 	lights = ft_memalloc(sizeof(t_light) * rt->texture->textures_count);
 	i = 0;
 	tmp = n->down;
+	g_err_str = "LIGHTS IS NOT SET OR LIGHT TYPE ERROR";
 	while (tmp)
 	{
 		if (tmp->type != object)
-			return (rt_jtoc_sdl_log_error(
-					"LIGHTS IS NOT SET OR LIGHT TYPE ERROR",i));
+			return (rt_jtoc_sdl_log_error(g_err_str, i));
 		if (rt_jtoc_get_light(&(lights[i]), tmp))
 			return (rt_jtoc_sdl_log_error("LIGHT DATA ERROR", i));
 		i++;

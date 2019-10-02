@@ -2,8 +2,10 @@
 // Created by Racquel Keli on 29/09/2019.
 //
 
-#ifndef INC_1_92_RT_JTOC_H
-#define INC_1_92_RT_JTOC_H
+#ifndef	RT_JTOC_H
+#define RT_JTOC_H
+
+extern char		*g_err_str;
 
 int				rt_jtoc_sdl_log_error(const char *p, const int id);
 int 			rt_jtoc_mouse_setup(t_rt *rt, const char *json);
@@ -26,4 +28,4 @@ int				rt_jtoc_get_cone(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_cylinder(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_hyper(t_object *obj, t_jnode *n);
 int				rt_jtoc_get_sqr(t_object *obj, t_jnode *n);
-#endif //INC_1_92_RT_JTOC_H
+#endif

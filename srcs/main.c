@@ -14,7 +14,6 @@
 # include "rt_jtoc.h"
 #include <sys/time.h>
 
-
 void	draw_picture(t_rt *rt)
 {
 	struct timeval stop, start;
@@ -26,44 +25,20 @@ void	draw_picture(t_rt *rt)
 	mlx_put_image_to_window(rt->mlx_ptr, rt->win, rt->img.img_ptr, 0, 0);
 	
 	gettimeofday(&stop, NULL);
-	printf("took %u\n", stop.tv_usec - start.tv_usec);
-	printf("------------------ \n");
+//	printf("took %u\n", stop.tv_usec - start.tv_usec);
+//	printf("------------------ \n");
 
-}
-
-void	default_mlx(t_rt *rt)
-{
-	rt->cam.center.x = -40.f;
-	rt->cam.center.y = 0.f;
-	rt->cam.center.z = 0.f;
-	rt->cam.alpha = 0.f;
-	rt->cam.betta = (float)M_PI_2;
-	rt->screen.fsaa_n = 0;
-	cl_int8 effects = {{ 0, 0, 0, 0, 0, 0, 0, 0}};
-	rt->screen.effects = effects;
-	rt->mouse.r = 0;
-	rt->mouse.l = 0;
-	rt->mouse.x = 0;
-	rt->mouse.y = 0;
-	rt->mouse.alpha = 0.f;
-	rt->mouse.betta = 0.f;
-	rt->mouse.center.x = 0.f;
-	rt->mouse.center.y = 0.f;
-	rt->mouse.center.z = 0.f;
 }
 
 int	new_mlx(t_rt *rt, char *name)
 {
-//	default_mlx(rt);
 	rt->mlx_ptr = mlx_init();
 	rt->win = mlx_new_window(rt->mlx_ptr, WIDTH, HEIGHT, "RT");
 	rt->img.img_ptr = mlx_new_image(rt->mlx_ptr, WIDTH, HEIGHT);
 	rt->img.data = (int *)mlx_get_data_addr(rt->img.img_ptr,
 			&rt->img.bpp, &rt->img.size_l, &rt->img.endian);
 	(void)name;
-//	if (!(read_map(name, rt)))
-//		return (0);
-	
+
 	return (1);
 }
 

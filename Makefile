@@ -31,7 +31,6 @@ SRC		:=		main.c				            \
 				float3_0.c			            \
 				float3_1.c			            \
 				cam_and_screen.c	            \
-				figures.c                       \
 				get_textures.c                  \
 				gpu_mem.c						\
 				rt_jtoc/rt_jtoc_utilits.c       \
@@ -43,7 +42,6 @@ SRC		:=		main.c				            \
 				rt_jtoc/rt_jtoc_get_lights.c    \
 				rt_jtoc/rt_jtoc_get_effects.c    \
 				rt_jtoc/rt_jtoc_mouse_setup.c    \
-				rt_jtoc/rt_jtoc_get_refl.c    \
 
 SRCS	:=		$(addprefix $(SRC_DIR)/, $(SRC))
 OBJ		:= 		$(SRC:.c=.o)

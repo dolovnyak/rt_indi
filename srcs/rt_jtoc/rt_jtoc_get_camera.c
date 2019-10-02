@@ -2,14 +2,16 @@
 #include "rt.h"
 #include "rt_jtoc.h"
 
+char	*g_err_str;
+
 int			rt_jtoc_get_camera(t_cam *camera, t_jnode *n)
 {
 	t_jnode		*tmp;
 
 	ft_bzero(camera, sizeof(t_cam));
+	g_err_str = "TRANSFORM TYPE ERROR OR TRANSFORM MISSING";
 	if (!(n = jtoc_node_get_by_path(n, "transform")) || n->type != object)
-		return (rt_jtoc_sdl_log_error("TRANSFORM TYPE ERROR OR TRANSFORM MISSING",
-				-1));
+		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "pos")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("POS TYPE ERROR OR MISSING", -1));
 	if (rt_jtoc_get_float3(&(camera->center), tmp))

@@ -12,7 +12,8 @@ int				rt_jtoc_sdl_log_error(const char *p, const int id)
 	return (FUNCTION_FAILURE);
 }
 
-int				rt_jtoc_get_objects_num_in_arr(unsigned int *objects_num, t_jnode *n)
+int				rt_jtoc_get_objects_num_in_arr(unsigned int *objects_num,
+					t_jnode *n)
 {
 	t_jnode	*tmp;
 

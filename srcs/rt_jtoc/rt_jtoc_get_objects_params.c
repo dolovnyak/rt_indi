@@ -84,7 +84,9 @@ int			rt_jtoc_get_plane(t_object *obj, t_jnode *n)
 {
 	t_jnode	*tmp;
 
-	if (!(tmp = jtoc_node_get_by_path(n, "param")) || tmp->type != fractional)
+	if (!(tmp = jtoc_node_get_by_path(n, "param"))
+
+	|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("PARAM TYPE ERROR OR PARAM IS MISSING",
 				-1));
 	obj->param = jtoc_get_float(tmp);
