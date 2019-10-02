@@ -16,7 +16,7 @@ cl_float3	cl_normalize(cl_float3 v1)
 {
 	cl_float3	v;
 	float		l;
-	
+
 	l = cl_length(v1);
 	v.x = v1.x / l;
 	v.y = v1.y / l;
@@ -27,25 +27,25 @@ cl_float3	cl_normalize(cl_float3 v1)
 cl_float3	cl_cross(cl_float3 v1, cl_float3 v2)
 {
 	cl_float3	v;
-	
+
 	v.x = v1.y * v2.z - v1.z * v2.y;
 	v.y = v1.z * v2.x - v1.x * v2.z;
 	v.z = v1.x * v2.y - v1.y * v2.x;
 	return (v);
 }
 
-float    cl_dot(cl_float3 v1, cl_float3 v2)
+float		cl_dot(cl_float3 v1, cl_float3 v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
-float   cl_angle(cl_float3 v1, cl_float3 v2)
+float		cl_angle(cl_float3 v1, cl_float3 v2)
 {
-	float   angle;
-	float   l1;
-	float   l2;
-	float   dot;
-	
+	float	angle;
+	float	l1;
+	float	l2;
+	float	dot;
+
 	l1 = cl_length(v1);
 	l2 = cl_length(v2);
 	dot = cl_dot(v1, v2) / (l1 * l2);
@@ -56,5 +56,3 @@ float   cl_angle(cl_float3 v1, cl_float3 v2)
 	angle = acosf(dot);
 	return (angle);
 }
-
-

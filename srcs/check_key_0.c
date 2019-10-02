@@ -118,7 +118,6 @@ int	check_key(int keycode, t_rt *rt)
 {
 	if (rt->mouse.r == 1 || rt->mouse.l == 1)
 		return(0);
-	
 	if (keycode == 123 || keycode == 124)
 		ft_move_alpha(keycode, rt);
 	else if (keycode == 125 || keycode == 126)

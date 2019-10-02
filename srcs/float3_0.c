@@ -32,7 +32,7 @@ cl_float3	cl_minus(cl_float3 v1, cl_float3 v2)
 	return (v);
 }
 
-float	cl_length(cl_float3 v)
+float		cl_length(cl_float3 v)
 {
 	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 }
@@ -40,7 +40,7 @@ float	cl_length(cl_float3 v)
 cl_float3	cl_mult_n(cl_float3 v1, float n)
 {
 	cl_float3 v;
-	
+
 	v.x = v1.x * n;
 	v.y = v1.y * n;
 	v.z = v1.z * n;
@@ -56,4 +56,3 @@ void		cl_to_norm(cl_float3 *v)
 	v->y = v->y / l;
 	v->z = v->z / l;
 }
-

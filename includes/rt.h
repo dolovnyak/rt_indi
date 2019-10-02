@@ -270,6 +270,8 @@ void				get_textures(t_rt *rt, char **texture_file, int number_of_texture);
 void				find_textures_size(t_rt *rt, char **texture_file, int number_of_texture);
 void				fill_gpu_mem(t_rt *rt);
 void				release_gpu_mem(t_rt *rt);
+int					gauss_blur_gpu_init(t_rt *rt, cl_kernel *kernel,
+								   cl_mem screen_buffer);
 #endif
 
 #endif

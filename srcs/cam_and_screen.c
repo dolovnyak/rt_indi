@@ -41,7 +41,7 @@ cl_float3	spher_norm(cl_float3 v)
 	return (n);
 }
 
-void	calc_screen(t_screen *screen, t_cam *cam)
+void		calc_screen(t_screen *screen, t_cam *cam)
 {
 	cl_float3	check;
 	cl_float3	v[3];
