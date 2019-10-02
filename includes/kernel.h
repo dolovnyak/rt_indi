@@ -24,8 +24,9 @@ typedef struct	t_lighting
 
 float	reverse(int n);
 int 	scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
-		t_lighting *lighting, int count, __global int *texture_w, __global int *texture_h,
-		__global int *prev_texture_size, __global int *texture);
+		t_lighting *lighting, int count, __global int *texture_w,
+		__global int *texture_h, __global int *prev_texture_size,
+		__global int *texture);
 int		ft_sign(float a);
 int		cone_intersect(float3 orig, float3 dir, __global t_object *p, float *t0);
 int		cyl_intersect(float3 orig, float3 dir, __global t_object *p, float *t0);
