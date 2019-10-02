@@ -119,17 +119,23 @@ int	check_key(int keycode, t_rt *rt)
 {
 	if (rt->mouse.r == 1 || rt->mouse.l == 1)
 		return(0);
-	(keycode == 123 || keycode == 124) ? ft_move_alpha(keycode, rt) : 0;
-	(keycode == 125 || keycode == 126) ? ft_move_betta(keycode, rt) : 0;
-	(keycode == 13 || keycode == 1) ? ft_move_x(keycode, rt) : 0;
-	(keycode == 0 || keycode == 2) ? ft_move_y(keycode, rt) : 0;
-	(keycode == 15 || keycode == 3) ? ft_move_z(keycode, rt) : 0;
-	(keycode > 17 && keycode < 22) ? ft_aa(keycode, rt) : 0;
-	if (((keycode > 5) && (keycode < 10)) || keycode == 37)
+	if (keycode == 123 || keycode == 124)
+		ft_move_alpha(keycode, rt);
+	else if (keycode == 125 || keycode == 126)
+		ft_move_betta(keycode, rt);
+	else if (keycode == 13 || keycode == 1)
+		ft_move_x(keycode, rt);
+	else if (keycode == 0 || keycode == 2)
+		ft_move_y(keycode, rt);
+	else if (keycode == 15 || keycode == 3)
+		ft_move_z(keycode, rt);
+	else if ((keycode > 17) && (keycode < 22))
+		ft_aa(keycode, rt);
+	else if (((keycode > 5) && (keycode < 10)) || keycode == 37)
 		ft_effects(keycode, rt);
 	else if (keycode == 29)
 		return (ft_save(rt));
-	if (keycode == 53)
+	else if (keycode == 53)
 		return (ft_esc(rt));
 	else
 		return (0);
