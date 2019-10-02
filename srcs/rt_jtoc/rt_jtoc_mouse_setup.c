@@ -52,6 +52,7 @@ int		rt_jtoc_get_mouse(t_mouse *mouse, const char *path)
 	mouse->y = jtoc_get_int(tmp);
 	if (rt_jtoc_get_mouse_param(mouse, root))
 		return (FUNCTION_FAILURE);
+	jtoc_node_clear(root);
 	return (FUNCTION_SUCCESS);
 }
 

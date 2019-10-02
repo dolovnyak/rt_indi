@@ -29,10 +29,6 @@ static void	fiil_textures_mem(t_rt *rt)
 			rt->texture->textures_count);
 	if (!(rt->texture->texture = (int *)ft_memalloc(sizeof(int)
 			* rt->texture->texture_size)))
-		return ;
-	get_textures(rt, rt->texture->textures_path, rt->texture->textures_count);
-	if (!(rt->texture->texture = (int *)ft_memalloc(sizeof(int)
-			* rt->texture->texture_size)))
 		cl_exit_error("Couldn't allocate memory");
 	get_textures(rt, rt->texture->textures_path, rt->texture->textures_count);
 	texture_mem_gpu_initialization(rt);
