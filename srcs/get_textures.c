@@ -1,8 +1,8 @@
 #include "rt.h"
 #define STB_IMAGE_IMPLEMENTATION
-# include "stb_image.h"
+#include "stb_image.h"
 
-static int				sdl_log_error(const char *p, const int id)
+static int	sdl_log_error(const char *p, const int id)
 {
 	printf("%s ----> ERROR <---- %s\n", KRED, KNRM);
 	printf("INCORRECT: %s%s%s%s%s\n",
@@ -14,12 +14,13 @@ static int				sdl_log_error(const char *p, const int id)
 	return (FUNCTION_FAILURE);
 }
 
-void	find_textures_size(t_rt *rt, char **texture_file, int number_of_texture)
+void		find_textures_size(t_rt *rt, char **texture_file,
+											int number_of_texture)
 {
 	unsigned char	*tex_data;
-	int 			bpp;
-	int 			texture_w;
-	int 			texture_h;
+	int				bpp;
+	int				texture_w;
+	int				texture_h;
 	int				i;
 
 	i = -1;
@@ -27,7 +28,7 @@ void	find_textures_size(t_rt *rt, char **texture_file, int number_of_texture)
 	while (++i < number_of_texture)
 	{
 		if (!(tex_data = stbi_load(texture_file[i], &texture_w,
-								   &texture_h, &bpp, 4)))
+				&texture_h, &bpp, 4)))
 		{
 			sdl_log_error("TEXTURE ERROR OR TEXTURE PATH NOT FOUND", i);
 			exit(-1);
@@ -39,37 +40,44 @@ void	find_textures_size(t_rt *rt, char **texture_file, int number_of_texture)
 	}
 }
 
-void get_textures(t_rt *rt, char **texture_file, int number_of_texture)
+void		put_texture_into_arr(t_rt *rt, unsigned char *tex_data, int i,
+				int *total_texture_size)
+{
+	int y;
+	int x;
+
+	y = -1;
+	while (++y < rt->texture->h)
+	{
+		x = -1;
+		while (++x < rt->texture->w)
+		{
+			rt->texture->texture[(x + (y * rt->texture->w))
+		+ *total_texture_size] = *((int *)tex_data + x + y * rt->texture->w);
+		}
+	}
+	rt->texture->prev_texture_size[i] = *total_texture_size;
+	*total_texture_size += rt->texture->w * (rt->texture->h - 1);
+}
+
+void		get_textures(t_rt *rt, char **texture_file, int number_of_texture)
 {
 	unsigned char	*tex_data;
-	int 			x;
-	int 			y;
-	int 			total_texture_size;
-	int 			i;
+	int				total_texture_size;
+	int				i;
 
 	i = -1;
-	total_texture_size = 0;
 	rt->texture->prev_texture_size[0] = 0;
+	total_texture_size = 0;
 	while (++i < number_of_texture)
 	{
 		if (!(tex_data = stbi_load(texture_file[i], &rt->texture->w,
-								   &rt->texture->h, &rt->texture->bpp, 4)))
+				&rt->texture->h, &rt->texture->bpp, 4)))
 		{
 			sdl_log_error("TEXTURE ERROR OR TEXTURE PATH NOT FOUND", i);
 			exit(-1);
 		}
-		y = -1;
-		while (++y < rt->texture->h)
-		{
-			x = -1;
-			while (++x < rt->texture->w)
-			{
-				rt->texture->texture[(x + (y * rt->texture->w)) + total_texture_size] =
-						*((int *) tex_data + x + y * rt->texture->w);
-			}
-		}
-		rt->texture->prev_texture_size[i] = total_texture_size;
-		total_texture_size += rt->texture->w * (rt->texture->h - 1);
+		put_texture_into_arr(rt, tex_data, i, &total_texture_size);
 		free(tex_data);
 	}
 }
