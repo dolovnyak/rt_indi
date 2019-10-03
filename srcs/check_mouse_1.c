@@ -25,7 +25,7 @@ int	ft_move_mouse(t_rt *rt, int button, int x, int y)
 	cl_to_norm(&v);
 	v = cl_mult_n(v, (9 - 2 * button) * SPEED3);
 	rt->cam.center = cl_sum(rt->cam.center, v);
-	return (0);
+	return (1);
 }
 
 int    ft_mouse_alpha_betta(t_rt *rt, int x, int y)
@@ -37,7 +37,6 @@ int    ft_mouse_alpha_betta(t_rt *rt, int x, int y)
 	v1 = cl_mult_n(rt->screen.v1, (float)(x - rt->mouse.x) / WIDTH);
 	v2 = cl_mult_n(rt->screen.v2, (float)(rt->mouse.y - y) / WIDTH);
 	v = cl_sum(rt->screen.center, v2);
-	
 	float angle = cl_angle(v, rt->screen.center);
 	if (y - rt->mouse.y < 0.f)
 	{
@@ -49,13 +48,11 @@ int    ft_mouse_alpha_betta(t_rt *rt, int x, int y)
 		if ((rt->cam.betta - angle) >= 1e-5f)
 			rt->cam.betta = rt->mouse.betta - angle;
 	}
-	
 	v = cl_sum(rt->screen.center, v1);
 	if (x - rt->mouse.x < 0.f)
 		rt->cam.alpha = rt->mouse.alpha + cl_angle(v, rt->screen.center);
 	else
 		rt->cam.alpha = rt->mouse.alpha - cl_angle(v, rt->screen.center);
-	
 	if (rt->cam.alpha > (float)M_PI - 1e-5f)
 		rt->cam.alpha -= 2 * (float)M_PI;
 	if (rt->cam.alpha < -(float)M_PI + 1e-5f)
@@ -65,7 +62,9 @@ int    ft_mouse_alpha_betta(t_rt *rt, int x, int y)
 
 int    ft_mouse_x_y(t_rt *rt, int x, int y)
 {
-	rt->cam.center = cl_minus(rt->mouse.center, cl_mult_n(rt->screen.v1, SPEED4 * (float)(x - rt->mouse.x) / 64));
-	rt->cam.center = cl_minus(rt->cam.center , cl_mult_n(rt->screen.v2, SPEED4 * (float)(rt->mouse.y - y) / 64));
+	rt->cam.center = cl_minus(rt->mouse.center,
+			cl_mult_n(rt->screen.v1, SPEED4 * (float)(x - rt->mouse.x) / 64));
+	rt->cam.center = cl_minus(rt->cam.center,
+			cl_mult_n(rt->screen.v2, SPEED4 * (float)(rt->mouse.y - y) / 64));
 	return (0);
 }

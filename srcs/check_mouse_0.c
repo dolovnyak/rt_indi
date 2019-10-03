@@ -12,16 +12,20 @@
 
 #include "rt.h"
 
-int	mouse_press(int button, int x, int y, t_rt *rt)
+void	rerender(t_rt *rt)
+{
+	mlx_clear_window(rt->mlx_ptr, rt->win);
+	draw_picture(rt);
+}
+
+int		mouse_press(int button, int x, int y, t_rt *rt)
 {
 	rt->screen.fsaa_n = 0;
 	rt->screen.params = PHONG;
-	if (((button == 4) || (button == 5)) && (rt->mouse.r == 0 && rt->mouse.l == 0))
-	{
-		ft_move_mouse(rt, button, x, y);
-		mlx_clear_window(rt->mlx_ptr, rt->win);
-		draw_picture(rt);
-	}
+	if (((button == 4) || (button == 5))
+		&& (rt->mouse.r == 0 && rt->mouse.l == 0)
+		&& ft_move_mouse(rt, button, x, y))
+		rerender(rt);
 	else if ((button == 1) && (rt->mouse.l == 0) && (rt->mouse.r == 0))
 	{
 		rt->mouse.alpha = rt->cam.alpha;
@@ -42,7 +46,7 @@ int	mouse_press(int button, int x, int y, t_rt *rt)
 	return (0);
 }
 
-int    mouse_move(int x, int y, t_rt *rt)
+int		mouse_move(int x, int y, t_rt *rt)
 {
 	if ((rt->mouse.l == 1) && (rt->mouse.r == 0))
 		ft_mouse_alpha_betta(rt, x, y);
@@ -50,7 +54,6 @@ int    mouse_move(int x, int y, t_rt *rt)
 		ft_mouse_x_y(rt, x, y);
 	else
 		return (0);
-	
 	mlx_clear_window(rt->mlx_ptr, rt->win);
 	draw_picture(rt);
 	return (0);
@@ -60,7 +63,7 @@ int		mouse_release(int button, int x, int y, t_rt *rt)
 {
 	x = 0;
 	y = 0;
-	if  (button == 1)
+	if (button == 1)
 		rt->mouse.l = 0;
 	else if (button == 2)
 		rt->mouse.r = 0;

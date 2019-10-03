@@ -15,7 +15,6 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-
 int	ft_esc(t_rt *rt)
 {
 	mlx_destroy_image(rt->mlx_ptr, rt->img.img_ptr);
@@ -25,13 +24,13 @@ int	ft_esc(t_rt *rt)
 	return (0);
 }
 
-int	ft_aa(int keycode, t_rt *rt)
+int		ft_aa(int keycode, t_rt *rt)
 {
 	rt->screen.fsaa_n = 2 * (keycode - 18);
 	return (0);
 }
 
-int ft_effects(int keycode, t_rt *rt)
+int		ft_effects(int keycode, t_rt *rt)
 {
 	if (keycode == 6)
 		rt->screen.effects.x = (rt->screen.effects.x + 1) % 2;
@@ -41,9 +40,7 @@ int ft_effects(int keycode, t_rt *rt)
 		rt->screen.effects.y = (rt->screen.effects.y + 1) % 2;
 	}
 	else if (keycode == 8)
-	{
 		rt->screen.effects.z = (rt->screen.effects.z + 1) % 2;
-	}
 	else if (keycode == 9)
 	{
 		rt->screen.effects.y = 0;
@@ -65,32 +62,34 @@ int ft_effects(int keycode, t_rt *rt)
 cl_int3	int_color(int col)
 {
 	cl_int3	v;
-	
+
 	v.x = (col >> 16) & 0xFF;
 	v.y = (col >> 8) & 0xFF;
 	v.z = (col) & 0xFF;
 	return (v);
 }
 
-char * settime(struct tm *u)
+char	*settime(struct tm *u)
 {
-	char s[40];
-	char *tmp;
+	char	s[40];
+	char	*tmp;
+	int		i;
 
-	for (int i = 0; i < 40; i++)
+	i = -1;
+	while (++i < 40)
 		s[i] = 0;
 	strftime(s, 40, "%d.%m.%Y %H.%M.%S.png", u);
 	tmp = (char*)malloc(sizeof(s));
 	ft_strcpy(tmp, s);
-	return(tmp);
+	return (tmp);
 }
 
-int	ft_save(t_rt *rt)
+int		ft_save(t_rt *rt)
 {
 	struct tm		*u;
 	char			*name;
 	const time_t	timer = time(NULL);
-	uint8_t* rgb_image;
+	uint8_t			*rgb_image;
 
 	rgb_image = malloc(WIDTH * HEIGHT * CHANNEL_NUM);
 	cl_int3	color;
@@ -99,7 +98,6 @@ int	ft_save(t_rt *rt)
 		for (int j = 0; j < HEIGHT; j++)
 		{
 			color = int_color(rt->img.data[j * WIDTH + i]);
-			
 			rgb_image[3 * (j * WIDTH + i)] = (uint8_t)color.x;
 			rgb_image[3 * (j * WIDTH + i) + 1] = (uint8_t)color.y;
 			rgb_image[3 * (j * WIDTH + i) + 2] = (uint8_t)color.z;
@@ -115,10 +113,10 @@ int	ft_save(t_rt *rt)
 	return (0);
 }
 
-int	check_key(int keycode, t_rt *rt)
+int		check_key(int keycode, t_rt *rt)
 {
 	if (rt->mouse.r == 1 || rt->mouse.l == 1)
-		return(0);
+		return (0);
 	if (keycode == 123 || keycode == 124)
 		ft_move_alpha(keycode, rt);
 	else if (keycode == 125 || keycode == 126)

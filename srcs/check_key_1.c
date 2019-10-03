@@ -42,11 +42,10 @@ int	ft_move_alpha(int keycode, t_rt *rt)
 		rt->cam.alpha += SPEED2;
 	else
 		rt->cam.alpha -= SPEED2;
-	
 	if (rt->cam.alpha > (float)M_PI - 1e-5f)
 		rt->cam.alpha -= 2 * (float)M_PI;
 	if (rt->cam.alpha < -(float)M_PI + 1e-5f)
-		rt->cam.alpha += - 2 * (float)M_PI;
+		rt->cam.alpha += -2 * (float)M_PI;
 	return (0);
 }
 
