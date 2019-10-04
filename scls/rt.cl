@@ -470,7 +470,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
 				lighting->n = (*(obj + i)).vector;
-				if (dot(dir, lighting->n) > 0)
+				 if (dot(dir, lighting->n) > 0)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
 				float3 col1 = (float3){1, 0, 0};
@@ -776,7 +776,8 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 		float rand2s = sqrt(rand2);
 		lighting.n = dot(lighting.n, path_dir) < 0.0f ? lighting.n : lighting.n * (-1.0f);
 		float3 w = lighting.n;
-		float3 axis = fabs(w.x) > 0.1f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
+		//float3 axis = fabs(w.x) > 0.1f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
+        float3 axis = (float3)(0.0f, 1.0f, 0.0f);
 		float3 u = fast_normalize(cross(axis, w));
 		float3 v = cross(w, u);
 		float3 newdir = fast_normalize(u * cos(rand1) * rand2s + v * sin(rand1) * rand2s + w * sqrt(1.0f - rand2));
@@ -848,6 +849,7 @@ __kernel void	rt(
 
 	if (screen->params & PATH_TRACE)
 	{
+        int N = screen->samples;
 		for (int i = -fsaa / 2; i <= fsaa / 2; i++)
 		{
 			for (int j = -fsaa / 2; j <= fsaa / 2; j++)
@@ -857,12 +859,10 @@ __kernel void	rt(
 				dir = dir - (*screen).center;
 				dir = fast_normalize(dir);
 
-				int N = screen->samples;
 				unsigned int seed0 = tx * framenumber % WIDTH + (rands.x * WIDTH / 10);
 				unsigned int seed1 = ty * framenumber % HEIGHT + (rands.y * HEIGHT / 10);
 				for (int k = 0; k <= N; k++)
 				{
-					//framenumber = k;
 					get_random(&seed0, &seed1);
 					get_random(&seed1, &seed0);
 					color += trace(orig, dir, obj, counter->all_obj, &seed0, &seed1,

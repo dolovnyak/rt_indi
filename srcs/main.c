@@ -63,16 +63,15 @@ int			main(int argc, char **argv)
 	t_rt		rt;
 
 	ft_bzero(&rt, sizeof(t_rt));
-	if (argc != 2)
-		ft_putstr("usage: ./RT path_file\n");
+	if (argc != 3)
+		ft_putstr("usage: ./RT path_map path_texture\n");
 	rt.cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
 			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
 	if (new_mlx(&rt, argv[1]))
 	{
 
-		rt_jtoc_textures_setup(&rt, "json/textures.json");
-		rt_jtoc_scene_setup(&rt, "json/nice_scene/nice.json");
-		rt_jtoc_mouse_setup(&rt, "json/mouse.json");
+		rt_jtoc_textures_setup(&rt, argv[2]);
+		rt_jtoc_scene_setup(&rt, argv[1]);
 
 
 		rt.screen.params |= PHONG;
