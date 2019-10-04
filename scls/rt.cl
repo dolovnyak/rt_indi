@@ -76,6 +76,47 @@ void	normalize_coord_for_texture(t_object obj, float2 uv, float3 *color,
 	color->z /= 255;
 }
 
+float3 vec_change(t_lighting *lighting, t_object obj)
+{
+    float3 n = obj.vector;
+    float3 vec = lighting->hit - obj.center;
+    float cos_x, cos_z;
+    float3 new_vec, new_n;
+    float alpha_x, alpha_z;
+
+    if (length((float2)(n.x, n.y)) < 1e-5f)
+        return vec;
+    else
+    {
+        cos_x = n.x / length((float2)(n.x, n.y));
+        if (n.y > 0)
+            alpha_x = acos(cos_x);
+        else
+            alpha_x = -acos(cos_x);
+    }
+
+    new_vec.x = dot((float3)(cos(alpha_x), sin(alpha_x), 0), vec);
+    new_vec.y = dot((float3)(-sin(alpha_x), cos(alpha_x), 0), vec);
+    new_vec.z = dot((float3)(0, 0, 1), vec);
+
+    new_n.x = dot((float3)(cos(alpha_x), sin(alpha_x), 0), n);
+    new_n.y = dot((float3)(-sin(alpha_x), cos(alpha_x), 0), n);
+    new_n.z = dot((float3)(0, 0, 1), n);
+
+
+    cos_z = new_n.z / length(new_n);
+    if (new_n.x > 0)
+        alpha_z = acos(cos_z);
+    else
+        alpha_z = -acos(cos_z);
+
+    vec.x = dot((float3)(cos(alpha_z), 0, -sin(alpha_z)), new_vec);
+    vec.y = dot((float3)(0, 1, 0), new_vec);
+    vec.z = dot((float3)(sin(alpha_z), 0, cos(alpha_z)), new_vec);
+
+    return vec;
+}
+
 float2			uv_mapping_for_sphere(t_lighting *lighting, t_object obj)
 {
 	float3	vec;
@@ -88,54 +129,26 @@ float2			uv_mapping_for_sphere(t_lighting *lighting, t_object obj)
 	return ((float2){u, v});
 }
 
-//static void		rt_jtoc_mult_basis(t_transform *t, float *m)
-//{
-//	mult(m, &t->right);
-//	mult(m, &t->up);
-//	mult(m, &t->forward);
-//}
-//
-//void	fill_rotation_matrix(float *m, float3 v, float a)
-//{
-//	float rads = a / 180 * M_PI_F;
-//	float c = cosf(rads);
-//	float s = sinf(rads);
-//
-//	m[0] = c + v.x * v.x * (1 - c);
-//	m[1] = v.x * v.y * (1 - c) - v.z * s;
-//	m[2] = v.x * v.z * (1 - c) + v.y * s;
-//	m[3] = v.x * v.y * (1 - c) + v.z * s;
-//	m[4] = c + v.y * v.y * (1 - c);
-//	m[5] = v.y * v.z * (1 - c) - v.x * s;
-//	m[6] = v.x * v.z * (1 - c) - v.y * s;
-//	m[7] = v.y * v.z * (1 - c) + v.x * s;
-//	m[8] = c + v.z * v.z * (1 - c);
-//}
-
-float2			uv_mapping_for_cylinder(t_lighting *lighting)
+float2			uv_mapping_for_cylinder(t_lighting *lighting, t_object obj)
 {
 	float3	vec;
 	float 	v;
 	float 	u;
-	float 	m[9];
+
+
+
+
 
 	vec = lighting->n;
-//	fill_rotation_matrix(m + 0, (float3){{1, 0, 0}}, x);
-//	rt_jtoc_mult_basis(t, m + 0);
-//	fill_rotation_matrix(m + 0, (cl_float3){{0, 1, 0}}, y);
-//	rt_jtoc_mult_basis(t, m + 0);
-//	fill_rotation_matrix(m + 0, (cl_float3){{0, 0, 1}}, z);
-//	rt_jtoc_mult_basis(t, m + 0);
 	u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
-	v = 0.5f + (modf(lighting->hit.z * 1000 / 1024, &v) / 2);
-//	u = 0.5f + 3.14f / ((2.f * M_PI_F));
-//	v = 0.5f + (modf(lighting->hit.z * 1000 / 1024, &v) / 2);
+    v = 0.5f - (modf(lighting->hit.z * M_PI * obj.radius / 1024, &v) / 2);
 	return ((float2){u, v});
 }
 
 float2			uv_mapping_for_torus(t_lighting *lighting, t_object obj)
 {
 	float3	vec = (lighting->hit - obj.center);
+    vec = vec_change(lighting, obj);
 	float	u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
 	float 	v = 0.5f - asin(vec.z / obj.param) / M_PI_F;
 	return ((float2){u, v});
@@ -143,48 +156,45 @@ float2			uv_mapping_for_torus(t_lighting *lighting, t_object obj)
 
 float2			uv_mapping_for_plane(t_lighting *lighting, t_object obj)
 {
-	float3 point = lighting->hit;
+	float3 vec;
+	float3 n;
 	float3 normvec;
 	float3 crossvec;
 	float v;
 	float u;
 
+    vec = lighting->hit;
+
 	if (lighting->n.x != 0.0f || lighting->n.y != 0.0f)
 		normvec = normalize((float3) {lighting->n.y, -lighting->n.x, 0.0f});
 	else
-		normvec = (float3) {0.0f, 0.0f, 1.0f};
+		normvec = (float3) {0.0f, 1.0f, 0.0f};
 
 	crossvec = cross(lighting->n, normvec);
-	u = 0.5 + fmod(dot(normvec, point), 16.0f) / 32; //  '16.0f) / 32' - tiling of textute
-	v = 0.5 + fmod(dot(crossvec, point), 16.0f) / 32;
+	u = 0.5 + fmod(dot(normvec, vec), 16.0f) / 32; //  '16.0f) / 32' - tiling of textute
+	v = 0.5 + fmod(dot(crossvec, vec), 16.0f) / 32;
 	return ((float2){u, v});
 }
 
 float2 			uv_mapping_for_cone(t_lighting *lighting, t_object obj)
 {
-	float3 vec = lighting->hit;
-	//float u = 0.5 + fmod(acos((vec.x / vec.z) / tan(obj.param)), 1.f) * M_2_PI;
-	float u;
-	float p = (vec.x / vec.z) / tan(obj.param); // cos()
-/*	if (acos(p) < M_PI_2)
-		u = (2 * M_PI - acos(p)) / (2 * M_PI);
-	else
-		u = acos(p) / (2 * M_PI);*/
+    float3 vec = lighting->hit;
 
-	u = acos(p) / (2 * M_PI);
+    vec = vec_change(lighting, obj);
 
-	float cos1, sin1;
-	cos1 = acos(p); // [0, Pi]
-	if (p < 0)
-		cos1 *= -1;
 
-	sin1 = sqrt(1 - p * p);
-	if (sin1 < 6)
-		u = 0;
 
-//	float u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
-	float v = 0.5 - modf(vec.z * 100 / 1024, &v) / 2;
-	return ((float2){u, v});
+
+    float u;
+    float p = (vec.x / vec.z) / tan(obj.param);
+
+    if (vec.y > 0)
+        u = acos(p);
+    else
+        u = 2 * M_PI - acos(p);
+    u /= (2 * M_PI);
+    float v = 0.5 - modf(vec.z * 100 / 1024, &v) / 2;
+    return ((float2){u, v});
 }
 
 int		choose_texture_for_object(const __global t_object *obj,  __global int *texture,
@@ -202,7 +212,7 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 	if (tmp_obj.type == 0)
 		uv = uv_mapping_for_sphere(lighting, tmp_obj);
 	else if (tmp_obj.type == 2)
-		uv = uv_mapping_for_cylinder(lighting);
+		uv = uv_mapping_for_cylinder(lighting, tmp_obj);
 	else if (tmp_obj.type == 5)
 		uv = uv_mapping_for_torus(lighting, tmp_obj);
 	else if (tmp_obj.type == 1)
@@ -728,8 +738,7 @@ float3 refract(const float3 I, float3 N, float refractive_index)
        // refractive_index = 1./refractive_index;
         //return rShlic2(I, N, refractive_index);
         //return refract(I, N, 1./refractive_index);
-//	 float n = 1. / refractive_index;
-	 float n = refractive_index;
+     float n = refractive_index;
 	 float cosI = -(dot(N, I));
 	 if (cosI < 0)
 	     cosI = -cosI;
@@ -810,8 +819,8 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 		float rand2s = sqrt(rand2);
 		lighting.n = dot(lighting.n, path_dir) < 0.0f ? lighting.n : lighting.n * (-1.0f);
 		float3 w = lighting.n;
-		//float3 axis = fabs(w.x) > 0.1f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
-        float3 axis = (float3)(0.0f, 1.0f, 0.0f);
+		float3 axis = fabs(w.x) >= 0.0f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
+        //float3 axis = (float3)(0.0f, 1.0f, 0.0f);
 		float3 u = fast_normalize(cross(axis, w));
 		float3 v = cross(w, u);
 		float3 newdir = fast_normalize(u * cos(rand1) * rand2s + v * sin(rand1) * rand2s + w * sqrt(1.0f - rand2));

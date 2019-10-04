@@ -1,0 +1,91 @@
+{
+  "antialiasing": 0,
+  "ambient" : 0.1,
+  "samples": 20,
+  "brightness": 2.5,
+  "camera":
+  {
+    "transform":
+    {
+      "pos":
+      {
+        "x": -80.0,
+        "y": 0.0,
+        "z": 10.0
+      },
+      "alpha": 0.0,
+      "betta": 1.57079632679489661923132169163975144
+    }
+  },
+  "lights":
+  [
+    {
+      "pos":
+      {
+        "x": 0.0,
+        "y": 30.0,
+        "z": 80.0
+      },
+      "intens": 1.0
+    },
+    {
+      "pos":
+      {
+        "x": 0.0,
+        "y": -30.0,
+        "z": 80.0
+      },
+      "intens": 1.0
+    }
+  ],
+  "effects":
+  {
+    "gray": 0,
+    "3d": 0,
+    "gauss_blure": 0,
+    "dithering": 0
+  },
+  "objects":
+  [
+    {
+      "type": "cylinder",
+      "texture": "texture",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "radius": 10.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 1.0,
+        "y": 1.0,
+        "z": 1.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "transform":
+      {
+        "pos":
+        {
+          "x": 0.0,
+          "y": 0.0,
+          "z": 0.0
+        }
+      }
+    }
+  ]
+}
