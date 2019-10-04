@@ -88,15 +88,48 @@ float2			uv_mapping_for_sphere(t_lighting *lighting, t_object obj)
 	return ((float2){u, v});
 }
 
+//static void		rt_jtoc_mult_basis(t_transform *t, float *m)
+//{
+//	mult(m, &t->right);
+//	mult(m, &t->up);
+//	mult(m, &t->forward);
+//}
+//
+//void	fill_rotation_matrix(float *m, float3 v, float a)
+//{
+//	float rads = a / 180 * M_PI_F;
+//	float c = cosf(rads);
+//	float s = sinf(rads);
+//
+//	m[0] = c + v.x * v.x * (1 - c);
+//	m[1] = v.x * v.y * (1 - c) - v.z * s;
+//	m[2] = v.x * v.z * (1 - c) + v.y * s;
+//	m[3] = v.x * v.y * (1 - c) + v.z * s;
+//	m[4] = c + v.y * v.y * (1 - c);
+//	m[5] = v.y * v.z * (1 - c) - v.x * s;
+//	m[6] = v.x * v.z * (1 - c) - v.y * s;
+//	m[7] = v.y * v.z * (1 - c) + v.x * s;
+//	m[8] = c + v.z * v.z * (1 - c);
+//}
+
 float2			uv_mapping_for_cylinder(t_lighting *lighting)
 {
 	float3	vec;
 	float 	v;
 	float 	u;
+	float 	m[9];
 
 	vec = lighting->n;
+//	fill_rotation_matrix(m + 0, (float3){{1, 0, 0}}, x);
+//	rt_jtoc_mult_basis(t, m + 0);
+//	fill_rotation_matrix(m + 0, (cl_float3){{0, 1, 0}}, y);
+//	rt_jtoc_mult_basis(t, m + 0);
+//	fill_rotation_matrix(m + 0, (cl_float3){{0, 0, 1}}, z);
+//	rt_jtoc_mult_basis(t, m + 0);
 	u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
 	v = 0.5f + (modf(lighting->hit.z * 1000 / 1024, &v) / 2);
+//	u = 0.5f + 3.14f / ((2.f * M_PI_F));
+//	v = 0.5f + (modf(lighting->hit.z * 1000 / 1024, &v) / 2);
 	return ((float2){u, v});
 }
 

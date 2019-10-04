@@ -39,7 +39,7 @@ int			rt_jtoc_get_obj_color_param(t_object *obj, t_jnode *n)
 		|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("REFLECTION ERROR OR MISSING", -1));
 	obj->mat.reflection = jtoc_get_float(tmp);
-	if (obj->mat.reflection >= 1.f)
+	if (obj->mat.reflection > 1.f)
 		return (rt_jtoc_sdl_log_error("REFLECTION ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "refraction"))
 	|| tmp->type != fractional)
@@ -53,16 +53,14 @@ int			rt_jtoc_get_obj_param(t_object *obj, t_jnode *n,
 {
 	t_jnode *tmp;
 
-	g_err_str = "TRANSFORM TYPE ERROR OR TRANSFORM MISSING";
-	if (!(tmp = jtoc_node_get_by_path(n, "transform"))
-		|| tmp->type != object)
-		return (rt_jtoc_sdl_log_error(g_err_str, -1));
-	if (!(tmp = jtoc_node_get_by_path(tmp, "pos")) || tmp->type != object)
-		return (rt_jtoc_sdl_log_error("POS TYPE ERROR OR MISSING", -1));
-	if (rt_jtoc_get_float3(&(obj->center), tmp))
-		return (rt_jtoc_sdl_log_error("POS ERROR", -1));
 	if (rt_jtoc_get_object_type(obj, n))
 		return (rt_jtoc_sdl_log_error("NOT VALID TYPE", -1));
+	if (obj->e_type != o_plane && obj->e_type != o_sqr)
+		if ((!(tmp = jtoc_node_get_by_path(n, "pos")) || tmp->type != object))
+			return (rt_jtoc_sdl_log_error("POS TYPE ERROR OR MISSING", -1));
+	if (obj->e_type != o_plane && obj->e_type != o_sqr)
+		if (rt_jtoc_get_float3(&(obj->center), tmp))
+			return (rt_jtoc_sdl_log_error("POS ERROR", -1));
 	if (rt_jtoc_get_object_texture(obj, texture, n))
 		return (rt_jtoc_sdl_log_error("NOT VALID TEXTURE", -1));
 	g_err_str = "COLOR TYPE ERROR OR COLOR IS MISSING";
@@ -70,6 +68,9 @@ int			rt_jtoc_get_obj_param(t_object *obj, t_jnode *n,
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	if (rt_jtoc_get_float3(&obj->mat.diffuse_color, tmp))
 		return (rt_jtoc_sdl_log_error("COLOR ERROR", -1));
+	obj->mat.diffuse_color.x /= 255;
+	obj->mat.diffuse_color.y /= 255;
+	obj->mat.diffuse_color.z /= 255;
 	if ((obj->mat.diffuse_color.x < 0 || obj->mat.diffuse_color.y < 0
 	|| obj->mat.diffuse_color.z < 0) || obj->mat.diffuse_color.x > 1
 	|| obj->mat.diffuse_color.y > 1 || obj->mat.diffuse_color.z > 1)

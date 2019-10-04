@@ -18,10 +18,9 @@ void	draw_picture(t_rt *rt)
 {
 	struct timeval stop, start;
 	gettimeofday(&start, NULL);
-	
 	calc_screen(&rt->screen, &rt->cam);
 	cl_worker(rt);
-	
+	printf("%f", atan2(0.0, 0.0));
 	mlx_put_image_to_window(rt->mlx_ptr, rt->win, rt->img.img_ptr, 0, 0);
 	
 	gettimeofday(&stop, NULL);
@@ -64,7 +63,11 @@ int			main(int argc, char **argv)
 
 	ft_bzero(&rt, sizeof(t_rt));
 	if (argc != 3)
-		ft_putstr("usage: ./RT path_map path_texture\n");
+    {
+	    ft_putstr("usage: ./RT path_map path_texture\n");
+	    exit (-1);
+    }
+
 	rt.cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
 			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
 	if (new_mlx(&rt, argv[1]))
