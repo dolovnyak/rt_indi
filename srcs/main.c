@@ -20,7 +20,6 @@ void	draw_picture(t_rt *rt)
 	gettimeofday(&start, NULL);
 	calc_screen(&rt->screen, &rt->cam);
 	cl_worker(rt);
-	printf("%f", atan2(0.0, 0.0));
 	mlx_put_image_to_window(rt->mlx_ptr, rt->win, rt->img.img_ptr, 0, 0);
 	
 	gettimeofday(&stop, NULL);

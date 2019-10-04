@@ -728,7 +728,8 @@ float3 refract(const float3 I, float3 N, float refractive_index)
        // refractive_index = 1./refractive_index;
         //return rShlic2(I, N, refractive_index);
         //return refract(I, N, 1./refractive_index);
-	 float n = 1. / refractive_index;
+//	 float n = 1. / refractive_index;
+	 float n = refractive_index;
 	 float cosI = -(dot(N, I));
 	 if (cosI < 0)
 	     cosI = -cosI;

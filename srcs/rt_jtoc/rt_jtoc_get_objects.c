@@ -45,6 +45,8 @@ int			rt_jtoc_get_obj_color_param(t_object *obj, t_jnode *n)
 	|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("REFRACTION ERROR OR MISSING", -1));
 	obj->mat.refraction = jtoc_get_float(tmp);
+	if (obj->mat.refraction < 1.f || obj->mat.refraction > 1.3f)
+		obj->mat.refraction = 0.f;
 	return (FUNCTION_SUCCESS);
 }
 

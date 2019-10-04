@@ -1,7 +1,7 @@
 {
-  "antialiasing": 5,
+  "antialiasing": 0,
   "ambient" : 0.1,
-  "samples": 100,
+  "samples": 10,
   "brightness": 1.0,
   "camera":
   {
@@ -46,9 +46,9 @@
   [
     {
       "type": "sphere",
-      "texture": "texture",
-      "reflection": 0.99,
-      "refraction": 0.0,
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 1.3,
       "radius": 5.0,
       "phong":
       {
@@ -64,9 +64,9 @@
       },
       "color":
       {
-        "x": 250.0,
-        "y": 1.0,
-        "z": 1.0
+        "x": 255.0,
+        "y": 255.0,
+        "z": 255.0
       },
       "pos":
       {
@@ -77,7 +77,7 @@
     },
     {
       "type": "sphere",
-      "texture": "none",
+      "texture": "texture",
       "reflection": 0.0,
       "refraction": 0.0,
       "radius": 10.0,
@@ -104,37 +104,6 @@
          "x": 40.0,
          "y": 10.0,
          "z": 0.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 1.0,
-      "phong":
-      {
-        "al1": 1.0,
-        "al2": 0.4,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 1.0,
-        "y": 0.0,
-        "z": 250.0
       }
     }
   ]
