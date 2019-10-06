@@ -25,6 +25,7 @@ CFLAGS	:= 		-Wall -Wextra -Werror
 SRC		:=		main.c				            \
 				check_key_0.c		            \
 				check_key_1.c		            \
+				check_key_2.c		            \
 				check_mouse_0.c		            \
 				check_mouse_1.c		            \
 				kernel.c			            \

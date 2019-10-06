@@ -120,4 +120,4 @@ add_executable(rt_in
         srcs/gpu_mem.c
         srcs/kernel.c
         srcs/main.c
-        srcs/rt_jtoc/rt_jtoc_get_basic_obj.c srcs/rt_jtoc/rt_jtoc_get_object_params.c)
+        srcs/rt_jtoc/rt_jtoc_get_basic_obj.c srcs/rt_jtoc/rt_jtoc_get_object_params.c srcs/check_key_2.c)

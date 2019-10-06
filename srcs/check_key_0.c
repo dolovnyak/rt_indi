@@ -15,50 +15,6 @@
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
 
-int	ft_esc(t_rt *rt)
-{
-	mlx_destroy_image(rt->mlx_ptr, rt->img.img_ptr);
-	mlx_destroy_window(rt->mlx_ptr, rt->win);
-	release_gpu_mem(rt);
-	exit(0);
-	return (0);
-}
-
-int		ft_aa(int keycode, t_rt *rt)
-{
-	rt->screen.fsaa_n = 2 * (keycode - 18);
-	return (0);
-}
-
-int		ft_effects(int keycode, t_rt *rt)
-{
-	if (keycode == 6)
-		rt->screen.effects.x = (rt->screen.effects.x + 1) % 2;
-	else if (keycode == 7)
-	{
-		rt->screen.effects.w = 0;
-		rt->screen.effects.y = (rt->screen.effects.y + 1) % 2;
-	}
-	else if (keycode == 8)
-		rt->screen.effects.z = (rt->screen.effects.z + 1) % 2;
-	else if (keycode == 9)
-	{
-		rt->screen.effects.y = 0;
-		rt->screen.effects.w = (rt->screen.effects.w + 1) % 2;
-	}
-	else if (keycode == 37 && (rt->screen.params & PATH_TRACE))
-	{
-		rt->screen.params &= !(PATH_TRACE);
-		rt->screen.params |= PHONG;
-	}
-	else if (keycode == 37)
-	{
-		rt->screen.params &= !(PHONG);
-		rt->screen.params |= PATH_TRACE;
-	}
-	return (0);
-}
-
 cl_int3	int_color(int col)
 {
 	cl_int3	v;
@@ -84,18 +40,17 @@ char	*settime(struct tm *u)
 	return (tmp);
 }
 
-int		ft_save(t_rt *rt)
+void	save_helper(t_rt *rt, uint8_t *rgb_image)
 {
-	struct tm		*u;
-	char			*name;
-	const time_t	timer = time(NULL);
-	uint8_t			*rgb_image;
-
-	rgb_image = malloc(WIDTH * HEIGHT * CHANNEL_NUM);
 	cl_int3	color;
-	for (int i = 0; i < WIDTH; i++)
+	int		i;
+	int		j;
+
+	i = -1;
+	while (++i < WIDTH)
 	{
-		for (int j = 0; j < HEIGHT; j++)
+		j = -1;
+		while (++j < HEIGHT)
 		{
 			color = int_color(rt->img.data[j * WIDTH + i]);
 			rgb_image[3 * (j * WIDTH + i)] = (uint8_t)color.x;
@@ -103,6 +58,17 @@ int		ft_save(t_rt *rt)
 			rgb_image[3 * (j * WIDTH + i) + 2] = (uint8_t)color.z;
 		}
 	}
+}
+
+int		ft_save(t_rt *rt)
+{
+	struct tm		*u;
+	char			*name;
+	const time_t	timer = time(NULL);
+	uint8_t			*rgb_image;
+
+	rgb_image = ft_memalloc(WIDTH * HEIGHT * CHANNEL_NUM);
+	save_helper(rt, rgb_image);
 	u = localtime(&timer);
 	name = settime(u);
 	if (!stbi_write_png(ft_strjoin("images/", name), WIDTH, HEIGHT,
