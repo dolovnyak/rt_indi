@@ -202,10 +202,11 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 	int 	found_texture_for_obj;
 	t_object tmp_obj = *(obj + i);
 
-	uv = (float2){-1.f, -1.f};
 	found_texture_for_obj = 1;
+	return (found_texture_for_obj);
 	if (tmp_obj.mat.texture_id == -1)
 		return (found_texture_for_obj);
+	uv = (float2){-1.f, -1.f};
 	if (tmp_obj.type == 0)
 		uv = uv_mapping_for_sphere(lighting, tmp_obj);
 	else if (tmp_obj.type == 2)
@@ -305,7 +306,7 @@ int		mandelbulb_intersect(float3 orig, float3 dir, __global t_object *obj, float
 		}
 		cur_ray_pos += local_dist_to_obj * dir;
 		*dist_to_obj += local_dist_to_obj;
-		if (*dist_to_obj > 10000.f)
+		if (*dist_to_obj > 1000.f)
 			return (0);
 //		distance_to_obj = sdf_mandelbulb(local_pos, obj->params.mandelbulb.power,
 //				obj->params.mandelbulb.iteration, obj->params.mandelbulb.breakout);
@@ -320,20 +321,20 @@ float ft_dot2(float3 a)
 
 int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 {
-	int i;
-	float3 current_position;
-	float distance_to_closest;
-	float3 ba;
-	float3 cb;
-	float3 dc;
-	float3 ad;
-	float3 pa;
-	float3 pb;
-	float3 pc;
-	float3 pd;
-	float3 nor;
-	float  x;
-	float3 c;
+	int		i;
+	float3	current_position;
+	float	distance_to_closest;
+	float3	ba;
+	float3	cb;
+	float3	dc;
+	float3	ad;
+	float3	pa;
+	float3	pb;
+	float3	pc;
+	float3	pd;
+	float3	nor;
+	float	x;
+	float3	c;
 
 	ba = s->b - s->a;
 	ad = s->a - s->center;
@@ -530,7 +531,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 	i = 0;
 	while (i < count)
 	{
-		if ((*(obj + i)).type == 0)
+		if ((*(obj + i)).e_type == o_sphere)
 		{
 			dist_i = 0.f;
 			j = sphere_intersect(orig, dir, (obj + i), &dist_i);
@@ -548,7 +549,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-		else if ((*(obj + i)).type == 1)
+		else if ((*(obj + i)).e_type == o_plane)
 		{
 			dist_i = 0.f;
 			j = plane_intersect(orig, dir, (obj + i), &dist_i);
@@ -566,7 +567,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-		else if ((*(obj + i)).type == 2)
+		else if ((*(obj + i)).e_type == o_cylinder)
 		{
 			dist_i = 0.f;
 			j = cyl_intersect(orig, dir, (obj + i), &dist_i);
@@ -586,7 +587,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-		else if ((*(obj + i)).type == 3)
+		else if ((*(obj + i)).e_type == o_cone)
 		{
 			dist_i = 0.f;
 			j = cone_intersect(orig, dir, (obj + i), &dist_i);
@@ -607,33 +608,44 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-		else if ((*(obj + i)).type == 4)
-		{
-			dist_i = 0.f;
-			j = hyper_intersect(orig, dir, (obj + i), &dist_i);
-			if (j && dist_i < dist)
-			{
-				dist = dist_i;
-				lighting->hit = orig + dir * dist_i;
-				lighting->mat = (*(obj + i)).mat;
-				lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
-				lighting->n = fast_normalize(lighting->n);
-				if (j == 2)
-					lighting->n = -lighting->n;
-				if (length(lighting->hit - (*(obj + i)).center) > 100.f)
-				{
-					orig = lighting->hit + 1e-3f * dir;
-					j = hyper_intersect(orig, dir, (obj + i), &dist_i);
-					dist = dist_i;
-					lighting->hit = orig + dir * dist_i;
-					lighting->mat = (*(obj + i)).mat;
-					lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
-					lighting->n = fast_normalize(lighting->n);
-					if (length(lighting->hit - (*(obj + i)).center) > 100.f)
-						dist = MAX_DIST;
-				}
-			}
-		}
+        else if ((*(obj + i)).type == 4)
+        {
+            dist_i = 0.f;
+            j = hyper_intersect(orig, dir, (obj + i), &dist_i);
+            if (j && dist_i < dist)
+            {
+                float d;
+                float3 norm = lighting->n, h = lighting->hit;
+                t_material m = lighting->mat;
+                d = dist;
+                dist = dist_i;
+                lighting->hit = orig + dir * dist_i;
+                lighting->mat = (*(obj + i)).mat;
+                lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
+                lighting->n = fast_normalize(lighting->n);
+                if (j == 2)
+                    lighting->n = -lighting->n;
+                if (length(lighting->hit - (*(obj + i)).center) > 100.f)
+                {
+                    orig = lighting->hit + 1e-3f * dir;
+                    j = hyper_intersect(orig, dir, (obj + i), &dist_i);
+                    dist = dist_i;
+                    lighting->hit = orig + dir * dist_i;
+                    lighting->mat = (*(obj + i)).mat;
+                    lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
+                    lighting->n = fast_normalize(lighting->n);
+                    if (j == 2)
+                        lighting->n = -lighting->n;
+                    if (length(lighting->hit - (*(obj + i)).center) > 100.f)
+                    {
+                        dist = d;
+                        lighting->n = norm;
+                        lighting->hit = h;
+                        lighting->mat = m;
+                    }
+                }
+            }
+        }
 		else if ((*(obj + i)).type == 5)
 		{
 			dist_i = 0.f;
@@ -814,7 +826,6 @@ float3 refract(const float3 I, float3 N, float refractive_index)
 	return  (n * I + (n * cosI - cosT) * N);
 }
 
-
 float3 refract3(const float3 I, const float3 N, const float refractive_index)
 {
     float cosI = -(dot(N, I));
@@ -873,7 +884,7 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 		if(!scene_intersect(path_orig, path_dir, obj, &lighting, count,
 		texture_w, texture_h, prev_texture_size, texture))
 		{
-			path_color += mask * 0.5f;
+			path_color += mask * 0.01f;
 			break;
 		}
 		float rand1 = get_random(randSeed0, randSeed1) * 2.0f * M_PI_F;

@@ -1,8 +1,8 @@
 {
   "antialiasing": 0,
-  "ambient" : 0.5,
+  "ambient" : 0.1,
   "samples": 10,
-  "brightness": 4.4,
+  "brightness": 9.0,
   "camera":
   {
       "pos":
@@ -19,9 +19,9 @@
     {
       "pos":
       {
-        "x": -10.0,
-        "y": 20.0,
-        "z": 75.0
+        "x": -40.0,
+        "y": 14.0,
+        "z": 60.0
       },
       "intens": 1.5
     }
@@ -67,170 +67,15 @@
       }
     },
     {
-      "type": "plane",
+      "type": "sphere",
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
-      "param": -10.0,
+      "radius": 50.0,
       "phong":
       {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
-      },
-      "color":
-      {
-        "x": 40.0,
-        "y": 123.0,
-        "z": 35.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 100.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 80.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": -80.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 150.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 1.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": -150.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
+        "al1": 1.0,
+        "al2": 0.4,
         "sp_ex": 50.0
       },
       "emission":
@@ -239,17 +84,44 @@
         "y": 2.0,
         "z": 2.0
       },
-      "vec":
+      "color":
       {
-        "x": 1.0,
+        "x": 123.0,
+        "y": 116.0,
+        "z": 45.0
+      },
+      "pos":
+      {
+        "x": -170.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "type": "plane",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "param": -10.0,
+      "phong": {
+        "al1": 0.4,
+        "al2": 0.1,
+        "sp_ex": 50.0
+      },
+      "emission": {
+        "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "color":
-      {
-        "x": 45.0,
+      "vec": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "color": {
+        "x": 40.0,
         "y": 123.0,
-        "z": 112.0
+        "z": 35.0
       }
     },
     {
@@ -354,7 +226,7 @@
       {
         "x": 0.0,
         "y": -40.0,
-        "z": -70.0
+        "z": -10.0
       },
       "vec":
       {

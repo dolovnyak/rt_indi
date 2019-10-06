@@ -23,6 +23,7 @@ typedef struct			s_cl
 	cl_command_queue	*queue;
 	cl_context			*context;
 	cl_program			*program;
+	cl_device_id		device_id;
 	t_list				*kernels;
 }						t_cl;
 

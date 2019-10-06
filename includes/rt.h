@@ -112,7 +112,6 @@ typedef struct			s_object
 	enum e_object_type	e_type;
 	t_material			mat;
 # else
-
 	int					type;
 	float3				center;
 	float3				vector;

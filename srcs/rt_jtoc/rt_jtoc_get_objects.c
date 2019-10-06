@@ -69,10 +69,10 @@ int			rt_jtoc_get_obj_param(t_object *obj, t_jnode *n,
 
 	if (rt_jtoc_get_object_type(obj, n))
 		return (rt_jtoc_sdl_log_error("NOT VALID TYPE", -1));
-	if (obj->e_type != o_plane && obj->e_type != o_sqr)
+	if (obj->e_type != o_plane)
 		if ((!(tmp = jtoc_node_get_by_path(n, "pos")) || tmp->type != object))
 			return (rt_jtoc_sdl_log_error("POS TYPE ERROR OR MISSING", -1));
-	if (obj->e_type != o_plane && obj->e_type != o_sqr)
+	if (obj->e_type != o_plane)
 		if (rt_jtoc_get_float3(&(obj->center), tmp))
 			return (rt_jtoc_sdl_log_error("POS ERROR", -1));
 	if (rt_jtoc_get_object_texture(obj, texture, n))

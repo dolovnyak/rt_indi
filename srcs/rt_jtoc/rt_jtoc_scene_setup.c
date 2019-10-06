@@ -35,8 +35,8 @@ static int		rt_jtoc_get_posteffects(t_rt *rt, t_jnode *root)
 		|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("BRIGHTNESS ERROR", -1));
 	rt->screen.brightness = jtoc_get_float(tmp);
-	if (rt->screen.brightness < 0 || rt->screen.brightness > 5)
-		rt->screen.brightness = 0;
+	if (rt->screen.brightness < 0 || rt->screen.brightness > 10)
+		rt->screen.brightness = 1;
 	if (!(tmp = jtoc_node_get_by_path(root, "effects"))
 	|| tmp->type != object)
 		return (rt_jtoc_sdl_log_error("EFFECTS ERROR OR EFFECTS MISSING", -1));
