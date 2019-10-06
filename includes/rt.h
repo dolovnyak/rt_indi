@@ -39,6 +39,7 @@
 # else
 #  define MAX_DIST	10000.f
 #  define SIGMA		3
+#  define F_EPS		0.001
 # endif
 
 # define PHONG		(1 << 0)
@@ -53,6 +54,7 @@ enum					e_object_type
 	o_hyper,
 	o_torus,
 	o_sqr,
+	o_mandelbulb,
 };
 
 typedef struct			s_light
@@ -110,7 +112,6 @@ typedef struct			s_object
 	enum e_object_type	e_type;
 	t_material			mat;
 # else
-
 	int					type;
 	float3				center;
 	float3				vector;

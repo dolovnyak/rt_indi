@@ -34,6 +34,7 @@ t_cl				*cl_setup(char **files, char **kernels)
 
 	cl = cl_init();
 	device_id = cl_get_device_id();
+	cl->device_id = device_id;
 	cl_context_init(cl, device_id);
 	cl_queue_init(cl, device_id);
 	cl->program = cl_create_program(*cl->context, files, device_id);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rt_jtoc_get_object_params.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rkeli <rkeli@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/06 17:18:16 by rkeli             #+#    #+#             */
+/*   Updated: 2019/10/06 17:20:30 by rkeli            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 #include "rt_jtoc.h"
 
@@ -56,6 +68,7 @@ int			rt_jtoc_get_object_type(t_object *obj, t_jnode *n)
 	obj->e_type = ft_strcmp(str, "plane") ? obj->e_type : o_plane;
 	obj->e_type = ft_strcmp(str, "hyper") ? obj->e_type : o_hyper;
 	obj->e_type = ft_strcmp(str, "sqr") ? obj->e_type : o_sqr;
+	obj->e_type = ft_strcmp(str, "mandelbulb") ? obj->e_type : o_mandelbulb;
 	obj->type = obj->e_type - 1;
 	if (obj->e_type == 0)
 		return (FUNCTION_FAILURE);
