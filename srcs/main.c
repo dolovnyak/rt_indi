@@ -42,9 +42,6 @@ int	new_mlx(t_rt *rt, char *name)
 
 void		release_gpu_mem(t_rt *rt)
 {
-	clReleaseProgram(*rt->cl->program);
-	clReleaseContext(*rt->cl->context);
-	clReleaseCommandQueue(*rt->cl->queue);
 	clReleaseMemObject(rt->gpu_mem->cl_texture);
 	clReleaseMemObject(rt->gpu_mem->cl_texture_w);
 	clReleaseMemObject(rt->gpu_mem->cl_texture_h);
@@ -54,6 +51,14 @@ void		release_gpu_mem(t_rt *rt)
 	clReleaseMemObject(rt->gpu_mem->cl_light_buffer);
 	clReleaseMemObject(rt->gpu_mem->cl_obj_buffer);
 	clReleaseMemObject(rt->gpu_mem->cl_counter_buffer);
+	clReleaseProgram(*rt->cl->program);
+	clReleaseContext(*rt->cl->context);
+	clReleaseCommandQueue(*rt->cl->queue);
+	clReleaseDevice(rt->cl->device_id);
+	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "post_processing"));
+	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "rt"));
+	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_x"));
+	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_y"));
 }
 
 int			main(int argc, char **argv)
@@ -62,10 +67,10 @@ int			main(int argc, char **argv)
 
 	ft_bzero(&rt, sizeof(t_rt));
 	if (argc != 3)
-    {
+	{
 	    ft_putstr("usage: ./RT path_map path_texture\n");
 	    exit (-1);
-    }
+	}
 
 	rt.cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
 			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
@@ -74,7 +79,7 @@ int			main(int argc, char **argv)
 
 		rt_jtoc_textures_setup(&rt, argv[2]);
 		rt_jtoc_scene_setup(&rt, argv[1]);
-		rt.obj[0].type = 7;
+//		rt.obj[0].type = 7;
 
 		rt.screen.params |= PHONG;
 		fill_gpu_mem(&rt);
