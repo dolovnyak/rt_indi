@@ -20,10 +20,10 @@ int		get_color(float3 v, int8 type)
 	int 	start;
 	int		end;
 
-    float e;
-    e  = (max(max(v.x, v.y), v.z));
-    if (e > 1)
-        v *= 1.f / e;
+	float e;
+	e  = (max(max(v.x, v.y), v.z));
+	if (e > 1)
+		v *= 1.f / e;
 	if (type.x == 1)
 	{
 		float3	c_linear;
@@ -239,12 +239,12 @@ int	ft_sign(float a)
 
 int torus_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 {
-	int 	i;
-	float3 	current_position = (float3)0;
-	float 	distance_to_closest = 0.f;
-	float2 	q = (float2)0;
-	float3 	vec = (float3)0;
-	float3 	p = (float3)0, n1 = (float3)0;
+	int		i;
+	float3	current_position = (float3)0;
+	float	distance_to_closest = 0.f;
+	float2	q = (float2)0;
+	float3	vec = (float3)0;
+	float3	p = (float3)0, n1 = (float3)0;
 
 	i = 0;
 	int j = 1;
@@ -267,6 +267,53 @@ int torus_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 		i++;
 	}
 	return 0;
+}
+
+float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
+{
+	float3 z = pos;
+	float dr = 1;
+	float r;
+
+	for (int i = 0; i < iter; i++)
+	{
+		r = fast_length(z);
+		if (r > breakout)
+			break ;
+
+		float theta = acos(z.z / r) * power;
+		float phi = atan2(z.y, z.x) * power;
+		float zr = pow(r, power);
+		dr = pow(r, power - 1) * power * dr + 1;
+
+		z = zr * (float3)(half_sin(theta) * half_cos(phi), half_sin(phi) * half_sin(theta), half_cos(theta));
+		z += pos;
+	}
+	return ((0.5 * log(r) * r / dr));
+}
+
+int		mandelbulb_intersect(float3 orig, float3 dir, __global t_object *obj, float *dist_to_obj, float *last_dist)
+{
+	int		max_steps = 500;
+	float3	cur_ray_pos = orig;
+	float	local_dist_to_obj = 0.f;
+
+	for (int i = 0; i < max_steps; i++)
+	{
+		local_dist_to_obj = sdf_mandelbulb(cur_ray_pos - obj->center, 8.f, 128, 3);
+		if (local_dist_to_obj < F_EPS)
+		{
+			*last_dist = local_dist_to_obj;
+			return (1);
+		}
+		cur_ray_pos += local_dist_to_obj * dir;
+		*dist_to_obj += local_dist_to_obj;
+		if (*dist_to_obj > 10000.f)
+			return (0);
+//		distance_to_obj = sdf_mandelbulb(local_pos, obj->params.mandelbulb.power,
+//				obj->params.mandelbulb.iteration, obj->params.mandelbulb.breakout);
+	}
+	return (0);
 }
 
 float ft_dot2(float3 a)
@@ -644,7 +691,25 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 				lighting->mat = (*(obj + i)).mat;
 			}
 		}
-		i++;
+		else if ((*(obj + i)).type == 7)
+		{
+			dist_i = 0;
+			float last_dist;
+			j = mandelbulb_intersect(orig, dir, (obj + i), &dist_i, &last_dist);
+			if (j && dist_i < dist)
+			{
+				dist = dist_i;
+				lighting->hit = orig + dir * dist_i;
+				lighting->mat = (*(obj + i)).mat;
+				float3 pos = lighting->hit;
+				lighting->n = normalize((float3){
+					sdf_mandelbulb((float3){pos.x + F_EPS, pos.y, pos.z} - (*(obj + i)).center, 8.f, 128, 3),
+					sdf_mandelbulb((float3){pos.x, pos.y + F_EPS, pos.z} - (*(obj + i)).center, 8.f, 128, 3),
+					sdf_mandelbulb((float3){pos.x, pos.y, pos.z + F_EPS} - (*(obj + i)).center, 8.f, 128, 3)} -
+							(float3){last_dist, last_dist, last_dist});
+			}
+		}
+	i++;
 	}
 	return (dist < MAX_DIST);
 }
