@@ -198,8 +198,6 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 		float3 *color, __global int *texture_w, __global int *texture_h,
 		__global int *prev_texture_size, t_lighting *lighting, int i)
 {
-
-    return (1);
 	float2	uv;
 	int 	found_texture_for_obj;
 	t_object tmp_obj = *(obj + i);
