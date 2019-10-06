@@ -251,6 +251,8 @@ typedef struct			s_rt
 
 int						check_key(int keycode, t_rt *rt);
 int						ft_esc(t_rt *rt);
+int						ft_aa(int keycode, t_rt *rt);
+int						ft_effects(int keycode, t_rt *rt);
 int						ft_move_x(int keycode, t_rt *rt);
 int						ft_move_y(int keycode, t_rt *rt);
 int						ft_move_alpha(int keycode, t_rt *rt);

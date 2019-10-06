@@ -40,7 +40,7 @@
 }
 {
   "type": "cylinder",
-  "texture": "none",
+  "texture": "texture",
   "reflection": 0.0,
   "refraction": 0.0,
   "radius": 5.0,
@@ -68,16 +68,12 @@
     "y": 0.0,
     "z": 1.0
   },
-  "transform":
+  "pos":
   {
-    "pos":
-    {
-      "x": 0.0,
-      "y": 10.0,
-      "z": 0.0
-    }
-  }
-}
+    "x": 0.0,
+    "y": 10.0,
+    "z": 0.0
+  },
 {
   "type": "cone",
   "texture": "texture",
