@@ -110,6 +110,7 @@ int			rt_jtoc_get_object(t_object *obj, t_jnode *n,
 	err = obj->e_type == o_cylinder ? rt_jtoc_get_cylinder(obj, n) : err;
 	err = obj->e_type == o_hyper ? rt_jtoc_get_hyper(obj, n) : err;
 	err = obj->e_type == o_sqr ? rt_jtoc_get_sqr(obj, n) : err;
+	err = obj->e_type == o_mandelbulb ? rt_jtoc_get_mandelbulb(obj, n) : err;
 	if (err != 0)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);

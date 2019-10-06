@@ -54,6 +54,7 @@ enum					e_object_type
 	o_hyper,
 	o_torus,
 	o_sqr,
+	o_mandelbulb,
 };
 
 typedef struct			s_light

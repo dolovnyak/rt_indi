@@ -74,7 +74,6 @@ int			main(int argc, char **argv)
 
 		rt_jtoc_textures_setup(&rt, argv[2]);
 		rt_jtoc_scene_setup(&rt, argv[1]);
-		rt.obj[0].type = 7;
 
 		rt.screen.params |= PHONG;
 		fill_gpu_mem(&rt);

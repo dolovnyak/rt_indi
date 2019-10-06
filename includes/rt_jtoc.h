@@ -29,4 +29,5 @@ int			rt_jtoc_get_cone(t_object *obj, t_jnode *n);
 int			rt_jtoc_get_cylinder(t_object *obj, t_jnode *n);
 int			rt_jtoc_get_hyper(t_object *obj, t_jnode *n);
 int			rt_jtoc_get_sqr(t_object *obj, t_jnode *n);
+int			rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n);
 #endif

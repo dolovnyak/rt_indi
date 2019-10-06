@@ -297,7 +297,7 @@ int		mandelbulb_intersect(float3 orig, float3 dir, __global t_object *obj, float
 
 	for (int i = 0; i < max_steps; i++)
 	{
-		local_dist_to_obj = sdf_mandelbulb(cur_ray_pos - obj->center, 8.f, 128, 3);
+		local_dist_to_obj = sdf_mandelbulb(cur_ray_pos - obj->center, obj->param, obj->radius, 3);
 		if (local_dist_to_obj < F_EPS)
 		{
 			*last_dist = local_dist_to_obj;
@@ -700,9 +700,9 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 				lighting->mat = (*(obj + i)).mat;
 				float3 pos = lighting->hit;
 				lighting->n = normalize((float3){
-					sdf_mandelbulb((float3){pos.x + F_EPS, pos.y, pos.z} - (*(obj + i)).center, 8.f, 128, 3),
-					sdf_mandelbulb((float3){pos.x, pos.y + F_EPS, pos.z} - (*(obj + i)).center, 8.f, 128, 3),
-					sdf_mandelbulb((float3){pos.x, pos.y, pos.z + F_EPS} - (*(obj + i)).center, 8.f, 128, 3)} -
+					sdf_mandelbulb((float3){pos.x + F_EPS, pos.y, pos.z} - (*(obj + i)).center, (*(obj + i)).param, (*(obj + i)).radius, 3),
+					sdf_mandelbulb((float3){pos.x, pos.y + F_EPS, pos.z} - (*(obj + i)).center, (*(obj + i)).param, (*(obj + i)).radius, 3),
+					sdf_mandelbulb((float3){pos.x, pos.y, pos.z + F_EPS} - (*(obj + i)).center, (*(obj + i)).param, (*(obj + i)).radius, 3)} -
 							(float3){last_dist, last_dist, last_dist});
 			}
 		}

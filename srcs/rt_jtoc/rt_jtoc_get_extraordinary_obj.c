@@ -78,3 +78,18 @@ int			rt_jtoc_get_sqr(t_object *obj, t_jnode *n)
 		return (FUNCTION_FAILURE);
 	return (FUNCTION_SUCCESS);
 }
+
+int			rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n)
+{
+	t_jnode	*tmp;
+
+	if (!(tmp = jtoc_node_get_by_path(n, "power")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("POWER TYPE ERROR OR POWER IS MISSING", -1));
+	obj->param = jtoc_get_float(tmp);
+	if (!(tmp = jtoc_node_get_by_path(n, "iteration")) || tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("ITERTATION TYPE ERROR OR ITERTATION IS MISSING", -1));
+	obj->radius = jtoc_get_float(tmp);
+	if (obj->radius < 0.f || obj->radius > 200.f)
+		obj->radius = 15.f;
+	return (FUNCTION_SUCCESS);
+}
