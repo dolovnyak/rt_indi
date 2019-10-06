@@ -135,13 +135,10 @@ float2			uv_mapping_for_cylinder(t_lighting *lighting, t_object obj)
 	float 	v;
 	float 	u;
 
+	vec = vec_change(lighting, obj);
 
-
-
-
-	vec = lighting->n;
 	u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
-    v = 0.5f - (modf(lighting->hit.z * M_PI * obj.radius / 1024, &v) / 2);
+    v = 0.5f - (modf(vec.z / obj.radius * 250 / 1024, &v) / 2);
 	return ((float2){u, v});
 }
 
