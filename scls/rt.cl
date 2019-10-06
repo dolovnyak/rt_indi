@@ -198,14 +198,17 @@ int		choose_texture_for_object(const __global t_object *obj,  __global int *text
 		float3 *color, __global int *texture_w, __global int *texture_h,
 		__global int *prev_texture_size, t_lighting *lighting, int i)
 {
+
+    return (1);
 	float2	uv;
 	int 	found_texture_for_obj;
 	t_object tmp_obj = *(obj + i);
 
-	uv = (float2){-1.f, -1.f};
 	found_texture_for_obj = 1;
+	return (found_texture_for_obj);
 	if (tmp_obj.mat.texture_id == -1)
 		return (found_texture_for_obj);
+	uv = (float2){-1.f, -1.f};
 	if (tmp_obj.type == 0)
 		uv = uv_mapping_for_sphere(lighting, tmp_obj);
 	else if (tmp_obj.type == 2)
@@ -560,33 +563,44 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-		else if ((*(obj + i)).type == 4)
-		{
-			dist_i = 0.f;
-			j = hyper_intersect(orig, dir, (obj + i), &dist_i);
-			if (j && dist_i < dist)
-			{
-				dist = dist_i;
-				lighting->hit = orig + dir * dist_i;
-				lighting->mat = (*(obj + i)).mat;
-				lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
-				lighting->n = fast_normalize(lighting->n);
-				if (j == 2)
-					lighting->n = -lighting->n;
-				if (length(lighting->hit - (*(obj + i)).center) > 100.f)
-				{
-					orig = lighting->hit + 1e-3f * dir;
-					j = hyper_intersect(orig, dir, (obj + i), &dist_i);
-					dist = dist_i;
-					lighting->hit = orig + dir * dist_i;
-					lighting->mat = (*(obj + i)).mat;
-					lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
-					lighting->n = fast_normalize(lighting->n);
-					if (length(lighting->hit - (*(obj + i)).center) > 100.f)
-						dist = MAX_DIST;
-				}
-			}
-		}
+        else if ((*(obj + i)).type == 4)
+        {
+            dist_i = 0.f;
+            j = hyper_intersect(orig, dir, (obj + i), &dist_i);
+            if (j && dist_i < dist)
+            {
+                float d;
+                float3 norm = lighting->n, h = lighting->hit;
+                t_material m = lighting->mat;
+                d = dist;
+                dist = dist_i;
+                lighting->hit = orig + dir * dist_i;
+                lighting->mat = (*(obj + i)).mat;
+                lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
+                lighting->n = fast_normalize(lighting->n);
+                if (j == 2)
+                    lighting->n = -lighting->n;
+                if (length(lighting->hit - (*(obj + i)).center) > 100.f)
+                {
+                    orig = lighting->hit + 1e-3f * dir;
+                    j = hyper_intersect(orig, dir, (obj + i), &dist_i);
+                    dist = dist_i;
+                    lighting->hit = orig + dir * dist_i;
+                    lighting->mat = (*(obj + i)).mat;
+                    lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
+                    lighting->n = fast_normalize(lighting->n);
+                    if (j == 2)
+                        lighting->n = -lighting->n;
+                    if (length(lighting->hit - (*(obj + i)).center) > 100.f)
+                    {
+                        dist = d;
+                        lighting->n = norm;
+                        lighting->hit = h;
+                        lighting->mat = m;
+                    }
+                }
+            }
+        }
 		else if ((*(obj + i)).type == 5)
 		{
 			dist_i = 0.f;
@@ -808,7 +822,7 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 		if(!scene_intersect(path_orig, path_dir, obj, &lighting, count,
 		texture_w, texture_h, prev_texture_size, texture))
 		{
-			path_color += mask * 0.5f;
+			path_color += mask * 0.01f;
 			break;
 		}
 		float rand1 = get_random(randSeed0, randSeed1) * 2.0f * M_PI_F;
