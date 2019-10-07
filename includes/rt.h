@@ -134,7 +134,7 @@ typedef struct			s_screen
 	cl_float3			center;
 	cl_float			brightness;
 	cl_int				fsaa_n;
-	cl_int8				effects;
+	cl_int4				effects;
 	cl_int				params;
 	cl_int				samples;
 # else
@@ -144,7 +144,7 @@ typedef struct			s_screen
 	float3				center;
 	float				brightness;
 	int					fsaa_n;
-	int8				effects;
+	int4				effects;
 	int					params;
 	int					samples;
 # endif

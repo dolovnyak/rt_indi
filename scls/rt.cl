@@ -12,7 +12,7 @@ int		get_light(int start, int end, float percentage)
 	return ((int)((1 - percentage) * start + percentage * end));
 }
 
-int		get_color(float3 v, int8 type)
+int		get_color(float3 v, int4 type)
 {
 	int     red;
 	int     green;
