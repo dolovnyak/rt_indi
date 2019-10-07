@@ -110,8 +110,6 @@ typedef struct			s_object
 	float				param;
 	cl_float3			a;
 	cl_float3			b;
-	cl_float3			c;
-	cl_float3			d;
 	enum e_object_type	e_type;
 	t_material			mat;
 # else
@@ -121,8 +119,6 @@ typedef struct			s_object
 	float				param;
 	float3				a;
 	float3				b;
-	float3				c;
-	float3				d;
 	enum e_object_type	e_type;
 	t_material			mat;
 # endif
@@ -148,7 +144,7 @@ typedef struct			s_screen
 	float3				center;
 	float				brightness;
 	int					fsaa_n;
-	int				effects;
+	int					effects;
 	int					params;
 	int					samples;
 # endif

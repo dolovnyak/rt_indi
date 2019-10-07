@@ -33,25 +33,21 @@ int		ft_effects(int keycode, t_rt *rt)
 		rt->screen.effects ^= GRAY;
 	else if (keycode == 7)
 	{
-		rt->screen.effects ^= DITHERING;
+		rt->screen.effects &= ~(DITHERING);
 		rt->screen.effects ^= THREE_D;
 	}
 	else if (keycode == 8)
 		rt->screen.effects ^= GAYSS_BLURE;
 	else if (keycode == 9)
 	{
-		rt->screen.effects ^= THREE_D;
+		rt->screen.effects &= ~(THREE_D);
 		rt->screen.effects ^= DITHERING;
-	}
-	else if (keycode == 37 && (rt->screen.params & PATH_TRACE))
-	{
-		rt->screen.params ^= PATH_TRACE;
-		rt->screen.params ^= PHONG;
 	}
 	else if (keycode == 37)
 	{
 		rt->screen.params ^= PHONG;
 		rt->screen.params ^= PATH_TRACE;
 	}
+	printf("%d\n", rt->screen.effects);
 	return (0);
 }
