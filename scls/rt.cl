@@ -573,6 +573,10 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 			j = cyl_intersect(orig, dir, (obj + i), &dist_i);
 			if (j && dist_i < dist)
 			{
+				float d;
+				float3 norm = lighting->n, h = lighting->hit, ori = orig;
+				t_material m = lighting->mat;
+				d = dist;
 				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
 				v = lighting->hit - (*(obj + i)).center;
@@ -583,8 +587,34 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				lighting->mat = (*(obj + i)).mat;
 				float3 col1 = (float3){1, 0, 0};
 				if (!(choose_texture_for_object(obj, texture, &col1,
-						texture_w, texture_h, prev_texture_size, lighting, i)))
+												texture_w, texture_h, prev_texture_size, lighting, i)))
 					lighting->mat.diffuse_color = col1;
+				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
+				{
+					orig = lighting->hit + 1e-3f * dir;
+					j = cyl_intersect(orig, dir, (obj + i), &dist_i);
+					dist = dist +dist_i;
+					if (dist < d)
+					{
+						lighting->hit = orig + dir * dist_i;
+						lighting->mat = (*(obj + i)).mat;
+						float3 col1 = (float3){1, 0, 0};
+						if (!(choose_texture_for_object(obj, texture, &col1,
+														texture_w, texture_h, prev_texture_size, lighting, i)))
+							lighting->mat.diffuse_color = col1;
+						v = lighting->hit - (*(obj + i)).center;
+						lighting->n = (*(obj + i)).vector * dot(v, (*(obj + i)).vector);
+						lighting->n = -fast_normalize(v - lighting->n);
+					}
+					if (length(lighting->hit - (*(obj + i)).center) > 50.f || dist > d)
+					{
+						dist = d;
+						lighting->n = norm;
+						lighting->hit = h;
+						lighting->mat = m;
+					}
+					orig = ori;
+				}
 			}
 		}
 		else if ((*(obj + i)).e_type == o_cone)
@@ -593,6 +623,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 			j = cone_intersect(orig, dir, (obj + i), &dist_i);
 			if (j && dist_i < dist)
 			{
+				float d;
+				float3 norm = lighting->n, h = lighting->hit, ori = orig;
+				t_material m = lighting->mat;
+				d = dist;
+				dist = dist_i;
 				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
 				v = fast_normalize(lighting->hit - (*(obj + i)).center);
@@ -604,8 +639,37 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				lighting->mat = (*(obj + i)).mat;
 				float3 col1 = (float3){1, 0, 0};
 				if (!(choose_texture_for_object(obj, texture, &col1,
-					texture_w, texture_h, prev_texture_size, lighting, i)))
+												texture_w, texture_h, prev_texture_size, lighting, i)))
 					lighting->mat.diffuse_color = col1;
+				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
+				{
+					orig = lighting->hit + 1e-3f * dir;
+					j = cone_intersect(orig, dir, (obj + i), &dist_i);
+					dist = dist +dist_i;
+					if (dist < d)
+					{
+						lighting->hit = orig + dir * dist_i;
+						lighting->mat = (*(obj + i)).mat;
+						float3 col1 = (float3){1, 0, 0};
+						if (!(choose_texture_for_object(obj, texture, &col1,
+														texture_w, texture_h, prev_texture_size, lighting, i)))
+							lighting->mat.diffuse_color = col1;
+						v = fast_normalize(lighting->hit - (*(obj + i)).center);
+						lighting->n = (*(obj + i)).vector;
+						lighting->n = lighting->n * ft_sign(dot(v, (*(obj + i)).vector));
+						lighting->n = fast_normalize(v * dot(v, lighting->n) - lighting->n);
+						if (j == 2)
+							lighting->n = -lighting->n;
+					}
+					if (length(lighting->hit - (*(obj + i)).center) > 50.f || dist > d)
+					{
+						dist = d;
+						lighting->n = norm;
+						lighting->hit = h;
+						lighting->mat = m;
+					}
+					orig = ori;
+				}
 			}
 		}
         else if ((*(obj + i)).e_type == o_hyper)
