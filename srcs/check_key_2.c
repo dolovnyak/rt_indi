@@ -48,6 +48,5 @@ int		ft_effects(int keycode, t_rt *rt)
 		rt->screen.params ^= PHONG;
 		rt->screen.params ^= PATH_TRACE;
 	}
-	printf("%d\n", rt->screen.effects);
 	return (0);
 }
