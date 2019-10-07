@@ -617,6 +617,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
                 float d;
                 float3 norm = lighting->n, h = lighting->hit;
                 t_material m = lighting->mat;
+                float3 oori = orig;
                 d = dist;
                 dist = dist_i;
                 lighting->hit = orig + dir * dist_i;
@@ -628,21 +629,24 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
                 if (length(lighting->hit - (*(obj + i)).center) > 100.f)
                 {
                     orig = lighting->hit + 1e-3f * dir;
+                    dist_i = 0.f;
                     j = hyper_intersect(orig, dir, (obj + i), &dist_i);
-                    dist = dist_i;
-                    lighting->hit = orig + dir * dist_i;
-                    lighting->mat = (*(obj + i)).mat;
-                    lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
-                    lighting->n = fast_normalize(lighting->n);
-                    if (j == 2)
-                        lighting->n = -lighting->n;
-                    if (length(lighting->hit - (*(obj + i)).center) > 100.f)
+                    dist = dist + dist_i;
+                    if (dist < d)
+                    {
+                        lighting->hit = orig + dir * dist_i;
+                        lighting->mat = (*(obj + i)).mat;
+                        lighting->n = lighting->hit - (*(obj + i)).center - (*(obj + i)).vector * (dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector) + (*(obj + i)).param);
+                        lighting->n = -fast_normalize(lighting->n);
+                    }
+                    if (length(lighting->hit - (*(obj + i)).center) > 100.f || dist > d)
                     {
                         dist = d;
                         lighting->n = norm;
                         lighting->hit = h;
                         lighting->mat = m;
                     }
+                    orig = oori;
                 }
             }
         }
