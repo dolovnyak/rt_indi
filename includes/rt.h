@@ -44,6 +44,10 @@
 
 # define PHONG		(1 << 0)
 # define PATH_TRACE	(1 << 1)
+# define GRAY (1 << 0)
+# define THREE_D (1 << 1)
+# define GAYSS_BLURE (1 << 2)
+# define DITHERING (1 << 3)
 
 enum					e_object_type
 {
@@ -100,7 +104,6 @@ typedef struct			s_object
 {
 # ifndef OPENCL___
 
-	int					type;
 	cl_float3			center;
 	cl_float3			vector;
 	float				radius;
@@ -112,7 +115,6 @@ typedef struct			s_object
 	enum e_object_type	e_type;
 	t_material			mat;
 # else
-	int					type;
 	float3				center;
 	float3				vector;
 	float				radius;
@@ -136,7 +138,7 @@ typedef struct			s_screen
 	cl_float3			center;
 	cl_float			brightness;
 	cl_int				fsaa_n;
-	cl_int8				effects;
+	cl_int				effects;
 	cl_int				params;
 	cl_int				samples;
 # else
@@ -146,7 +148,7 @@ typedef struct			s_screen
 	float3				center;
 	float				brightness;
 	int					fsaa_n;
-	int8				effects;
+	int				effects;
 	int					params;
 	int					samples;
 # endif

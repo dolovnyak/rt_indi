@@ -12,7 +12,7 @@ static int		get_light(int start, int end, float percentage)
 	return ((int)((1 - percentage) * start + percentage * end));
 }
 
-static int		get_color(float3 v, int8 type)
+static int		get_color(float3 v, int type)
 {
 	int     red;
 	int     green;
@@ -24,7 +24,7 @@ static int		get_color(float3 v, int8 type)
 	e  = (max(max(v.x, v.y), v.z));
 	if (e > 1)
 		v *= 1.f / e;
-	if (type.x == 1)
+	if (type == GRAY)
 	{
 		float3	c_linear;
 		float	y_linear;
@@ -207,15 +207,15 @@ static int		choose_texture_for_object(const __global t_object *obj,  __global in
 	if (tmp_obj.mat.texture_id == -1)
 		return (found_texture_for_obj);
 	uv = (float2){-1.f, -1.f};
-	if (tmp_obj.type == 0)
+	if (tmp_obj.e_type == o_sphere)
 		uv = uv_mapping_for_sphere(lighting, tmp_obj);
-	else if (tmp_obj.type == 2)
+	else if (tmp_obj.e_type == o_cylinder)
 		uv = uv_mapping_for_cylinder(lighting, tmp_obj);
-	else if (tmp_obj.type == 5)
+	else if (tmp_obj.e_type == o_torus)
 		uv = uv_mapping_for_torus(lighting, tmp_obj);
-	else if (tmp_obj.type == 1)
+	else if (tmp_obj.e_type == o_plane)
 		uv = uv_mapping_for_plane(lighting, tmp_obj);
-	else if (tmp_obj.type == 3)
+	else if (tmp_obj.e_type == o_cone)
 		uv = uv_mapping_for_cone(lighting, tmp_obj);
 	if (uv.x != -1.f && uv.y != -1.f)
 	{
@@ -608,7 +608,7 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-        else if ((*(obj + i)).type == 4)
+        else if ((*(obj + i)).e_type == o_hyper)
         {
             dist_i = 0.f;
             j = hyper_intersect(orig, dir, (obj + i), &dist_i);
@@ -650,7 +650,7 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
                 }
             }
         }
-		else if ((*(obj + i)).type == 5)
+		else if ((*(obj + i)).e_type == o_torus)
 		{
 			dist_i = 0.f;
 			j = torus_intersect(orig, dir, (obj + i), &dist_i);
@@ -689,7 +689,7 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 					lighting->mat.diffuse_color = col1;
 			}
 		}
-		else if ((*(obj + i)).type == 6)
+		else if ((*(obj + i)).e_type == o_sqr)
 		{
 			dist_i = 0.f;
 			j = quad_intersect(orig, dir, (obj + i), &dist_i);
@@ -704,7 +704,7 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				lighting->mat = (*(obj + i)).mat;
 			}
 		}
-		else if ((*(obj + i)).type == 7)
+		else if ((*(obj + i)).e_type == o_mandelbulb)
 		{
 			dist_i = 0;
 			float last_dist;
@@ -884,6 +884,7 @@ static float3 trace(float3 orig, float3 dir, const __global t_object *obj, int c
 	float3 path_orig = orig, path_dir = dir;
 	float mirr = 0.f;
 
+	int ind = 0;
 	for (int bounces = 0; bounces < 8; bounces++)
 	{
 		if(!scene_intersect(path_orig, path_dir, obj, &lighting, count,
@@ -1019,5 +1020,4 @@ __kernel void	rt(
 	color = color / ((fsaa + 1) * (fsaa + 1));
 
 	data[index] = get_color(color, screen->effects);
-//	a;
 }
