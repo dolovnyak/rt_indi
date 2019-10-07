@@ -12,6 +12,9 @@
 
 #include "rt.h"
 
+size_t	first_time = 0;
+size_t	second_time = 0;
+
 int			set_kernel_arg(t_rt *rt, cl_kernel *kernel, cl_mem cam_buffer,
 													cl_mem screen_buffer)
 {
@@ -120,6 +123,9 @@ int			cl_worker(t_rt *rt)
 	size_t				global_size[2];
 	size_t				local_size[2];
 
+	second_time = clock();
+	printf("%lu\n", second_time - first_time);
+	first_time = second_time;
 	global_size[0] = WIDTH;
 	global_size[1] = HEIGHT;
 	local_size[0] = 8;
