@@ -24,7 +24,7 @@ static int		get_color(float3 v, int type)
 	e  = (max(max(v.x, v.y), v.z));
 	if (e > 1)
 		v *= 1.f / e;
-	if (type == GRAY)
+	if (type & GRAY)
 	{
 		float3	c_linear;
 		float	y_linear;
