@@ -569,9 +569,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 						lighting->hit = orig + dir * dist_i;
 						lighting->mat = (*(obj + i)).mat;
 						float3 col1 = (float3){1, 0, 0};
-						if (!(choose_texture_for_object(obj, texture, &col1,
-														texture_w, texture_h, prev_texture_size, lighting, i)))
-							lighting->mat.diffuse_color = col1;
+						if ((*(obj + i)).mat.texture_id != -1)
+						{
+							uv = uv_mapping_for_cylinder(lighting, obj + i);
+							normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+						}
 						v = lighting->hit - (*(obj + i)).center;
 						lighting->n = (*(obj + i)).vector * dot(v, (*(obj + i)).vector);
 						lighting->n = -fast_normalize(v - lighting->n);
@@ -622,9 +624,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 						lighting->hit = orig + dir * dist_i;
 						lighting->mat = (*(obj + i)).mat;
 						float3 col1 = (float3){1, 0, 0};
-						if (!(choose_texture_for_object(obj, texture, &col1,
-														texture_w, texture_h, prev_texture_size, lighting, i)))
-							lighting->mat.diffuse_color = col1;
+						if ((*(obj + i)).mat.texture_id != -1)
+						{
+							uv = uv_mapping_for_cone(lighting, obj + i);
+							normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+						}
 						v = fast_normalize(lighting->hit - (*(obj + i)).center);
 						lighting->n = (*(obj + i)).vector;
 						lighting->n = lighting->n * ft_sign(dot(v, (*(obj + i)).vector));
@@ -924,7 +928,7 @@ static float3 trace(float3 orig, float3 dir, const __global t_object *obj, int c
 	for (int bounces = 0; bounces < 8; bounces++)
 	{
 		if(!scene_intersect(path_orig, path_dir, obj, &lighting, count,
-		texture_w, texture_h, prev_texture_size, texture))
+				texture_w, texture_h, prev_texture_size, texture))
 		{
 			path_color += mask * 0.01f;
 			break;
@@ -1003,7 +1007,6 @@ __kernel void	rt(
 
 	orig = (*cam).center;
 	color = (float3) 0;
-
 	if (screen->params & PATH_TRACE)
 	{
         int N = screen->samples;
