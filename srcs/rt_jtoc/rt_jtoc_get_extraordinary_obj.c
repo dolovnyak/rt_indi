@@ -83,11 +83,15 @@ int			rt_jtoc_get_mandelbulb(t_object *obj, t_jnode *n)
 {
 	t_jnode	*tmp;
 
-	if (!(tmp = jtoc_node_get_by_path(n, "power")) || tmp->type != fractional)
-		return (rt_jtoc_sdl_log_error("POWER TYPE ERROR OR POWER IS MISSING", -1));
+	g_err_str = "POWER TYPE ERROR OR POWER IS MISSING";
+	if (!(tmp = jtoc_node_get_by_path(n, "power"))
+	|| tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	obj->param = jtoc_get_float(tmp);
-	if (!(tmp = jtoc_node_get_by_path(n, "iteration")) || tmp->type != fractional)
-		return (rt_jtoc_sdl_log_error("ITERTATION TYPE ERROR OR ITERTATION IS MISSING", -1));
+	g_err_str = "ITERTATION TYPE ERROR OR ITERTATION IS MISSING";
+	if (!(tmp = jtoc_node_get_by_path(n, "iteration"))
+	|| tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	obj->radius = jtoc_get_float(tmp);
 	if (obj->radius < 0.f || obj->radius > 200.f)
 		obj->radius = 15.f;

@@ -100,7 +100,6 @@ typedef struct			s_object
 {
 # ifndef OPENCL___
 
-	int					type;
 	cl_float3			center;
 	cl_float3			vector;
 	float				radius;
@@ -112,7 +111,6 @@ typedef struct			s_object
 	enum e_object_type	e_type;
 	t_material			mat;
 # else
-	int					type;
 	float3				center;
 	float3				vector;
 	float				radius;
