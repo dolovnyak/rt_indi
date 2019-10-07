@@ -1,3 +1,8 @@
+# define GRAY (1 << 0)
+# define THREE_D (1 << 1)
+# define GAYSS_BLURE (1 << 2)
+# define DITHERING (1 << 3)
+
 static float3	int_color(int col)
 {
 	float3	v;
@@ -77,7 +82,7 @@ __kernel void	post_processing(
 	int index = ty * WIDTH + tx;
 
 
-	if (screen->effects.y == 1)
+	if (screen->effects & THREE_D)
 	{
 		float3	l_color;
 		float3	r_color;
@@ -93,7 +98,7 @@ __kernel void	post_processing(
 
 		output_data[index] = get_color(anaglyph_color, screen->effects);
 	}
-	else if (screen->effects.w == 1)
+	else if (screen->effects & DITHERING)
 	{
 		float16 bayer = {0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5};
 		bayer *= 1.f / 16;

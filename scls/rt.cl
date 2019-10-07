@@ -12,7 +12,7 @@ int		get_light(int start, int end, float percentage)
 	return ((int)((1 - percentage) * start + percentage * end));
 }
 
-int		get_color(float3 v, int4 type)
+int		get_color(float3 v, int type)
 {
 	int     red;
 	int     green;
@@ -24,7 +24,7 @@ int		get_color(float3 v, int4 type)
 	e  = (max(max(v.x, v.y), v.z));
 	if (e > 1)
 		v *= 1.f / e;
-	if (type.x == 1)
+	if (type == GRAY)
 	{
 		float3	c_linear;
 		float	y_linear;

@@ -23,18 +23,22 @@ int		rt_jtoc_get_effects(t_rt *rt, t_jnode *n)
 	if (!(tmp = jtoc_node_get_by_path(n, "gray"))
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
-	rt->screen.effects.x = jtoc_get_int(tmp);
+	if (jtoc_get_int(tmp) == 1)
+		rt->screen.effects |= GRAY;
 	if (!(tmp = jtoc_node_get_by_path(n, "3d"))
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
-	rt->screen.effects.y = jtoc_get_int(tmp);
+	if (jtoc_get_int(tmp) == 1)
+	rt->screen.effects |= THREE_D;
 	if (!(tmp = jtoc_node_get_by_path(n, "gauss_blure"))
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
-	rt->screen.effects.z = jtoc_get_int(tmp);
+	if (jtoc_get_int(tmp) == 1)
+	rt->screen.effects |= GAYSS_BLURE;
 	if (!(tmp = jtoc_node_get_by_path(n, "dithering"))
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
-	rt->screen.effects.w = jtoc_get_int(tmp);
+	if (jtoc_get_int(tmp) == 1)
+	rt->screen.effects |= DITHERING;
 	return (FUNCTION_SUCCESS);
 }

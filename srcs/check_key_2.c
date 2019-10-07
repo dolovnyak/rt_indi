@@ -30,28 +30,28 @@ int		ft_aa(int keycode, t_rt *rt)
 int		ft_effects(int keycode, t_rt *rt)
 {
 	if (keycode == 6)
-		rt->screen.effects.x = (rt->screen.effects.x + 1) % 2;
+		rt->screen.effects ^= GRAY;
 	else if (keycode == 7)
 	{
-		rt->screen.effects.w = 0;
-		rt->screen.effects.y = (rt->screen.effects.y + 1) % 2;
+		rt->screen.effects ^= DITHERING;
+		rt->screen.effects ^= THREE_D;
 	}
 	else if (keycode == 8)
-		rt->screen.effects.z = (rt->screen.effects.z + 1) % 2;
+		rt->screen.effects ^= GAYSS_BLURE;
 	else if (keycode == 9)
 	{
-		rt->screen.effects.y = 0;
-		rt->screen.effects.w = (rt->screen.effects.w + 1) % 2;
+		rt->screen.effects ^= THREE_D;
+		rt->screen.effects ^= DITHERING;
 	}
 	else if (keycode == 37 && (rt->screen.params & PATH_TRACE))
 	{
-		rt->screen.params &= !(PATH_TRACE);
-		rt->screen.params |= PHONG;
+		rt->screen.params ^= PATH_TRACE;
+		rt->screen.params ^= PHONG;
 	}
 	else if (keycode == 37)
 	{
-		rt->screen.params &= !(PHONG);
-		rt->screen.params |= PATH_TRACE;
+		rt->screen.params ^= PHONG;
+		rt->screen.params ^= PATH_TRACE;
 	}
 	return (0);
 }

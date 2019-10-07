@@ -63,33 +63,37 @@ void		release_gpu_mem(t_rt *rt)
 
 int			main(int argc, char **argv)
 {
-	t_rt		rt;
+	t_rt		*rt;
 
-	ft_bzero(&rt, sizeof(t_rt));
+	if (!(rt = (t_rt *)ft_memalloc(sizeof(t_rt))))
+	{
+		ft_putstr("Couldn't allocate memory for t_rt");
+		exit (-1);
+	}
+	ft_bzero(rt, sizeof(t_rt));
 	if (argc != 3)
 	{
 	    ft_putstr("usage: ./RT path_map path_texture\n");
 	    exit (-1);
 	}
 
-	rt.cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
+	rt->cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
 			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
-	if (new_mlx(&rt, argv[1]))
+	if (new_mlx(rt, argv[1]))
 	{
 
-		rt_jtoc_textures_setup(&rt, argv[2]);
-		rt_jtoc_scene_setup(&rt, argv[1]);
-//		rt.obj[0].type = 7;
+		rt_jtoc_textures_setup(rt, argv[2]);
+		rt_jtoc_scene_setup(rt, argv[1]);
 
-		rt.screen.params |= PHONG;
-		fill_gpu_mem(&rt);
-		draw_picture(&rt);
-		mlx_hook(rt.win, 2, 0, check_key, &rt);
-		mlx_hook(rt.win, 17, 0, ft_esc, &rt);
-		mlx_hook(rt.win, 4, 0, mouse_press, &rt);
-		mlx_hook(rt.win, 5, 0, mouse_release, &rt);
-		mlx_hook(rt.win, 6, 0, mouse_move, &rt);
-		mlx_loop(rt.mlx_ptr);
+		rt->screen.params |= PHONG;
+		fill_gpu_mem(rt);
+		draw_picture(rt);
+		mlx_hook(rt->win, 2, 0, check_key, rt);
+		mlx_hook(rt->win, 17, 0, ft_esc, rt);
+		mlx_hook(rt->win, 4, 0, mouse_press, rt);
+		mlx_hook(rt->win, 5, 0, mouse_release, rt);
+		mlx_hook(rt->win, 6, 0, mouse_move, rt);
+		mlx_loop(rt->mlx_ptr);
 	}
 	return (0);
 }

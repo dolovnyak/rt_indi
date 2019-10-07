@@ -109,7 +109,7 @@ void		post_processing(t_rt *rt, cl_mem screen_buffer,
 			local_size, 0, NULL, NULL);
 	cl_error_handler("Couldn't enqueue the kernel post_processing",
 			err);
-	if (rt->screen.effects.z == 1)
+	if (rt->screen.effects & GAYSS_BLURE)
 		gauss_blur(rt, screen_buffer, global_size, local_size);
 }
 
