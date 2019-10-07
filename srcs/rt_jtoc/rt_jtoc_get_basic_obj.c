@@ -79,11 +79,7 @@ int			rt_jtoc_get_cylinder(t_object *obj, t_jnode *n)
 	if (rt_jtoc_get_float3(&obj->vector, tmp))
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	if (!(obj->vector.x == 0 && obj->vector.y == 0 && obj->vector.z == 0))
-	{
-		printf("\n(%f, %f, %f)\n", obj->vector.x, obj->vector.y, obj->vector.z);
 		obj->vector = cl_normalize(obj->vector);
-		printf("(%f, %f, %f)\n", obj->vector.x, obj->vector.y, obj->vector.z);
-	}
 	else
 		return (rt_jtoc_sdl_log_error("VECTOR ERROR", -1));
 	g_err_str = "RADIUS TYPE ERROR OR RADIUS IS MISSING";

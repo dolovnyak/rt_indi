@@ -14,7 +14,7 @@
 
 int		ft_esc(t_rt *rt)
 {
-	release_gpu_mem(rt);
+    release_gpu_mem(rt);
 	mlx_destroy_image(rt->mlx_ptr, rt->img.img_ptr);
 	mlx_destroy_window(rt->mlx_ptr, rt->win);
 	exit(0);
