@@ -1,7 +1,7 @@
 {
   "antialiasing": 0,
   "ambient" : 0.5,
-  "samples": 5,
+  "samples": 30,
   "brightness": 4.4,
   "camera":
   {
@@ -38,7 +38,7 @@
     {
       "type": "sphere",
       "texture": "none",
-      "reflection": 0.0,
+      "reflection": 0.8,
       "refraction": 0.0,
       "radius": 10.0,
       "phong":

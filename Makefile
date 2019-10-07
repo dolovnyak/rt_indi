@@ -6,7 +6,7 @@
 #    By: broggo <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/07 13:56:12 by broggo            #+#    #+#              #
-#    Updated: 2019/09/29 21:37:45 by rkeli            ###   ########.fr        #
+#    Updated: 2019/10/06 22:46:48 by sbecker          ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -20,7 +20,7 @@ LIB_DIR	:=		./libft
 IMG_DIR :=		./images
 
 CC		:= 		gcc
-CFLAGS	:= 		-Wall -Wextra -Werror
+CFLAGS	:= 		-Wall -Wextra -Werror -g -fsanitize=address 
 
 SRC		:=		main.c				            \
 				check_key_0.c		            \

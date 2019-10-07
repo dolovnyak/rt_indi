@@ -7,12 +7,12 @@
 #  define BLUE(c)			((int)c & 0xFF)
 
 
-int		get_light(int start, int end, float percentage)
+static int		get_light(int start, int end, float percentage)
 {
 	return ((int)((1 - percentage) * start + percentage * end));
 }
 
-int		get_color(float3 v, int type)
+static int		get_color(float3 v, int type)
 {
 	int     red;
 	int     green;
@@ -47,7 +47,7 @@ int		get_color(float3 v, int type)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-void	normalize_coord_for_texture(const __global t_object *obj, float2 uv, float3 *color,
+static void	normalize_coord_for_texture(const __global t_object *obj, float2 uv, float3 *color,
 									__global int *texture, __global int *texture_w, __global int *texture_h,
 									__global int *prev_texture_size)
 {
@@ -76,7 +76,7 @@ void	normalize_coord_for_texture(const __global t_object *obj, float2 uv, float3
 	color->z /= 255;
 }
 
-float3 vec_change(t_lighting *lighting, const __global t_object *obj)
+static float3 vec_change(t_lighting *lighting, const __global t_object *obj)
 {
     float3 n = obj->vector;
     float3 vec = lighting->hit - obj->center;
@@ -117,7 +117,7 @@ float3 vec_change(t_lighting *lighting, const __global t_object *obj)
     return vec;
 }
 
-float2			uv_mapping_for_sphere(t_lighting *lighting)
+static float2			uv_mapping_for_sphere(t_lighting *lighting)
 {
 	float3	vec;
 	float 	v;
@@ -129,7 +129,7 @@ float2			uv_mapping_for_sphere(t_lighting *lighting)
 	return ((float2){u, v});
 }
 
-float2			uv_mapping_for_cylinder(t_lighting *lighting, const __global t_object *obj)
+static float2			uv_mapping_for_cylinder(t_lighting *lighting, const __global t_object *obj)
 {
 	float3	vec;
 	float 	v;
@@ -142,7 +142,7 @@ float2			uv_mapping_for_cylinder(t_lighting *lighting, const __global t_object *
 	return ((float2){u, v});
 }
 
-float2			uv_mapping_for_torus(t_lighting *lighting, const __global t_object *obj)
+static float2			uv_mapping_for_torus(t_lighting *lighting, const __global t_object *obj)
 {
 	float3	vec = (lighting->hit - obj->center);
     vec = vec_change(lighting, obj);
@@ -151,7 +151,7 @@ float2			uv_mapping_for_torus(t_lighting *lighting, const __global t_object *obj
 	return ((float2){u, v});
 }
 
-float2			uv_mapping_for_plane(t_lighting *lighting)
+static float2			uv_mapping_for_plane(t_lighting *lighting)
 {
 	float3 vec;
 	float3 n;
@@ -173,7 +173,7 @@ float2			uv_mapping_for_plane(t_lighting *lighting)
 	return ((float2){u, v});
 }
 
-float2 			uv_mapping_for_cone(t_lighting *lighting, const __global t_object *obj)
+static float2 			uv_mapping_for_cone(t_lighting *lighting, const __global t_object *obj)
 {
 	float3 vec = lighting->hit;
 
@@ -201,7 +201,7 @@ int	ft_sign(float a)
 	return 0;
 }
 
-int torus_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
+static int torus_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 {
 	int		i;
 	float3	current_position = (float3)0;
@@ -233,7 +233,7 @@ int torus_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 	return 0;
 }
 
-float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
+static float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
 {
 	float3 z = pos;
 	float dr = 1;
@@ -256,7 +256,7 @@ float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
 	return ((0.5 * log(r) * r / dr));
 }
 
-int		mandelbulb_intersect(float3 orig, float3 dir, __global t_object *obj, float *dist_to_obj, float *last_dist)
+static int		mandelbulb_intersect(float3 orig, float3 dir, __global t_object *obj, float *dist_to_obj, float *last_dist)
 {
 	int		max_steps = 500;
 	float3	cur_ray_pos = orig;
@@ -280,12 +280,12 @@ int		mandelbulb_intersect(float3 orig, float3 dir, __global t_object *obj, float
 	return (0);
 }
 
-float ft_dot2(float3 a)
+static float ft_dot2(float3 a)
 {
 	return dot(a, a);
 }
 
-int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
+static int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 {
 	int		i;
 	float3	current_position;
@@ -343,7 +343,7 @@ int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 	return 0;
 }
 
-int	hyper_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
+static int	hyper_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 {
 	float a;
 	float b;
@@ -379,7 +379,7 @@ int	hyper_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 	return 0;
 }
 
-int	sphere_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
+static int	sphere_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 {
 	float3	l;
 	float	tca;
@@ -401,7 +401,7 @@ int	sphere_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 	return (0);
 }
 
-int	plane_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
+static int	plane_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 {
 	float	a = 0;
 
@@ -416,7 +416,7 @@ int	plane_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 	return (1);
 }
 
-int		cyl_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
+static int		cyl_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 {
 	float b;
 	float3	s;
@@ -443,7 +443,7 @@ int		cyl_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 	return (0);
 }
 
-int			cone_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
+static int			cone_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 {
 	float t1;
 	float t2;
@@ -482,7 +482,7 @@ int			cone_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 	return (0);
 }
 
-int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
+static int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 		t_lighting *lighting, int count, __global int *texture_w,
 		__global int *texture_h, __global int *prev_texture_size,
 		__global int *texture)
@@ -542,6 +542,10 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 			j = cyl_intersect(orig, dir, (obj + i), &dist_i);
 			if (j && dist_i < dist)
 			{
+				float d;
+				float3 norm = lighting->n, h = lighting->hit, ori = orig;
+				t_material m = lighting->mat;
+				d = dist;
 				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
 				v = lighting->hit - (*(obj + i)).center;
@@ -555,6 +559,32 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 					uv = uv_mapping_for_cylinder(lighting, obj + i);
 					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
 				}
+				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
+				{
+					orig = lighting->hit + 1e-3f * dir;
+					j = cyl_intersect(orig, dir, (obj + i), &dist_i);
+					dist = dist +dist_i;
+					if (dist < d)
+					{
+						lighting->hit = orig + dir * dist_i;
+						lighting->mat = (*(obj + i)).mat;
+						float3 col1 = (float3){1, 0, 0};
+						if (!(choose_texture_for_object(obj, texture, &col1,
+														texture_w, texture_h, prev_texture_size, lighting, i)))
+							lighting->mat.diffuse_color = col1;
+						v = lighting->hit - (*(obj + i)).center;
+						lighting->n = (*(obj + i)).vector * dot(v, (*(obj + i)).vector);
+						lighting->n = -fast_normalize(v - lighting->n);
+					}
+					if (length(lighting->hit - (*(obj + i)).center) > 50.f || dist > d)
+					{
+						dist = d;
+						lighting->n = norm;
+						lighting->hit = h;
+						lighting->mat = m;
+					}
+					orig = ori;
+				}
 			}
 		}
 		else if ((*(obj + i)).e_type == o_cone)
@@ -563,6 +593,11 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 			j = cone_intersect(orig, dir, (obj + i), &dist_i);
 			if (j && dist_i < dist)
 			{
+				float d;
+				float3 norm = lighting->n, h = lighting->hit, ori = orig;
+				t_material m = lighting->mat;
+				d = dist;
+				dist = dist_i;
 				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
 				v = fast_normalize(lighting->hit - (*(obj + i)).center);
@@ -576,6 +611,35 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 				{
 					uv = uv_mapping_for_cone(lighting, obj + i);
 					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+				}
+				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
+				{
+					orig = lighting->hit + 1e-3f * dir;
+					j = cone_intersect(orig, dir, (obj + i), &dist_i);
+					dist = dist +dist_i;
+					if (dist < d)
+					{
+						lighting->hit = orig + dir * dist_i;
+						lighting->mat = (*(obj + i)).mat;
+						float3 col1 = (float3){1, 0, 0};
+						if (!(choose_texture_for_object(obj, texture, &col1,
+														texture_w, texture_h, prev_texture_size, lighting, i)))
+							lighting->mat.diffuse_color = col1;
+						v = fast_normalize(lighting->hit - (*(obj + i)).center);
+						lighting->n = (*(obj + i)).vector;
+						lighting->n = lighting->n * ft_sign(dot(v, (*(obj + i)).vector));
+						lighting->n = fast_normalize(v * dot(v, lighting->n) - lighting->n);
+						if (j == 2)
+							lighting->n = -lighting->n;
+					}
+					if (length(lighting->hit - (*(obj + i)).center) > 50.f || dist > d)
+					{
+						dist = d;
+						lighting->n = norm;
+						lighting->hit = h;
+						lighting->mat = m;
+					}
+					orig = ori;
 				}
 			}
 		}
@@ -699,7 +763,7 @@ int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
 	return (dist < MAX_DIST);
 }
 
-float3	light_shadow(float3 dir, const __global t_object *obj,
+static float3	light_shadow(float3 dir, const __global t_object *obj,
 		const __global t_light *l, t_lighting *lighting,
 		const __global t_counter *counter, __global int *texture_w,
 		__global int *texture_h, __global int *prev_texture_size,
@@ -761,11 +825,13 @@ static float get_random(unsigned int *seed0, unsigned int *seed1) {
 	res.ui = (ires & 0x007fffff) | 0x40000000;  /* bitwise AND, bitwise OR */
 	return (res.f - 2.0f) / 2.0f;
 }
-float3 reflect(float3 i, float3 n)
+
+static float3 reflect(float3 i, float3 n)
 {
     return (i - 2.0f * dot(i, n) * n);
 }
-float3 rShlic2(const float3 I, const float3 N, const float refractive_index)
+
+static float3 rShlic2(const float3 I, const float3 N, const float refractive_index)
 {
     float r0 = (1.f - refractive_index) / (1.f + refractive_index);
     r0 *= r0;
@@ -782,7 +848,7 @@ float3 rShlic2(const float3 I, const float3 N, const float refractive_index)
 }
 
 
-float3 refract(const float3 I, float3 N, float refractive_index)
+static float3 refract(const float3 I, float3 N, float refractive_index)
 {
     //if (refractive_index < 1.f - 1e-5f)
        // refractive_index = 1./refractive_index;
@@ -802,7 +868,7 @@ float3 refract(const float3 I, float3 N, float refractive_index)
 	return  (n * I + (n * cosI - cosT) * N);
 }
 
-float3 refract3(const float3 I, const float3 N, const float refractive_index)
+static float3 refract3(const float3 I, const float3 N, const float refractive_index)
 {
     float cosI = -(dot(N, I));
     float etai = 1.f;
@@ -822,7 +888,7 @@ float3 refract3(const float3 I, const float3 N, const float refractive_index)
     return eta * I + (eta * cosI - sqrt(k)) * n;
 }
 
-float3 refract2(const float3 I, const float3 N, const float refractive_index) { // Snell's law
+static float3 refract2(const float3 I, const float3 N, const float refractive_index) { // Snell's law
 	float cosi = dot(I, N);
 	float etai = 1, etat = refractive_index;
 	float3 n = N;
@@ -839,7 +905,7 @@ float3 refract2(const float3 I, const float3 N, const float refractive_index) { 
 	return k < 0 ? float3(0,0,0) : I*eta + n*(eta * cosi - sqrt(k));
 }
 
-float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
+static float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 			const int* seed0, const int* seed1,
 			__global int *texture_w, __global int *texture_h,
 			__global int *prev_texture_size, __global int *texture, float brightness)
@@ -869,7 +935,7 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 		lighting.n = dot(lighting.n, path_dir) < 0.0f ? lighting.n : lighting.n * (-1.0f);
 		float3 w = lighting.n;
 		float3 axis = fabs(w.x) >= 0.0f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
-        //float3 axis = (float3)(0.0f, 1.0f, 0.0f);
+		//float3 axis = (float3)(0.0f, 1.0f, 0.0f);
 		float3 u = fast_normalize(cross(axis, w));
 		float3 v = cross(w, u);
 		float3 newdir = fast_normalize(u * cos(rand1) * rand2s + v * sin(rand1) * rand2s + w * sqrt(1.0f - rand2));
@@ -883,8 +949,7 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 			mirr += 1;
 		//	float	a = 0.99f;									// параметр. на сколько мутное стекло. диапазон 0.9f - 1.0f
 			newdir = fast_normalize(lighting.mat.reflection * fast_normalize(reflect(path_dir, lighting.n)) + (1.f - lighting.mat.reflection) * newdir);
-			float	cos_n = fabs(dot(path_dir, lighting.n));
-			mask *= pow(cos_n, 0.01f);							// затемнеяет зеркало. чем больше угол между нормалью зеркала и dir и больше параметр, тем темнее
+			mask *= pow(fabs(dot(path_dir, lighting.n)), 0.01f);							// затемнеяет зеркало. чем больше угол между нормалью зеркала и dir и больше параметр, тем темнее
 			mask *= 0.9f;										// затемняет зеркало
 				//path_color += mask;
 		}
@@ -907,7 +972,7 @@ float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
 	return path_color * brightness;					// 2.f высветляет всю картинку
 }
 
-float	reverse(int n)
+static float	reverse(int n)
 {
 	if (n != 0)
 		return (1.0f / n);
@@ -958,7 +1023,7 @@ __kernel void	rt(
 					get_random(&seed0, &seed1);
 					get_random(&seed1, &seed0);
 					color += trace(orig, dir, obj, counter->all_obj, &seed0, &seed1,
-								   texture_w, texture_h, prev_texture_size, texture, screen->brightness) / N;
+							texture_w, texture_h, prev_texture_size, texture, screen->brightness) / N;
 				}
 			}
 		}

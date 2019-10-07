@@ -20,6 +20,7 @@ void	draw_picture(t_rt *rt)
 	gettimeofday(&start, NULL);
 	calc_screen(&rt->screen, &rt->cam);
 	cl_worker(rt);
+	mlx_clear_window(rt->mlx_ptr, rt->win);
 	mlx_put_image_to_window(rt->mlx_ptr, rt->win, rt->img.img_ptr, 0, 0);
 	
 	gettimeofday(&stop, NULL);
@@ -42,23 +43,28 @@ int	new_mlx(t_rt *rt, char *name)
 
 void		release_gpu_mem(t_rt *rt)
 {
-	clReleaseMemObject(rt->gpu_mem->cl_texture);
-	clReleaseMemObject(rt->gpu_mem->cl_texture_w);
-	clReleaseMemObject(rt->gpu_mem->cl_texture_h);
-	clReleaseMemObject(rt->gpu_mem->cl_prev_texture_size);
-	clReleaseMemObject(rt->gpu_mem->cl_img_buffer);
-	clReleaseMemObject(rt->gpu_mem->cl_aux_buffer);
-	clReleaseMemObject(rt->gpu_mem->cl_light_buffer);
-	clReleaseMemObject(rt->gpu_mem->cl_obj_buffer);
-	clReleaseMemObject(rt->gpu_mem->cl_counter_buffer);
-	clReleaseProgram(*rt->cl->program);
-	clReleaseContext(*rt->cl->context);
-	clReleaseCommandQueue(*rt->cl->queue);
-	clReleaseDevice(rt->cl->device_id);
-	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "post_processing"));
-	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "rt"));
-	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_x"));
-	clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_y"));
+	int err = 0;
+	clFinish(*rt->cl->queue);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_texture);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_texture_w);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_texture_h);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_prev_texture_size);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_img_buffer);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_aux_buffer);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_light_buffer);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_obj_buffer);
+	err |= clReleaseMemObject(rt->gpu_mem->cl_counter_buffer);
+	err |= clReleaseProgram(*rt->cl->program);
+	err |= clReleaseContext(*rt->cl->context);
+	err |= clReleaseCommandQueue(*rt->cl->queue);
+	err |= clReleaseDevice(rt->cl->device_id);
+	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "post_processing"));
+	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "rt"));
+	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_x"));
+	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_y"));
+	if (err != 0)
+		printf("%d\n", err);
+	printf("%s\n", "GPU MEMORY RELEASED");			//TODO DEL WHEN PROGRAM WILL READY
 }
 
 int			main(int argc, char **argv)

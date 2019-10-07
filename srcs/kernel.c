@@ -119,16 +119,23 @@ int			cl_worker(t_rt *rt)
 	cl_int				err;
 	size_t				global_size[2];
 	size_t				local_size[2];
+	int					frame_time;	//TODO DEL WHEN PROGRAM WILL READY
 
 	global_size[0] = WIDTH;
 	global_size[1] = HEIGHT;
-	local_size[0] = 8;
-	local_size[1] = 8;
+	local_size[0] = 16;
+	local_size[1] = 16;
 	screen_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY \
 			| CL_MEM_COPY_HOST_PTR, sizeof(t_screen), &(rt->screen), &err);
 	cl_error_handler("Couldn't create screen buffer", err);
+
+	frame_time = clock();					//TODO DEL WHEN PROGRAM WILL READY
 	render(rt, screen_buffer, global_size, local_size);
+	clFinish(*rt->cl->queue);
 	post_processing(rt, screen_buffer, global_size, local_size);
+	clFinish(*rt->cl->queue);
+	printf("%f\n", 1.f / ((float)(clock() - frame_time) / CLOCKS_PER_SEC * 60));	//TODO DEL WHEN PROGRAM WILL READY
+
 	err = clEnqueueReadBuffer(*rt->cl->queue, rt->gpu_mem->cl_img_buffer,
 			CL_TRUE, 0, WIDTH * HEIGHT * sizeof(int), rt->img.data, 0, NULL,
 			NULL);
