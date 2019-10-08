@@ -19,9 +19,9 @@ static void	normalize_coord_for_texture(__global t_object *obj, float2 uv, float
 	color->x = (RED(texture[coord]));
 	color->y = (GREEN(texture[coord]));
 	color->z = (BLUE(texture[coord]));
-	color->x /= 255;
-	color->y /= 255;
-	color->z /= 255;
+	color->x *= 0.00392156862;
+	color->y *= 0.00392156862;
+	color->z *= 0.00392156862;
 }
 
 static int  ft_sign(float a)
