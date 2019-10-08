@@ -1,8 +1,8 @@
 {
   "antialiasing": 0,
   "ambient" : 0.5,
-  "samples": 30,
-  "brightness": 4.4,
+  "samples": 2000,
+  "brightness": 5.4,
   "camera":
   {
       "pos":
@@ -38,7 +38,7 @@
     {
       "type": "sphere",
       "texture": "none",
-      "reflection": 0.8,
+      "reflection": 1.0,
       "refraction": 0.0,
       "radius": 10.0,
       "phong":
@@ -235,9 +235,9 @@
       },
       "emission":
       {
-        "x": 2.0,
-        "y": 2.0,
-        "z": 2.0
+        "x": 4.0,
+        "y": 4.0,
+        "z": 4.0
       },
       "vec":
       {

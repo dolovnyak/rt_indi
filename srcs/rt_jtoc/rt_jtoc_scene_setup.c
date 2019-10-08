@@ -53,7 +53,7 @@ static int		rt_jtoc_get_samples(t_rt *rt, t_jnode *root)
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	rt->screen.samples = jtoc_get_int(tmp);
-	if (rt->screen.samples < 2 || rt->screen.samples > 900)
+	if (rt->screen.samples < 2 || rt->screen.samples > 10000)
 		return (rt_jtoc_sdl_log_error("SAMPLES ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }
