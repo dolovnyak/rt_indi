@@ -37,7 +37,6 @@ void		cl_fill_kernels(t_cl *cl, char **kernels)
 	size_t	i;
 
 	i = -1;
-	cl->kernels = NULL;
 	while (kernels[++i])
 		cl_add_kernel_by_name(cl, kernels[i]);
 }

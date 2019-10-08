@@ -44,6 +44,8 @@ int	new_mlx(t_rt *rt, char *name)
 void		release_gpu_mem(t_rt *rt)
 {
 	int err = 0;
+	t_list	*tmp_l;
+
 	clFinish(*rt->cl->queue);
 	err |= clReleaseMemObject(rt->gpu_mem->cl_texture);
 	err |= clReleaseMemObject(rt->gpu_mem->cl_texture_w);
@@ -54,7 +56,14 @@ void		release_gpu_mem(t_rt *rt)
 	err |= clReleaseMemObject(rt->gpu_mem->cl_light_buffer);
 	err |= clReleaseMemObject(rt->gpu_mem->cl_obj_buffer);
 	err |= clReleaseMemObject(rt->gpu_mem->cl_counter_buffer);
-	err |= clReleaseProgram(*rt->cl->program);
+
+	tmp_l = rt->cl->programs;
+	while (tmp_l)
+	{
+		err |= clReleaseProgram(*(cl_program *)tmp_l->content);
+		tmp_l = tmp_l->next;
+	}
+
 	err |= clReleaseContext(*rt->cl->context);
 	err |= clReleaseCommandQueue(*rt->cl->queue);
 	err |= clReleaseDevice(rt->cl->device_id);
@@ -86,13 +95,22 @@ int			main(int argc, char **argv)
 	}
 
 	rt->cl = cl_setup((char *[]){"scls/phong_render.cl",
-							  "scls/post_processing.cl",
 							  "scls/scene_intersect.cl",
 							  "scls/uv_mapping.cl",
 							  "scls/utilities.cl",
-							  "scls/path_trace_render.cl", NULL},
-			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y",
-			  "phong_render", "path_trace_render", "path_trace_render_aa", NULL});
+							  NULL},
+			(char *[]){"phong_render", NULL}, NULL);
+
+	cl_setup((char *[]){"scls/scene_intersect.cl",
+					 "scls/uv_mapping.cl",
+					 "scls/utilities.cl",
+					 "scls/path_trace_render.cl", NULL},
+					  (char *[]){"path_trace_render",
+				  "path_trace_render_aa", NULL}, rt->cl);
+
+	cl_setup((char *[]){"scls/post_processing.cl", "scls/utilities.cl", NULL},
+					  (char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", NULL}, rt->cl);
+
 	if (new_mlx(rt, argv[1]))
 	{
 

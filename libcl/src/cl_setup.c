@@ -40,6 +40,9 @@ t_cl				*cl_setup(char **files, char **kernels, t_cl *input_cl)
 		cl->device_id = device_id;
 		cl_context_init(cl, device_id);
 		cl_queue_init(cl, device_id);
+		cl->programs = NULL;
+		if (!(cl->programs = ft_lstnew(NULL, 0)))
+			cl_exit_error("ft_lstnew node create error");
 		cl->programs->content = (void *)cl_create_program(*cl->context, files, device_id);
 		cl->programs->content_size = 0;
 		cl_fill_kernels(cl, kernels);
