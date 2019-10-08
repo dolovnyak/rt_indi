@@ -113,13 +113,14 @@ void		post_processing(t_rt *rt, cl_mem screen_buffer,
 		gauss_blur(rt, screen_buffer, global_size, local_size);
 }
 
+#include <sys/time.h>
+
 int			cl_worker(t_rt *rt)
 {
 	cl_mem				screen_buffer;
 	cl_int				err;
 	size_t				global_size[2];
 	size_t				local_size[2];
-	int					frame_time;	//TODO DEL WHEN PROGRAM WILL READY
 
 	global_size[0] = WIDTH;
 	global_size[1] = HEIGHT;
@@ -129,12 +130,17 @@ int			cl_worker(t_rt *rt)
 			| CL_MEM_COPY_HOST_PTR, sizeof(t_screen), &(rt->screen), &err);
 	cl_error_handler("Couldn't create screen buffer", err);
 
-	frame_time = clock();					//TODO DEL WHEN PROGRAM WILL READY
+	//////////////////////////////////////////////////////////////////////////
+	struct timeval stop, start;
+	gettimeofday(&start, NULL);
 	render(rt, screen_buffer, global_size, local_size);
 	clFinish(*rt->cl->queue);
 	post_processing(rt, screen_buffer, global_size, local_size);
 	clFinish(*rt->cl->queue);
-	printf("%f\n", 1.f / ((float)(clock() - frame_time) / CLOCKS_PER_SEC * 60));	//TODO DEL WHEN PROGRAM WILL READY
+	gettimeofday(&stop, NULL);
+	if (stop.tv_usec - start.tv_usec > 0)
+		printf("took %f\n", 1000000.0 / (double)(stop.tv_usec - start.tv_usec));
+	//////////////////////////////////////////////////////////////////////////
 
 	err = clEnqueueReadBuffer(*rt->cl->queue, rt->gpu_mem->cl_img_buffer,
 			CL_TRUE, 0, WIDTH * HEIGHT * sizeof(int), rt->img.data, 0, NULL,
