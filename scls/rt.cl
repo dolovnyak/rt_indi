@@ -47,7 +47,7 @@ static int		get_color(float3 v, int type)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-static void	normalize_coord_for_texture(t_object obj, float2 uv, float3 *color,
+static void	normalize_coord_for_texture(const __global t_object *obj, float2 uv, float3 *color,
 									__global int *texture, __global int *texture_w, __global int *texture_h,
 									__global int *prev_texture_size)
 {
@@ -60,11 +60,11 @@ static void	normalize_coord_for_texture(t_object obj, float2 uv, float3 *color,
 	int 	start;
 	int		end;
 
-	coord_x = (int)((uv.x * texture_w[obj.mat.texture_id]));
-	coord_y = (int)((uv.y * texture_h[obj.mat.texture_id]));
-	coord_y *= (texture_w[obj.mat.texture_id]);
+	coord_x = (int)((uv.x * texture_w[obj->mat.texture_id]));
+	coord_y = (int)((uv.y * texture_h[obj->mat.texture_id]));
+	coord_y *= (texture_w[obj->mat.texture_id]);
 	coord = coord_x + coord_y;
-	coord += prev_texture_size[obj.mat.texture_id];
+	coord += prev_texture_size[obj->mat.texture_id];
 
 	start = 0;
 	end = 0xFFFFFF;
@@ -76,10 +76,10 @@ static void	normalize_coord_for_texture(t_object obj, float2 uv, float3 *color,
 	color->z /= 255;
 }
 
-static float3 vec_change(t_lighting *lighting, t_object obj)
+static float3 vec_change(t_lighting *lighting, const __global t_object *obj)
 {
-    float3 n = obj.vector;
-    float3 vec = lighting->hit - obj.center;
+    float3 n = obj->vector;
+    float3 vec = lighting->hit - obj->center;
     float cos_x, cos_z;
     float3 new_vec, new_n;
     float alpha_x, alpha_z;
@@ -117,7 +117,7 @@ static float3 vec_change(t_lighting *lighting, t_object obj)
     return vec;
 }
 
-static float2			uv_mapping_for_sphere(t_lighting *lighting, t_object obj)
+static float2			uv_mapping_for_sphere(t_lighting *lighting)
 {
 	float3	vec;
 	float 	v;
@@ -129,7 +129,7 @@ static float2			uv_mapping_for_sphere(t_lighting *lighting, t_object obj)
 	return ((float2){u, v});
 }
 
-static float2			uv_mapping_for_cylinder(t_lighting *lighting, t_object obj)
+static float2			uv_mapping_for_cylinder(t_lighting *lighting, const __global t_object *obj)
 {
 	float3	vec;
 	float 	v;
@@ -138,20 +138,20 @@ static float2			uv_mapping_for_cylinder(t_lighting *lighting, t_object obj)
 	vec = vec_change(lighting, obj);
 
 	u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
-    v = 0.5f - (modf(vec.z / obj.radius * 250 / 1024, &v) / 2);
+    v = 0.5f - (modf(vec.z / obj->radius * 250 / 1024, &v) / 2);
 	return ((float2){u, v});
 }
 
-static float2			uv_mapping_for_torus(t_lighting *lighting, t_object obj)
+static float2			uv_mapping_for_torus(t_lighting *lighting, const __global t_object *obj)
 {
-	float3	vec = (lighting->hit - obj.center);
+	float3	vec = (lighting->hit - obj->center);
     vec = vec_change(lighting, obj);
 	float	u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
-	float 	v = 0.5f - asin(vec.z / obj.param) / M_PI_F;
+	float 	v = 0.5f - asin(vec.z / obj->param) / M_PI_F;
 	return ((float2){u, v});
 }
 
-static float2			uv_mapping_for_plane(t_lighting *lighting, t_object obj)
+static float2			uv_mapping_for_plane(t_lighting *lighting)
 {
 	float3 vec;
 	float3 n;
@@ -173,60 +173,26 @@ static float2			uv_mapping_for_plane(t_lighting *lighting, t_object obj)
 	return ((float2){u, v});
 }
 
-static float2 			uv_mapping_for_cone(t_lighting *lighting, t_object obj)
+static float2 			uv_mapping_for_cone(t_lighting *lighting, const __global t_object *obj)
 {
-    float3 vec = lighting->hit;
+	float3 vec = lighting->hit;
 
-    vec = vec_change(lighting, obj);
-
-
+	vec = vec_change(lighting, obj);
 
 
-    float u;
-    float p = (vec.x / vec.z) / tan(obj.param);
+	float u;
+	float p = (vec.x / vec.z) / tan(obj->param);
 
-    if (vec.y > 0)
-        u = acos(p);
-    else
-        u = 2 * M_PI - acos(p);
-    u /= (2 * M_PI);
-    float v = 0.5 - modf(vec.z * 100 / 1024, &v) / 2;
-    return ((float2){u, v});
+	if (vec.y > 0)
+		u = acos(p);
+	else
+		u = 2 * M_PI - acos(p);
+	u /= (2 * M_PI);
+	float v = 0.5 - modf(vec.z * 100 / 1024, &v) / 2;
+	return ((float2) {u, v});
 }
 
-static int		choose_texture_for_object(const __global t_object *obj,  __global int *texture,
-		float3 *color, __global int *texture_w, __global int *texture_h,
-		__global int *prev_texture_size, t_lighting *lighting, int i)
-{
-	float2	uv;
-	int 	found_texture_for_obj;
-	t_object tmp_obj = *(obj + i);
-
-	found_texture_for_obj = 1;
-	return (found_texture_for_obj);
-	if (tmp_obj.mat.texture_id == -1)
-		return (found_texture_for_obj);
-	uv = (float2){-1.f, -1.f};
-	if (tmp_obj.e_type == o_sphere)
-		uv = uv_mapping_for_sphere(lighting, tmp_obj);
-	else if (tmp_obj.e_type == o_cylinder)
-		uv = uv_mapping_for_cylinder(lighting, tmp_obj);
-	else if (tmp_obj.e_type == o_torus)
-		uv = uv_mapping_for_torus(lighting, tmp_obj);
-	else if (tmp_obj.e_type == o_plane)
-		uv = uv_mapping_for_plane(lighting, tmp_obj);
-	else if (tmp_obj.e_type == o_cone)
-		uv = uv_mapping_for_cone(lighting, tmp_obj);
-	if (uv.x != -1.f && uv.y != -1.f)
-	{
-		found_texture_for_obj = 0;
-		normalize_coord_for_texture(tmp_obj, uv, color, texture, texture_w, texture_h, prev_texture_size);
-		return (found_texture_for_obj);
-	}
-	return (found_texture_for_obj);
-}
-
-static int	ft_sign(float a)
+int	ft_sign(float a)
 {
 	if (a > 1e-3)
 		return 1;
@@ -525,6 +491,7 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 	int 	i;
 	int		j;
 	float	dist_i;
+	float2 	uv;
 	float3	v;
 
 	dist = MAX_DIST + 1.f;
@@ -543,10 +510,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				if (j == 2)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
-				float3 col1 = (float3){1, 0, 0};
-				if (!(choose_texture_for_object(obj, texture, &col1,
-						texture_w, texture_h, prev_texture_size, lighting, i)))
-					lighting->mat.diffuse_color = col1;
+				if ((*(obj + i)).mat.texture_id != -1)
+				{
+					uv = uv_mapping_for_sphere(lighting);
+					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+				}
 			}
 		}
 		else if ((*(obj + i)).e_type == o_plane)
@@ -561,10 +529,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				 if (dot(dir, lighting->n) > 0)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
-				float3 col1 = (float3){1, 0, 0};
-				if (!(choose_texture_for_object(obj, texture, &col1,
-					texture_w, texture_h, prev_texture_size, lighting, i)))
-					lighting->mat.diffuse_color = col1;
+				if ((*(obj + i)).mat.texture_id != -1)
+				{
+					uv = uv_mapping_for_plane(lighting);
+					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+				}
 			}
 		}
 		else if ((*(obj + i)).e_type == o_cylinder)
@@ -585,10 +554,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				if (j == 2)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
-				float3 col1 = (float3){1, 0, 0};
-				if (!(choose_texture_for_object(obj, texture, &col1,
-												texture_w, texture_h, prev_texture_size, lighting, i)))
-					lighting->mat.diffuse_color = col1;
+				if ((*(obj + i)).mat.texture_id != -1)
+				{
+					uv = uv_mapping_for_cylinder(lighting, obj + i);
+					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+				}
 				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
 				{
 					orig = lighting->hit + 1e-3f * dir;
@@ -599,9 +569,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 						lighting->hit = orig + dir * dist_i;
 						lighting->mat = (*(obj + i)).mat;
 						float3 col1 = (float3){1, 0, 0};
-						if (!(choose_texture_for_object(obj, texture, &col1,
-														texture_w, texture_h, prev_texture_size, lighting, i)))
-							lighting->mat.diffuse_color = col1;
+						if ((*(obj + i)).mat.texture_id != -1)
+						{
+							uv = uv_mapping_for_cylinder(lighting, obj + i);
+							normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+						}
 						v = lighting->hit - (*(obj + i)).center;
 						lighting->n = (*(obj + i)).vector * dot(v, (*(obj + i)).vector);
 						lighting->n = -fast_normalize(v - lighting->n);
@@ -637,10 +609,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				if (j == 2)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
-				float3 col1 = (float3){1, 0, 0};
-				if (!(choose_texture_for_object(obj, texture, &col1,
-												texture_w, texture_h, prev_texture_size, lighting, i)))
-					lighting->mat.diffuse_color = col1;
+				if ((*(obj + i)).mat.texture_id != -1)
+				{
+					uv = uv_mapping_for_cone(lighting, obj + i);
+					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+				}
 				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
 				{
 					orig = lighting->hit + 1e-3f * dir;
@@ -651,9 +624,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 						lighting->hit = orig + dir * dist_i;
 						lighting->mat = (*(obj + i)).mat;
 						float3 col1 = (float3){1, 0, 0};
-						if (!(choose_texture_for_object(obj, texture, &col1,
-														texture_w, texture_h, prev_texture_size, lighting, i)))
-							lighting->mat.diffuse_color = col1;
+						if ((*(obj + i)).mat.texture_id != -1)
+						{
+							uv = uv_mapping_for_cone(lighting, obj + i);
+							normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+						}
 						v = fast_normalize(lighting->hit - (*(obj + i)).center);
 						lighting->n = (*(obj + i)).vector;
 						lighting->n = lighting->n * ft_sign(dot(v, (*(obj + i)).vector));
@@ -747,10 +722,11 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				}
 				if (j == -1)
 					lighting->n = -lighting->n;
-				float3 col1 = (float3){1, 0, 0};
-				if (!(choose_texture_for_object(obj, texture, &col1,
-						texture_w, texture_h, prev_texture_size, lighting, i)))
-					lighting->mat.diffuse_color = col1;
+				if ((*(obj + i)).mat.texture_id != -1)
+				{
+					uv = uv_mapping_for_torus(lighting, obj + i);
+					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+				}
 			}
 		}
 		else if ((*(obj + i)).e_type == o_sqr)
@@ -952,7 +928,7 @@ static float3 trace(float3 orig, float3 dir, const __global t_object *obj, int c
 	for (int bounces = 0; bounces < 8; bounces++)
 	{
 		if(!scene_intersect(path_orig, path_dir, obj, &lighting, count,
-		texture_w, texture_h, prev_texture_size, texture))
+				texture_w, texture_h, prev_texture_size, texture))
 		{
 			path_color += mask * 0.01f;
 			break;
@@ -1015,9 +991,9 @@ __kernel void	rt(
 					const __global t_light		*l,
 					const __global t_object		*obj,
 					int2 rands, float ambient,
-					__global int *texture,	__global int *texture_w,
-					__global int *texture_h,
-					__global int *prev_texture_size)
+					const __global int *texture, const __global int *texture_w,
+					const __global int *texture_h,
+					const __global int *prev_texture_size)
 {
 	int tx = get_global_id(0);
 	int ty = get_global_id(1);
@@ -1031,7 +1007,6 @@ __kernel void	rt(
 
 	orig = (*cam).center;
 	color = (float3) 0;
-
 	if (screen->params & PATH_TRACE)
 	{
         int N = screen->samples;

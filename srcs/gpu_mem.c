@@ -23,15 +23,15 @@ static void	texture_mem_gpu_initialization(t_rt *rt)
 	cl_error_handler("Couldn't create texture buffer", err);
 	rt->gpu_mem->cl_texture_w = clCreateBuffer(*rt->cl->context,
 		CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(int)
-		* 100, rt->texture->texture_w, NULL);
+		* rt->texture->textures_count, rt->texture->texture_w, NULL);
 	cl_error_handler("Couldn't create texture_w buffer", err);
 	rt->gpu_mem->cl_texture_h = clCreateBuffer(*rt->cl->context,
 		CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(int)
-		* 100, rt->texture->texture_h, NULL);
+		* rt->texture->textures_count, rt->texture->texture_h, NULL);
 	cl_error_handler("Couldn't create texture_h buffer", err);
 	rt->gpu_mem->cl_prev_texture_size = clCreateBuffer(*rt->cl->context,
 		CL_MEM_READ_ONLY | CL_MEM_COPY_HOST_PTR, sizeof(int)
-		* 100, rt->texture->prev_texture_size, NULL);
+		* rt->texture->textures_count, rt->texture->prev_texture_size, NULL);
 	cl_error_handler("Couldn't create prev_texture_size buffer", err);
 }
 
