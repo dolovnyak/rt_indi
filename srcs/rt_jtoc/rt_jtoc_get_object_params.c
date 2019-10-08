@@ -19,13 +19,21 @@ int			rt_jtoc_compare_str_with_texture_name(t_obj_texture *texture,
 																	char *str)
 {
 	int i;
+	int j;
 	int cache_counter;
+
 
 	i = -1;
 	cache_counter = texture->textures_count;
+
 	while (++i < cache_counter)
-		if ((ft_strstr(texture->textures_path[i], str)))
+	{
+		j = ft_strlen(texture->textures_path[i]);
+		while (texture->textures_path[i][j] != '/')
+			j--;
+		if ((ft_strstr(&texture->textures_path[i][j], str)))
 			return (i);
+	}
 	return (-2);
 }
 
