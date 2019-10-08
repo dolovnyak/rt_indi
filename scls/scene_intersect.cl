@@ -19,35 +19,34 @@ static void	normalize_coord_for_texture(__global t_object *obj, float2 uv, float
 
 	start = 0;
 	end = 0xFFFFFF;
-	color->x = (RED(texture[coord]));
+	color->z = (RED(texture[coord]));
 	color->y = (GREEN(texture[coord]));
-	color->z = (BLUE(texture[coord]));
-	color->x *= 0.00392156862;
-	color->y *= 0.00392156862;
-	color->z *= 0.00392156862;
+	color->x = (BLUE(texture[coord]));
+	color->x *= 0.00392156862f;
+	color->y *= 0.00392156862f;
+	color->z *= 0.00392156862f;
 }
 
 static int  ft_sign(float a)
 {
 	if (a > 1e-3)
-		return 1;
+		return (1);
 	if (a < -1e-3)
 		return -1;
-	return 0;
+	return (0);
 }
 
 static int torus_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
 {
-	int		i;
-	float3	current_position = (float3)0;
+	int		i, j;
+	float3	current_position = (float3) 0;
 	float	distance_to_closest = 0.f;
-	float2	q = (float2)0;
-	float3	vec = (float3)0;
-	float3	p = (float3)0, n1 = (float3)0;
+	float2	q = (float2) 0;
+	float3	vec = (float3) 0;
+	float3	p = (float3) 0, n1 = (float3)0;
 
 	i = 0;
-	int j = 1;
-	//float3 gt = clamp(current_position, orig, dir);
+	j = 1;
 	while (i < 4096)
 	{
 		current_position = orig + (*t0) * dir;
@@ -65,7 +64,7 @@ static int torus_intersect(float3 orig, float3 dir, __global t_object *s, float 
 		(*t0) += distance_to_closest;
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
 static float	sdf_mandelbulb(float3 pos, float power, int iter, int breakout)
@@ -109,8 +108,6 @@ static int		mandelbulb_intersect(float3 orig, float3 dir, __global t_object *obj
 		*dist_to_obj += local_dist_to_obj;
 		if (*dist_to_obj > 1000.f)
 			return (0);
-//		distance_to_obj = sdf_mandelbulb(local_pos, obj->params.mandelbulb.power,
-//				obj->params.mandelbulb.iteration, obj->params.mandelbulb.breakout);
 	}
 	return (0);
 }
@@ -145,7 +142,7 @@ static int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *
 
 	nor = fast_normalize(cross(ba, ad));
 	if (length(nor) < 1e-2)
-		return 0;
+		return (0);
 	i = 0;
 	while (i < 4096)
 	{
@@ -155,18 +152,18 @@ static int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *
 		pc = current_position - c;
 		pd = current_position - s->center;
 		x =(
-			(ft_sign(dot(cross(ba,nor),pa)) +
-			 ft_sign(dot(cross(cb,nor),pb)) +
-			 ft_sign(dot(cross(dc,nor),pc)) +
-			 ft_sign(dot(cross(ad,nor),pd)) < 3.0f)
+			(ft_sign(dot(cross(ba, nor), pa)) +
+			 ft_sign(dot(cross(cb, nor), pb)) +
+			 ft_sign(dot(cross(dc, nor), pc)) +
+			 ft_sign(dot(cross(ad, nor), pd)) < 3.f)
 			?
 			min( min( min(
-						  ft_dot2(ba*clamp(dot(ba,pa)/ft_dot2(ba),0.0f,1.0f)-pa),
-						ft_dot2(cb*clamp(dot(cb,pb)/ft_dot2(cb),0.0f,1.0f)-pb) ),
-					ft_dot2(dc*clamp(dot(dc,pc)/ft_dot2(dc),0.0f,1.0f)-pc) ),
-				ft_dot2(ad*clamp(dot(ad,pd)/ft_dot2(ad),0.0f,1.0f)-pd) )
+						  ft_dot2(ba * clamp(dot(ba, pa) / ft_dot2(ba), 0.0f, 1.0f) - pa),
+						ft_dot2(cb * clamp(dot(cb, pb) / ft_dot2(cb), 0.0f, 1.0f) - pb)),
+					ft_dot2(dc * clamp(dot(dc, pc) / ft_dot2(dc), 0.0f, 1.0f) - pc)),
+				ft_dot2(ad * clamp(dot(ad, pd) / ft_dot2(ad), 0.0f, 1.0f) - pd))
 			:
-		dot(nor,pa)*dot(nor,pa)/ft_dot2(nor) );
+		dot(nor, pa) * dot(nor, pa) / ft_dot2(nor));
 		distance_to_closest = sqrt(x);
 		if ((*t0) > 10000.f)
 			return (0);
@@ -175,43 +172,41 @@ static int quad_intersect(float3 orig, float3 dir, __global t_object *s, float *
 		(*t0) += distance_to_closest;
 		i++;
 	}
-	return 0;
+	return (0);
 }
 
 static int	hyper_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 {
-	float a;
-	float b;
-	float c;
-	float t1;
-	float t2;
-	float3 x;
+	float	a;
+	float	b;
+	float	c;
+	float 	t1;
+	float	t2;
+	float3	x;
+	float	discriminate;
 
 	x = orig - p->center;
 	p->vector = fast_normalize(p->vector);
 	a = dot(dir, dir) - dot(dir, p->vector) * dot(dir, p->vector);
 	b = 2.f * (dot(dir, x) - dot(dir, p->vector) * (dot(x, p->vector) + 2.f * p->param));
 	c = dot(x, x) - dot(x, p->vector) * (dot(x, p->vector) + 4.f * p->param);
-	if (b * b - 4.f * a * c < -1e-5)
-		return 0;
-	if (fabs(b * b - 4.f * a * c) < 1e-5)
+	discriminate = b * b - 4.f * a * c;
+	if (discriminate < -1e-5f)
+		return (0);
+	if (fabs(discriminate) < 1e-5f)
 	{
 		*t0 = -b / (a * 2.f);
-		return 1;
+		return (1);
 	}
-	t1 = (-b + sqrt(b * b - 4.f * a * c)) / (2.f * a);
-	t2 = (-b - sqrt(b * b - 4.f * a * c)) / (2.f * a);
+	t1 = (-b + sqrt(discriminate)) / (2.f * a);
+	t2 = (-b - sqrt(discriminate)) / (2.f * a);
 	*t0 = min(t1, t2);
-	if (*t0 > 1e-3)
-	{
-		return 1;
-	}
+	if (*t0 > 1e-3f)
+		return (1);
 	*t0 = max(t1, t2);
-	if (*t0 > 1e-5)
-	{
-		return 2;
-	}
-	return 0;
+	if (*t0 > 1e-5f)
+		return (2);
+	return (0);
 }
 
 static int	sphere_intersect(float3 orig, float3 dir, __global t_object *s, float *t0)
@@ -243,36 +238,36 @@ static int	plane_intersect(float3 orig, float3 dir, __global t_object *p, float 
 	p->vector = fast_normalize(p->vector);
 	dir = fast_normalize(dir);
 	a = dot(dir, p->vector);
-	if (fabs(a) < 1e-6)
+	if (fabs(a) < 1e-6f)
 		return (0);
 	*t0 = (p->param - dot(orig, p->vector)) / a;
-	if ((*t0) < 0)
+	if ((*t0) < 0.f)
 		return (0);
 	return (1);
 }
 
 static int		cyl_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 {
-	float b;
+	float	b;
 	float3	s;
 	float3	q;
-	float c;
-	float d;
+	float	c;
+	float	discriminate;
 
 	s = dir - p->vector * dot(dir, p->vector);
 	q = orig - p->center;
 	q = q - p->vector * dot(q, p->vector);
 	b = 2 * dot(s, q);
 	c = dot(q, q) - p->radius * p->radius;
-	d = b * b - 4 * dot(s, s) * c;
-	if (fabs(d) < 1e-6)
+	discriminate = b * b - 4 * dot(s, s) * c;
+	if (fabs(discriminate) < 1e-6f)
 		return (0);
-	if (d < 0)
+	if (discriminate < 0.f)
 		return (0);
-	*t0 = ((-1) * b - sqrt(d)) / (2 * dot(s, s));
-	if (*t0 > 0)
+	*t0 = (-b - sqrt(discriminate)) / (2 * dot(s, s));
+	if (*t0 > 0.f)
 		return (1);
-	*t0 = (-b + sqrt(d)) / (2 * dot(s, s));
+	*t0 = (-b + sqrt(discriminate)) / (2 * dot(s, s));
 	if (*t0 > 0)
 		return (2);
 	return (0);
@@ -280,35 +275,36 @@ static int		cyl_intersect(float3 orig, float3 dir, __global t_object *p, float *
 
 static int			cone_intersect(float3 orig, float3 dir, __global t_object *p, float *t0)
 {
-	float t1;
-	float t2;
-	float a;
-	float b;
-	float c;
+	float	t1;
+	float	t2;
+	float	a;
+	float	b;
+	float	c;
 	float3	s;
 	float3	q;
+	float	discriminate;
 
 	s = dir - p->vector * dot(dir, p->vector);
 	q = orig - p->center - p->vector * dot((orig - p->center), p->vector);
-	a = cos(p->param) * cos(p->param) * dot(s, s) -
-	sin(p->param) * sin(p->param) * dot(dir, p->vector) * dot(dir, p->vector);
+	a = cos(p->param) * cos(p->param) * dot(s, s) - sin(p->param) * sin(p->param) * dot(dir, p->vector) * dot(dir, p->vector);
 	b = 2 * cos(p->param) * cos(p->param) * dot(s, q) - 2 * sin(p->param) *	sin(p->param) * dot(dir, p->vector) * dot(orig - p->center, p->vector);
 	c = cos(p->param) * cos(p->param) * dot(q, q) - sin(p->param) *	sin(p->param) * dot(orig - p->center, p->vector) * dot(orig - p->center, p->vector);
-	if (b * b - 4 * a * c < 0)
+	discriminate = b * b - 4 * a * c;
+	if (discriminate < 0.f)
 		return (0);
-	t1 = (-b + sqrt(b * b - 4 * a * c)) / (2 * a);
-	t2 = (-b - sqrt(b * b - 4 * a * c)) / (2 * a);
-	if (fabs(t1 - t2) < 1e-6)
+	t1 = (-b + sqrt(discriminate)) / (2.f * a);
+	t2 = (-b - sqrt(discriminate)) / (2.f * a);
+	if (fabs(t1 - t2) < 1e-6f)
 		return (0);
 	*t0 = min(t1, t2);
-	if (*t0 > 0)
+	if (*t0 > 0.f)
 	{
 		if (acos(fabs(dot(dir, p->vector))) > p->param)
 			return (1);
 		return (2);
 	}
 	*t0 = max(t1, t2);
-	if (*t0 > 0)
+	if (*t0 > 0.f)
 	{
 		if (acos(fabs(dot(dir, p->vector))) > p->param)
 			return (2);
@@ -343,7 +339,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 				lighting->hit = orig + dir * dist_i;
 				lighting->n = fast_normalize(lighting->hit - ((*(obj + i)).center));
 				if (j == 2)
-					lighting->n *= -1;
+					lighting->n *= -1.f;
 				lighting->mat = (*(obj + i)).mat;
 				if ((*(obj + i)).mat.texture_id != -1)
 				{
@@ -361,8 +357,8 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
 				lighting->n = (*(obj + i)).vector;
-				 if (dot(dir, lighting->n) > 0)
-					lighting->n *= -1;
+				 if (dot(dir, lighting->n) > 0.f)
+					lighting->n *= -1.f;
 				lighting->mat = (*(obj + i)).mat;
 				if ((*(obj + i)).mat.texture_id != -1)
 				{
@@ -380,6 +376,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 				float d;
 				float3 norm = lighting->n, h = lighting->hit, ori = orig;
 				t_material m = lighting->mat;
+
 				d = dist;
 				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
@@ -432,6 +429,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 				float d;
 				float3 norm = lighting->n, h = lighting->hit, ori = orig;
 				t_material m = lighting->mat;
+
 				d = dist;
 				dist = dist_i;
 				dist = dist_i;
@@ -490,6 +488,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
                 float3 norm = lighting->n, h = lighting->hit;
                 t_material m = lighting->mat;
                 float3 oori = orig;
+
                 d = dist;
                 dist = dist_i;
                 lighting->hit = orig + dir * dist_i;
@@ -540,17 +539,12 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 				a = a * (*(obj + i)).radius;
 				a = a + (*(obj + i)).center;
 				lighting->n = fast_normalize(lighting->hit - a);
-				if(fabs(k) < 1e-3)
+				if(fabs(k) < 1e-3f)
 				{
 					if (length((*(obj + i)).center - lighting->hit) < (*(obj + i)).radius)
-					{
 						lighting->n = fast_normalize((*(obj + i)).center - lighting->hit);
-					}
 					else
-					{
 						lighting->n = -fast_normalize((*(obj + i)).center - lighting->hit);
-
-					}
 				}
 				if (j == -1)
 					lighting->n = -lighting->n;
@@ -571,14 +565,14 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 				lighting->hit = orig + dir * dist_i;
 				lighting->n = cross((*(obj + i)).b - (*(obj + i)).a, (*(obj + i)).a - (*(obj + i)).center);
 				lighting->n = fast_normalize(lighting->n);
-				if (dot(dir, lighting->n) > 0)
+				if (dot(dir, lighting->n) > 0.f)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
 			}
 		}
 		else if ((*(obj + i)).e_type == o_mandelbulb)
 		{
-			dist_i = 0;
+			dist_i = 0.f;
 			float last_dist;
 			j = mandelbulb_intersect(orig, dir, (obj + i), &dist_i, &last_dist);
 			if (j && dist_i < dist)

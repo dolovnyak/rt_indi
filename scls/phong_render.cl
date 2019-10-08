@@ -15,13 +15,15 @@ static float3	light_shadow(float3 dir, __global t_object *obj,
 	int			i = 0;
 	float3		r = (float3) 0;
 	float		e = 0;
+	int 		counter_l = counter->l;
+
 
 	shadow_lighting.n = (float3) 0;
 	shadow_lighting.hit = (float3) 0;
 	i = 0;
 	a = 0.f;
 	b = 0.f;
-	while (i < counter->l)
+	while (i < counter_l)
 	{
 		light_dir = fast_normalize(l[i].center - lighting->hit);
 		light_dist = length(l[i].center - lighting->hit);
@@ -57,30 +59,34 @@ __kernel void	phong_render(
 				const __global int *texture_h,
 				const __global int *prev_texture_size)
 {
-	int tx = get_global_id(0);
-	int ty = get_global_id(1);
-	int index = ty * WIDTH + tx;
+	int		tx;
+	int		ty;
+	int		index;
 	float3	dir;
 	float3	orig;
-	float3 color;
-	int fsaa = screen->fsaa_n;
+	float3	color;
+	int		fsaa;
+	float		cache_width;
+	t_lighting	lighting;
 
+	tx = get_global_id(0);
+	ty = get_global_id(1);
+	index = ty * WIDTH + tx;
 	orig = (*cam).center;
 	color = (float3) 0;
-	for (int i = -fsaa / 2; i <= fsaa / 2; i++)
-	{
-		for (int j = -fsaa / 2; j <= fsaa / 2; j++)
-		{
-			t_lighting	lighting;
+	fsaa = screen->fsaa_n;
 
-			dir = (*screen).v1 * ((float) (tx + i * reverse(fsaa)) / WIDTH - 0.5f) -
-				  (*screen).v2 * ((float) (ty + j * reverse(fsaa)) / WIDTH - 0.5f);
+	cache_width = 1.f / WIDTH;
+	for (int i = -fsaa * 0.5f; i <= fsaa * 0.5f; i++)
+	{
+		for (int j = -fsaa * 0.5f; j <= fsaa * 0.5f; j++)
+		{
+			dir = (*screen).v1 * ((float) (tx + i * reverse(fsaa)) * cache_width - 0.5f) -
+				  (*screen).v2 * ((float) (ty + j * reverse(fsaa)) * cache_width - 0.5f);
 			dir = dir - (*screen).center;
 			dir = fast_normalize(dir);
-			lighting.n = (float3) 0;
-			lighting.hit = (float3) 0;
 
-			if(scene_intersect(orig, dir, obj, &lighting, counter->all_obj,
+			if (scene_intersect(orig, dir, obj, &lighting, counter->all_obj,
 					texture_w, texture_h, prev_texture_size, texture))
 				color += light_shadow(dir, obj, l, &lighting, counter,
 						texture_w, texture_h, prev_texture_size, texture, ambient);
@@ -89,6 +95,5 @@ __kernel void	phong_render(
 		}
 	}
 	color = color / ((fsaa + 1) * (fsaa + 1));
-
 	data[index] = get_color(color, screen->effects);
 }
