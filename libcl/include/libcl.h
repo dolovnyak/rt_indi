@@ -22,12 +22,12 @@ typedef struct			s_cl
 {
 	cl_command_queue	*queue;
 	cl_context			*context;
-	cl_program			*program;
+	t_list				*programs;
 	cl_device_id		device_id;
 	t_list				*kernels;
 }						t_cl;
 
-t_cl					*cl_setup(char **files, char **kernels);
+t_cl					*cl_setup(char **files, char **kernels, t_cl *cl);
 cl_kernel				*cl_get_kernel_by_name(t_cl *cl, char *name);
 
 t_cl					*cl_init(void);

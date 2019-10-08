@@ -18,10 +18,12 @@ static void	cl_add_kernel_by_name(t_cl *cl, char *name)
 	t_list		*lst;
 	int			hash;
 	cl_kernel	*kernel;
+	cl_program	*program;
 
+	program = (cl_program *)cl->programs->content;
 	lst = NULL;
 	kernel = (cl_kernel *)ft_x_memalloc(sizeof(cl_kernel));
-	*kernel = clCreateKernel(*cl->program, name, &err);
+	*kernel = clCreateKernel(*program, name, &err);
 	if (err != 0 || !(lst = ft_lstnew(NULL, 0)))
 		cl_exit_error("create kernel");
 	hash = ft_strhash(name);
