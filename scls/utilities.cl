@@ -20,10 +20,10 @@ int		get_color(float3 v, int type)
 	int     blue;
 	int 	start;
 	int		end;
+	float	e;
 
-	float e;
 	e  = (max(max(v.x, v.y), v.z));
-	if (e > 1)
+	if (e > 1.f)
 		v *= 1.f / e;
 	if (type & GRAY)
 	{

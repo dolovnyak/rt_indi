@@ -10,9 +10,9 @@ static float3	int_color(int col)
 {
 	float3	v;
 
-	v.x = (float)((col >> 16) & 0xFF) / 255;
-	v.y = (float)((col >> 8) & 0xFF) / 255;
-	v.z = (float)((col) & 0xFF) / 255;
+	v.x = (float)((col >> 16) & 0xFF) * 0.00392156862f; // 1 / 255
+	v.y = (float)((col >> 8) & 0xFF) * 0.00392156862f; // 1 / 255
+	v.z = (float)((col) & 0xFF) * 0.00392156862f; // 1 / 255
 	return (v);
 }
 
@@ -104,7 +104,7 @@ __kernel void	post_processing(
 	else if (screen->effects & DITHERING)
 	{
 		float16 bayer = {0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5};
-		bayer *= 1.f / 16;
+		bayer *= 0.0625f; // 1 / 16
 		int col = (int)(bayer[((tx % 4) * 4 + ty % 4)] * 255);
 
 		int red = (input_data[index] >> 16) & 0xFF;
