@@ -47,16 +47,13 @@ static int		get_color(float3 v, int type)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-static void	normalize_coord_for_texture(const __global t_object *obj, float2 uv, float3 *color,
-									__global int *texture, __global int *texture_w, __global int *texture_h,
-									__global int *prev_texture_size)
+static void	normalize_coord_for_texture(__global t_object *obj, float2 uv, float3 *color,
+									 const __global int *texture,  const __global int *texture_w,  const __global int *texture_h,
+									const __global int *prev_texture_size)
 {
 	int coord;
 	int coord_x;
 	int coord_y;
-	int 	red;
-	int 	green;
-	int     blue;
 	int 	start;
 	int		end;
 
@@ -76,7 +73,7 @@ static void	normalize_coord_for_texture(const __global t_object *obj, float2 uv,
 	color->z /= 255;
 }
 
-static float3 vec_change(t_lighting *lighting, const __global t_object *obj)
+static float3 vec_change(t_lighting *lighting, __global t_object *obj)
 {
     float3 n = obj->vector;
     float3 vec = lighting->hit - obj->center;
@@ -129,7 +126,7 @@ static float2			uv_mapping_for_sphere(t_lighting *lighting)
 	return ((float2){u, v});
 }
 
-static float2			uv_mapping_for_cylinder(t_lighting *lighting, const __global t_object *obj)
+static float2			uv_mapping_for_cylinder(t_lighting *lighting, __global t_object *obj)
 {
 	float3	vec;
 	float 	v;
@@ -142,7 +139,7 @@ static float2			uv_mapping_for_cylinder(t_lighting *lighting, const __global t_o
 	return ((float2){u, v});
 }
 
-static float2			uv_mapping_for_torus(t_lighting *lighting, const __global t_object *obj)
+static float2			uv_mapping_for_torus(t_lighting *lighting, __global t_object *obj)
 {
 	float3	vec = (lighting->hit - obj->center);
     vec = vec_change(lighting, obj);
@@ -154,7 +151,6 @@ static float2			uv_mapping_for_torus(t_lighting *lighting, const __global t_obje
 static float2			uv_mapping_for_plane(t_lighting *lighting)
 {
 	float3 vec;
-	float3 n;
 	float3 normvec;
 	float3 crossvec;
 	float v;
@@ -173,7 +169,7 @@ static float2			uv_mapping_for_plane(t_lighting *lighting)
 	return ((float2){u, v});
 }
 
-static float2 			uv_mapping_for_cone(t_lighting *lighting, const __global t_object *obj)
+static float2 			uv_mapping_for_cone(t_lighting *lighting, __global t_object *obj)
 {
 	float3 vec = lighting->hit;
 
@@ -482,10 +478,10 @@ static int			cone_intersect(float3 orig, float3 dir, __global t_object *p, float
 	return (0);
 }
 
-static int		scene_intersect(float3 orig, float3 dir, const __global t_object *obj,
-		t_lighting *lighting, int count, __global int *texture_w,
-		__global int *texture_h, __global int *prev_texture_size,
-		__global int *texture)
+static int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
+		t_lighting *lighting, int count,  const __global int *texture_w,
+		 const __global int *texture_h, const __global int *prev_texture_size,
+		 const __global int *texture)
 {
 	float 	dist;
 	int 	i;
@@ -568,7 +564,6 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 					{
 						lighting->hit = orig + dir * dist_i;
 						lighting->mat = (*(obj + i)).mat;
-						float3 col1 = (float3){1, 0, 0};
 						if ((*(obj + i)).mat.texture_id != -1)
 						{
 							uv = uv_mapping_for_cylinder(lighting, obj + i);
@@ -623,7 +618,6 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 					{
 						lighting->hit = orig + dir * dist_i;
 						lighting->mat = (*(obj + i)).mat;
-						float3 col1 = (float3){1, 0, 0};
 						if ((*(obj + i)).mat.texture_id != -1)
 						{
 							uv = uv_mapping_for_cone(lighting, obj + i);
@@ -700,7 +694,6 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 				lighting->mat = (*(obj + i)).mat;
 				float k;
 				float3 a;
-				float m;
 				k = dot(lighting->hit - (*(obj + i)).center, (*(obj + i)).vector);
 				a = lighting->hit - (*(obj + i)).vector * k;
 				a = a - (*(obj + i)).center;
@@ -767,15 +760,14 @@ static int		scene_intersect(float3 orig, float3 dir, const __global t_object *ob
 	return (dist < MAX_DIST);
 }
 
-static float3	light_shadow(float3 dir, const __global t_object *obj,
+static float3	light_shadow(float3 dir, __global t_object *obj,
 		const __global t_light *l, t_lighting *lighting,
-		const __global t_counter *counter, __global int *texture_w,
-		__global int *texture_h, __global int *prev_texture_size,
-		__global int *texture, float ambient)
+		const __global t_counter *counter,  const __global int *texture_w,
+		 const __global int *texture_h, const __global int *prev_texture_size,
+		 const __global int *texture, float ambient)
 {
 	float		light_dist = 0;
 	float3		light_dir = (float3) 0;
-	float3		shadow_orig = (float3) 0;
 	float		a = 0;
 	float		b = 0;
 	t_lighting	shadow_lighting;
@@ -909,22 +901,19 @@ static float3 refract2(const float3 I, const float3 N, const float refractive_in
 	return k < 0 ? float3(0,0,0) : I*eta + n*(eta * cosi - sqrt(k));
 }
 
-static float3 trace(float3 orig, float3 dir, const __global t_object *obj, int count,
-			const int* seed0, const int* seed1,
-			__global int *texture_w, __global int *texture_h,
-			__global int *prev_texture_size, __global int *texture, float brightness)
+static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
+			const unsigned int *seed0, const unsigned int *seed1,
+			 const __global int *texture_w,  const __global int *texture_h,
+			const __global int *prev_texture_size,  const __global int *texture, float brightness)
 {
 	float3 path_color = (float3)(0.0f, 0.0f, 0.0f);
 	float3 mask = (float3)(1.0f, 1.0f, 1.0f);
-	int randSeed0 = seed0;
-	int randSeed1 = seed1;
 	t_lighting lighting;
 	lighting.n = (float3) 0;
 	lighting.hit = (float3) 0;
 	float3 path_orig = orig, path_dir = dir;
 	float mirr = 0.f;
 
-	int ind = 0;
 	for (int bounces = 0; bounces < 8; bounces++)
 	{
 		if(!scene_intersect(path_orig, path_dir, obj, &lighting, count,
@@ -933,8 +922,8 @@ static float3 trace(float3 orig, float3 dir, const __global t_object *obj, int c
 			path_color += mask * 0.01f;
 			break;
 		}
-		float rand1 = get_random(randSeed0, randSeed1) * 2.0f * M_PI_F;
-		float rand2 = get_random(randSeed1, randSeed0);
+		float rand1 = get_random((unsigned int *)seed0, (unsigned int *)seed1) * 2.0f * M_PI_F;
+		float rand2 = get_random((unsigned int *)seed1, (unsigned int *)seed0);
 		float rand2s = sqrt(rand2);
 		lighting.n = dot(lighting.n, path_dir) < 0.0f ? lighting.n : lighting.n * (-1.0f);
 		float3 w = lighting.n;
@@ -989,7 +978,7 @@ __kernel void	rt(
 					const __global t_screen		*screen,
 					const __global t_counter	*counter,
 					const __global t_light		*l,
-					const __global t_object		*obj,
+					__global t_object		*obj,
 					int2 rands, float ambient,
 					const __global int *texture, const __global int *texture_w,
 					const __global int *texture_h,

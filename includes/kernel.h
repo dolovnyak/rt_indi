@@ -22,4 +22,6 @@ typedef struct	t_lighting
 	t_material	mat;
 }				t_lighting;
 
+int 	ft_sign(float a);
+
 #endif
