@@ -59,7 +59,9 @@ void		release_gpu_mem(t_rt *rt)
 	err |= clReleaseCommandQueue(*rt->cl->queue);
 	err |= clReleaseDevice(rt->cl->device_id);
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "post_processing"));
-	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "rt"));
+	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "phong_render"));
+	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "path_trace_render"));
+	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "path_trace_render_aa"));
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_x"));
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_y"));
 	if (err != 0)
@@ -83,8 +85,14 @@ int			main(int argc, char **argv)
 	    exit (-1);
 	}
 
-	rt->cl = cl_setup((char *[]){"scls/rt.cl", "scls/post_processing.cl", NULL},
-			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", "rt", NULL});
+	rt->cl = cl_setup((char *[]){"scls/phong_render.cl",
+							  "scls/post_processing.cl",
+							  "scls/scene_intersect.cl",
+							  "scls/uv_mapping.cl",
+							  "scls/utilities.cl",
+							  "scls/path_trace_render.cl", NULL},
+			(char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y",
+			  "phong_render", "path_trace_render", "path_trace_render_aa", NULL});
 	if (new_mlx(rt, argv[1]))
 	{
 
