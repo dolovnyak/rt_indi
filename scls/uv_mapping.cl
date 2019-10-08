@@ -1,3 +1,6 @@
+#include "./includes/kernel.h"
+#include "./includes/rt.h"
+
 float3 vec_change(t_lighting *lighting, __global t_object *obj)
 {
     float3 n = obj->vector;

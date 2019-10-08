@@ -1,3 +1,6 @@
+#include "./includes/kernel.h"
+#include "./includes/rt.h"
+
 # define GRAY (1 << 0)
 # define THREE_D (1 << 1)
 # define GAYSS_BLURE (1 << 2)

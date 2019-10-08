@@ -1,3 +1,6 @@
+#include "./includes/kernel.h"
+#include "./includes/rt.h"
+
 static void	normalize_coord_for_texture(__global t_object *obj, float2 uv, float3 *color,
 		const __global int *texture,  const __global int *texture_w,
 		const __global int *texture_h, const __global int *prev_texture_size)
