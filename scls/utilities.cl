@@ -1,3 +1,6 @@
+#include "./includes/kernel.h"
+#include "./includes/rt.h"
+
 float	reverse(int n)
 {
 	if (n != 0)

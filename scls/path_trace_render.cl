@@ -1,3 +1,6 @@
+#include "./includes/kernel.h"
+#include "./includes/rt.h"
+
 static float get_random(unsigned int *seed0, unsigned int *seed1) {
 
 	/* hash the seeds using bitwise AND operations and bitshifts */
