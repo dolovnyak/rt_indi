@@ -35,7 +35,6 @@
 #  define SPEED1 0.5f
 #  define SPEED2 (float)(M_PI / 90)
 #  define SPEED3 1.f
-#  define SPEED4 1.f
 #  define CHANNEL_NUM 3
 # else
 #  define MAX_DIST	10000.f

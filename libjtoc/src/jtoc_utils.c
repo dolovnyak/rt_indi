@@ -6,17 +6,11 @@
 /*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/05/29 00:34:11 by sbednar           #+#    #+#             */
-/*   Updated: 2019/09/29 21:18:33 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/06/02 20:35:23 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libjtoc.h"
-
-int	ft_isstn(char c)
-{
-    return (c == ' ' || c == '\t' || c == '\n');
-}
-
 
 int			jtoc_find(const char *str, const char s, int i, int p)
 {

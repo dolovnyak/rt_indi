@@ -6,11 +6,16 @@
 /*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/19 16:23:00 by sbednar           #+#    #+#             */
-/*   Updated: 2019/09/29 21:18:33 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/08/19 03:46:48 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libjtoc.h"
+
+int		ft_isstn(char c)
+{
+	return (c == ' ' || c == '\t' || c == '\n');
+}
 
 size_t	jtoc_get_child_count(t_jnode *n)
 {
