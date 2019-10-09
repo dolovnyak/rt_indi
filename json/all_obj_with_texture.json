@@ -39,7 +39,7 @@
       "type": "sphere",
       "texture": "earth",
       "reflection": 0.0,
-      "refraction": 0.0,
+      "refraction": 1.0,
       "radius": 10.0,
       "phong":
       {
