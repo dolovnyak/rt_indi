@@ -391,7 +391,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 					uv = uv_mapping_for_cylinder(lighting, obj + i);
 					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
 				}
-				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
+				if (length(lighting->hit - (*(obj + i)).center) > (*(obj + i)).param)
 				{
 					orig = lighting->hit + 1e-3f * dir;
 					j = cyl_intersect(orig, dir, (obj + i), &dist_i);
@@ -409,7 +409,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 						lighting->n = (*(obj + i)).vector * dot(v, (*(obj + i)).vector);
 						lighting->n = -fast_normalize(v - lighting->n);
 					}
-					if (length(lighting->hit - (*(obj + i)).center) > 50.f || dist > d)
+					if (length(lighting->hit - (*(obj + i)).center) > (*(obj + i)).param || dist > d)
 					{
 						dist = d;
 						lighting->n = norm;
@@ -446,7 +446,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 					uv = uv_mapping_for_cone(lighting, obj + i);
 					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
 				}
-				if (length(lighting->hit - (*(obj + i)).center) > 50.f)
+				if (length(lighting->hit - (*(obj + i)).center) > (*(obj + i)).radius)
 				{
 					orig = lighting->hit + 1e-3f * dir;
 					j = cone_intersect(orig, dir, (obj + i), &dist_i);
@@ -467,7 +467,7 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 						if (j == 2)
 							lighting->n = -lighting->n;
 					}
-					if (length(lighting->hit - (*(obj + i)).center) > 50.f || dist > d)
+					if (length(lighting->hit - (*(obj + i)).center) > (*(obj + i)).radius || dist > d)
 					{
 						dist = d;
 						lighting->n = norm;
