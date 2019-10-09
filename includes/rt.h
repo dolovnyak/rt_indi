@@ -113,6 +113,7 @@ typedef struct			s_object
 	enum e_object_type	e_type;
 	t_material			mat;
 # else
+
 	float3				center;
 	float3				vector;
 	float				radius;
@@ -230,11 +231,11 @@ typedef struct			s_gpu_mem
 	cl_mem				cl_counter_buffer;
 }						t_gpu_mem;
 
-typedef struct 			s_fps
+typedef struct			s_fps
 {
-	struct	timeval		stop;
-	struct	timeval		start;
-	float 				fps;
+	struct timeval		stop;
+	struct timeval		start;
+	float				fps;
 }						t_fps;
 
 typedef struct			s_rt
