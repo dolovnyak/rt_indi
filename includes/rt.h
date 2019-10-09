@@ -25,6 +25,7 @@
 #  include <stdio.h>
 #  include <time.h>
 #  include <OpenCL/cl.h>
+#  include <sys/time.h>
 # endif
 
 # define WIDTH		1280
@@ -230,6 +231,13 @@ typedef struct			s_gpu_mem
 	cl_mem				cl_counter_buffer;
 }						t_gpu_mem;
 
+typedef struct 			s_fps
+{
+	struct	timeval		stop;
+	struct	timeval		start;
+	float 				fps;
+}						t_fps;
+
 typedef struct			s_rt
 {
 	cl_float			ambient;
@@ -245,6 +253,7 @@ typedef struct			s_rt
 	t_mouse				mouse;
 	t_obj_texture		*texture;
 	t_gpu_mem			*gpu_mem;
+	t_fps				fps;
 }						t_rt;
 
 int						check_key(int keycode, t_rt *rt);

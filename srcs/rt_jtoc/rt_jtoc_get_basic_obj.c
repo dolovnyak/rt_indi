@@ -66,6 +66,9 @@ int			rt_jtoc_get_cone(t_object *obj, t_jnode *n)
 		obj->vector = cl_normalize(obj->vector);
 	else
 		return (rt_jtoc_sdl_log_error("VECTOR ERROR", -1));
+	if (!(tmp = jtoc_node_get_by_path(n, "length")))
+		return (rt_jtoc_sdl_log_error("LENGTH ERROR OR LENGTH MISSING", -1));
+	obj->radius = jtoc_get_float((tmp));
 	return (FUNCTION_SUCCESS);
 }
 
@@ -89,5 +92,8 @@ int			rt_jtoc_get_cylinder(t_object *obj, t_jnode *n)
 	obj->radius = jtoc_get_float(tmp);
 	if (obj->radius <= 0)
 		return (rt_jtoc_sdl_log_error("RADIUS ERROR", -1));
+	if (!(tmp = jtoc_node_get_by_path(n, "length")))
+		return (rt_jtoc_sdl_log_error("LENGTH ERROR OR LENGTH MISSING", -1));
+	obj->param = jtoc_get_float((tmp));
 	return (FUNCTION_SUCCESS);
 }
