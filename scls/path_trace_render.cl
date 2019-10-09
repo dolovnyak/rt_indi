@@ -66,7 +66,7 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 		float	rand2s = sqrt(rand2);
 		lighting.n = dot(lighting.n, path_dir) < 0.0f ? lighting.n : lighting.n * (-1.0f);
 		float3	w = lighting.n;
-		float3	axis = fabs(w.x) >= 0.0f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
+		float3	axis = fabs(w.x) > 1e-5f ? (float3)(0.0f, 1.0f, 0.0f) : (float3)(1.0f, 0.0f, 0.0f);
 		float3	u = fast_normalize(cross(axis, w));
 		float3	v = cross(w, u);
 		float3	newdir = fast_normalize(u * cos(rand1) * rand2s + v * sin(rand1) * rand2s + w * sqrt(1.0f - rand2));
