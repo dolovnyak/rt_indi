@@ -20,8 +20,8 @@ int 	fps(t_rt *rt)
 	{
 		float s;
 		s = 1000000.0 / (double)(rt->fps.stop.tv_usec - rt->fps.start.tv_usec);
-		mlx_string_put(rt->mlx_ptr, rt->win, 60, 10, 0x000000, ft_itoa(s));
-		printf("took %f\n", s);
+		mlx_string_put(rt->mlx_ptr, rt->win, 60, 10, 0x000000,
+			ft_itoa(s));
 	}
 	return (1);
 }
