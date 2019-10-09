@@ -1,18 +1,18 @@
 {
   "antialiasing": 0,
   "ambient" : 0.1,
-  "samples": 3000,
+  "samples": 10000,
   "brightness": 5.0,
   "camera":
   {
-      "pos":
-      {
-        "x": 0.0,
-        "y": -90.0,
-        "z": 500.0
-      },
-      "alpha": 90.0,
-      "betta": 179.0
+    "pos":
+    {
+      "x": -278.985626,
+      "y": -85.226852,
+      "z": 44.722214
+    },
+    "alpha": 7.0,
+    "betta": 87.0
   },
   "lights":
   [
@@ -63,10 +63,10 @@
       }
     },
     {
-      "type": "cylinder",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 1.3,
+      "type": "sphere",
+      "texture": "earth",
+      "reflection": 1.0,
+      "refraction": 0.0,
       "radius": 50.0,
       "length": 100.0,
       "phong":
@@ -90,8 +90,8 @@
       "pos":
       {
         "x": 0.0,
-        "y": -90.0,
-        "z": 0.0
+        "y": -80.0,
+        "z": 50.0
       },
       "vec":
       {
@@ -129,6 +129,82 @@
         "x": 0.0,
         "y": 40.0,
         "z": 70.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    }
+  ,
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "radius": 20.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 0.0,
+        "y": -150.0,
+        "z": 20.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "radius": 50.0,
+      "length": 100.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "color":
+      {
+        "x": 255.0,
+        "y": 255.0,
+        "z": 255.0
+      },
+      "pos":
+      {
+        "x": 0.0,
+        "y": -80.0,
+        "z": 160.0
       },
       "vec":
       {
