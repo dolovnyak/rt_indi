@@ -36,6 +36,30 @@
     },
     {
       "path": "./textures/ball_2.jpg"
+    },
+    {
+      "path": "./textures/wood1.jpg"
+    },
+    {
+      "path": "./textures/glass.jpg"
+    },
+    {
+      "path": "./textures/glass2.jpg"
+    },
+    {
+      "path": "./textures/gold.jpg"
+    },
+    {
+      "path": "./textures/black.jpg"
+    },
+    {
+      "path": "./textures/panels.jpg"
+    },
+    {
+      "path": "./textures/plastic.jpg"
+    },
+    {
+      "path": "./textures/skulls.png"
     }
   ]
 }
