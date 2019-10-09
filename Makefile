@@ -34,6 +34,7 @@ SRC		:=		main.c				            \
 				cam_and_screen.c	            \
 				get_textures.c                  \
 				gpu_mem.c						\
+				release_gpu_mem.c				\
 				rt_jtoc/rt_jtoc_utilits.c       \
 				rt_jtoc/rt_jtoc_get_textures.c  \
 				rt_jtoc/rt_jtoc_scene_setup.c  \

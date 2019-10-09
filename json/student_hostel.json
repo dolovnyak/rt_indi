@@ -90,7 +90,7 @@
       "texture": "ball_2",
       "reflection": 0.0,
       "refraction": 0.0,
-      "radius": 41.0,
+      "radius": 10.0,
       "phong":
       {
         "al1": 1.0,
