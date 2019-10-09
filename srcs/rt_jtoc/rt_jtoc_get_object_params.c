@@ -22,10 +22,8 @@ int			rt_jtoc_compare_str_with_texture_name(t_obj_texture *texture,
 	int j;
 	int cache_counter;
 
-
 	i = -1;
 	cache_counter = texture->textures_count;
-
 	while (++i < cache_counter)
 	{
 		j = ft_strlen(texture->textures_path[i]);
