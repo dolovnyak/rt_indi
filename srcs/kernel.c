@@ -55,10 +55,8 @@ void		render(t_rt *rt, cl_mem screen_buffer, size_t global_size[2],
 	kernel = NULL;
 	if (rt->screen.params & PHONG)
 		kernel = cl_get_kernel_by_name(rt->cl, "phong_render");
-	else if (rt->screen.params & PATH_TRACE && rt->screen.fsaa_n == 0)
-		kernel = cl_get_kernel_by_name(rt->cl, "path_trace_render");
 	else if (rt->screen.params & PATH_TRACE)
-		kernel = cl_get_kernel_by_name(rt->cl, "path_trace_render_aa");
+		kernel = cl_get_kernel_by_name(rt->cl, "path_trace_render");
 	err = set_kernel_arg(rt, kernel, cam_buffer, screen_buffer);
 	cl_error_handler("Couldn't create a kernel rt argument", err);
 	err = clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 2, NULL, global_size,

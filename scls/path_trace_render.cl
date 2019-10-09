@@ -118,9 +118,8 @@ __kernel void   path_trace_render(
 	float3          orig;
 	float3          color;
 	int             N;
-	unsigned int    seed0;
-	unsigned int    seed1;
 	int				fsaa;
+	unsigned		seed0, seed1;
 
 	tx = get_global_id(0);
 	ty = get_global_id(1);
@@ -138,8 +137,8 @@ __kernel void   path_trace_render(
 			dir = dir - (*screen).center;
 			dir = fast_normalize(dir);
 
-			unsigned int seed0 = tx * 3 % WIDTH + (rands.x * (int)(WIDTH * 0.1f));
-			unsigned int seed1 = ty * 3 % HEIGHT + (rands.y * (int)(HEIGHT * 0.1f));
+			seed0 = tx * 3 % WIDTH + (rands.x * (int)(WIDTH * 0.1f));
+			seed1 = ty * 3 % HEIGHT + (rands.y * (int)(HEIGHT * 0.1f));
 			for (int k = 0; k <= N; k++)
 			{
 				get_random(&seed0, &seed1);

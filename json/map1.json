@@ -258,6 +258,7 @@
       "reflection": 0.0,
       "refraction": 0.0,
       "radius": 3.0,
+      "length": 20.0,
       "phong":
       {
         "al1": 1.0,
@@ -294,6 +295,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "length": 20.0,
       "param": 0.3,
       "phong":
       {
