@@ -432,7 +432,6 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 
 				d = dist;
 				dist = dist_i;
-				dist = dist_i;
 				lighting->hit = orig + dir * dist_i;
 				v = fast_normalize(lighting->hit - (*(obj + i)).center);
 				lighting->n = (*(obj + i)).vector;

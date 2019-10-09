@@ -40,7 +40,7 @@
 # else
 #  define MAX_DIST	10000.f
 #  define SIGMA		3
-#  define F_EPS		0.001
+#  define F_EPS		0.001f
 # endif
 
 # define PHONG		(1 << 0)
