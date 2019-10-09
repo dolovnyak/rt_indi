@@ -80,7 +80,7 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 			mirr += 1;
 			newdir = fast_normalize(lighting.mat.reflection * fast_normalize(reflect(path_dir, lighting.n)) + (1.f - lighting.mat.reflection) * newdir);
 			mask *= pow(fabs(dot(path_dir, lighting.n)), 0.01f);
-			mask *= 0.9f;
+			mask *= 0.95f;
 		}
 		else if (lighting.mat.refraction > 0.f)
 		{
@@ -89,7 +89,7 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 			mirr += 1;
 			float	cos_n = fabs(dot(path_dir, lighting.n));
 			mask *= pow(cos_n, 0.3f);
-			mask *= 0.9f;
+			mask *= 0.95f;
 		}
 		else
 			mask *= dot(newdir, lighting.n);

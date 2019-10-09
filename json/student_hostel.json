@@ -1,18 +1,18 @@
 {
   "antialiasing": 0,
   "ambient" : 0.1,
-  "samples": 30,
+  "samples": 1000,
   "brightness": 4.4,
   "camera":
   {
     "pos":
     {
-      "x": -10.0,
-      "y": 0.0,
-      "z": 0.0
+      "x": -70.0,
+      "y": -60.0,
+      "z": 15.0
     },
-    "alpha": 0.0,
-    "betta": 190.0
+    "alpha": 55.0,
+    "betta": 100.0
   },
   "lights":
   [
@@ -54,41 +54,9 @@
   "objects":
   [
     {
-      "type": "mandelbulb",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "iteration": 128.0,
-      "power": 8.0,
-      "phong":
-      {
-        "al1": 1.0,
-        "al2": 0.4,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 100.0,
-        "y": 0.0,
-        "z": 200.0
-      },
-      "pos":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      }
-    },
-    {
       "type": "sphere",
-      "texture": "ball_2",
-      "reflection": 0.0,
+      "texture": "ball1",
+      "reflection": 1.0,
       "refraction": 0.0,
       "radius": 10.0,
       "phong":
@@ -106,7 +74,7 @@
       "color":
       {
         "x": 255.0,
-        "y": 0.0,
+        "y": 255.0,
         "z": 0.0
       },
       "pos":
@@ -181,7 +149,7 @@
     {
       "type": "plane",
       "texture": "wallpaper_1",
-      "reflection": 0.0,
+      "reflection": 1.0,
       "refraction": 0.0,
       "param": 80.0,
       "phong":
