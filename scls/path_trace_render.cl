@@ -99,8 +99,7 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 	return (path_color * brightness);
 }
 
-
-__kernel void   path_trace_render_aa(
+__kernel void   path_trace_render(
 					__global int				*data,
 					const __global t_cam		*cam,
 					const __global t_screen		*screen,
@@ -130,17 +129,19 @@ __kernel void   path_trace_render_aa(
 	color = (float3) 0.f;
 	N = screen->samples;
 	fsaa = screen->fsaa_n;
-	for (int i = -fsaa / 2; i <= fsaa / 2; i++)
+	for (int i = -fsaa * 0.5f; i <= fsaa * 0.5f; i++)
 	{
-		for (int j = -fsaa / 2; j <= fsaa / 2; j++)
+		for (int j = -fsaa * 0.5f; j <= fsaa * 0.5f; j++)
 		{
 			dir = (*screen).v1 * ((float) (tx + i * reverse(fsaa)) / WIDTH - 0.5f) -
 				  (*screen).v2 * ((float) (ty + j * reverse(fsaa)) / WIDTH - 0.5f);
 			dir = dir - (*screen).center;
 			dir = fast_normalize(dir);
 
-			unsigned int seed0 = tx * 3 % WIDTH + (rands.x * WIDTH / 10);
-			unsigned int seed1 = ty * 3 % HEIGHT + (rands.y * HEIGHT / 10);
+	//		unsigned int seed0 = tx * 3 % WIDTH + (rands.x * (int)(WIDTH * 0.1f));
+			unsigned int seed0 = tx * 3 % WIDTH + (rands.x * WIDTH * 0.1f);
+	//		unsigned int seed1 = ty * 3 % HEIGHT + (rands.y * (int)(HEIGHT * 0.1f));
+			unsigned int seed1 = ty * 3 % HEIGHT + (rands.y * (int)(HEIGHT * 0.1f));
 			for (int k = 0; k <= N; k++)
 			{
 				get_random(&seed0, &seed1);
@@ -155,52 +156,3 @@ __kernel void   path_trace_render_aa(
 
 	data[index] = get_color(color, screen->effects);
 }
-
-__kernel void   path_trace_render(
-				__global int                *data,
-                const __global t_cam        *cam,
-                const __global t_screen     *screen,
-                const __global t_counter    *counter,
-                const __global t_light      *l,
-                __global t_object     *obj,
-                int2                        rands,
-                float                       ambient,
-                const __global int          *texture,
-                const __global int          *texture_w,
-                const __global int          *texture_h,
-                const __global int          *prev_texture_size)
-{
-    int             tx;
-    int             ty;
-    int             index;
-    float3          dir;
-    float3          orig;
-    float3          color;
-    int             N;
-    unsigned int    seed0;
-    unsigned int    seed1;
-    tx = get_global_id(0);
-    ty = get_global_id(1);
-    index = ty * WIDTH + tx;
-    orig = (*cam).center;
-    color = (float3) 0.f;
-    N = screen->samples;
-    dir = (*screen).v1 * ((float) (tx) / WIDTH - 0.5f) -
-          (*screen).v2 * ((float) (ty) / WIDTH - 0.5f);
-    dir = dir - (*screen).center;
-    dir = fast_normalize(dir);
-    seed0 = tx * 3 % WIDTH + (rands.x * WIDTH / 10);
-    seed1 = ty * 3 % HEIGHT + (rands.y * HEIGHT / 10);
-
-    float cache = screen->brightness;
-    for (int k = 0; k <= N; k++)
-    {
-        get_random(&seed0, &seed1);
-        get_random(&seed1, &seed0);
-        color += trace(orig, dir, obj, counter->all_obj, &seed0, &seed1,
-                texture_w, texture_h, prev_texture_size, texture, cache);
-    }
-    color = color / N;
-    data[index] = get_color(color, screen->effects);
-}
-

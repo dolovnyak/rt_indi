@@ -70,7 +70,6 @@ void		release_gpu_mem(t_rt *rt)
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "post_processing"));
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "phong_render"));
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "path_trace_render"));
-	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "path_trace_render_aa"));
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_x"));
 	err |= clReleaseKernel(*cl_get_kernel_by_name(rt->cl, "gauss_blur_y"));
 	if (err != 0)
@@ -105,8 +104,7 @@ int			main(int argc, char **argv)
 					 "scls/uv_mapping.cl",
 					 "scls/utilities.cl",
 					 "scls/path_trace_render.cl", NULL},
-					  (char *[]){"path_trace_render",
-				  "path_trace_render_aa", NULL}, rt->cl);
+					  (char *[]){"path_trace_render", NULL}, rt->cl);
 
 	cl_setup((char *[]){"scls/post_processing.cl", "scls/utilities.cl", NULL},
 					  (char *[]){"post_processing", "gauss_blur_x", "gauss_blur_y", NULL}, rt->cl);
