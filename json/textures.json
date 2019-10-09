@@ -1,8 +1,41 @@
 {
   "textures":
-   [
-     {
-       "path": "./textures/red.jpg"
-     }
-   ]
+  [
+    {
+      "path": "./textures/texture1.png"
+    },
+    {
+      "path": "./textures/earth.jpg"
+    },
+    {
+      "path": "./textures/brick.jpg"
+    },
+    {
+      "path": "./textures/steel.jpg"
+    },
+    {
+      "path": "./textures/marble.png"
+    },
+    {
+      "path": "./textures/park.jpg"
+    },
+    {
+      "path": "./textures/potolok.jpg"
+    },
+    {
+      "path": "./textures/blue.jpg"
+    },
+    {
+      "path": "./textures/plitka.jpg"
+    },
+    {
+      "path": "./textures/gz.jpg"
+    },
+    {
+      "path": "./textures/wallpaper_1.jpg"
+    },
+    {
+      "path": "./textures/ball_2.jpg"
+    }
+  ]
 }
