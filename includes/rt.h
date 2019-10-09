@@ -39,7 +39,7 @@
 #  define CHANNEL_NUM 3
 # else
 #  define MAX_DIST	10000.f
-#  define SIGMA		3
+#  define SIGMA		2
 #  define F_EPS		0.001f
 # endif
 
