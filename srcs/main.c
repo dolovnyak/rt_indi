@@ -14,19 +14,26 @@
 # include "rt_jtoc.h"
 #include <sys/time.h>
 
+int 	fps(t_rt *rt)
+{
+	if (rt->fps.stop.tv_usec - rt->fps.start.tv_usec > 0)
+	{
+		float s;
+		s = 1000000.0 / (double)(rt->fps.stop.tv_usec - rt->fps.start.tv_usec);
+		mlx_string_put(rt->mlx_ptr, rt->win, 60, 10, 0x000000, ft_itoa(s));
+		printf("took %f\n", s);
+	}
+	return (1);
+}
+
 void	draw_picture(t_rt *rt)
 {
-	struct timeval stop, start;
-	gettimeofday(&start, NULL);
 	calc_screen(&rt->screen, &rt->cam);
 	cl_worker(rt);
 	mlx_clear_window(rt->mlx_ptr, rt->win);
 	mlx_put_image_to_window(rt->mlx_ptr, rt->win, rt->img.img_ptr, 0, 0);
-	
-	gettimeofday(&stop, NULL);
-//	printf("took %u\n", stop.tv_usec - start.tv_usec);
-//	printf("------------------ \n");
-
+	mlx_string_put(rt->mlx_ptr, rt->win, 10, 10, 0x000000, "FPS: ");
+	fps(rt);
 }
 
 int	new_mlx(t_rt *rt, char *name)

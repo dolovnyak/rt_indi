@@ -52,7 +52,6 @@ void		render(t_rt *rt, cl_mem screen_buffer, size_t global_size[2],
 	cam_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_WRITE_ONLY \
 		| CL_MEM_COPY_HOST_PTR, sizeof(t_cam), &(rt->cam), &err);
 	cl_error_handler("Couldn't create cam buffer", err);
-
 	kernel = NULL;
 	if (rt->screen.params & PHONG)
 		kernel = cl_get_kernel_by_name(rt->cl, "phong_render");
@@ -60,7 +59,6 @@ void		render(t_rt *rt, cl_mem screen_buffer, size_t global_size[2],
 		kernel = cl_get_kernel_by_name(rt->cl, "path_trace_render");
 	else if (rt->screen.params & PATH_TRACE)
 		kernel = cl_get_kernel_by_name(rt->cl, "path_trace_render_aa");
-
 	err = set_kernel_arg(rt, kernel, cam_buffer, screen_buffer);
 	cl_error_handler("Couldn't create a kernel rt argument", err);
 	err = clEnqueueNDRangeKernel(*rt->cl->queue, *kernel, 2, NULL, global_size,
@@ -121,8 +119,6 @@ void		post_processing(t_rt *rt, cl_mem screen_buffer,
 		gauss_blur(rt, screen_buffer, global_size, local_size);
 }
 
-#include <sys/time.h>
-
 int			cl_worker(t_rt *rt)
 {
 	cl_mem				screen_buffer;
@@ -137,19 +133,12 @@ int			cl_worker(t_rt *rt)
 	screen_buffer = clCreateBuffer(*rt->cl->context, CL_MEM_READ_ONLY \
 			| CL_MEM_COPY_HOST_PTR, sizeof(t_screen), &(rt->screen), &err);
 	cl_error_handler("Couldn't create screen buffer", err);
-
-	//////////////////////////////////////////////////////////////////////////
-	struct timeval stop, start;
-	gettimeofday(&start, NULL);
+	gettimeofday(&rt->fps.start, NULL);
 	render(rt, screen_buffer, global_size, local_size);
 	clFinish(*rt->cl->queue);
 	post_processing(rt, screen_buffer, global_size, local_size);
 	clFinish(*rt->cl->queue);
-	gettimeofday(&stop, NULL);
-	if (stop.tv_usec - start.tv_usec > 0)
-		printf("took %f\n", 1000000.0 / (double)(stop.tv_usec - start.tv_usec));
-	//////////////////////////////////////////////////////////////////////////
-
+	gettimeofday(&rt->fps.stop, NULL);
 	err = clEnqueueReadBuffer(*rt->cl->queue, rt->gpu_mem->cl_img_buffer,
 			CL_TRUE, 0, WIDTH * HEIGHT * sizeof(int), rt->img.data, 0, NULL,
 			NULL);
