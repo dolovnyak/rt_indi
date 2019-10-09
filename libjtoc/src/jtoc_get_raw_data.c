@@ -6,7 +6,7 @@
 /*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/18 20:24:00 by sbednar           #+#    #+#             */
-/*   Updated: 2019/09/29 21:18:33 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/08/19 04:03:37 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,6 @@ static void		*get_array(t_jnode *n)
 	return (vres);
 }
 
-// TODO FULL OF LEAKS
 void			*jtoc_get_raw_data(t_jnode *n)
 {
 	size_t		size;
@@ -119,24 +118,13 @@ void			*jtoc_get_raw_data(t_jnode *n)
 	cur = n->down;
 	while (cur)
 	{
-		if (i != 0 && cur->type != integer && cur->type != fractional && i % 8 != 0)
+		if (i != 0 && cur->type != integer &&
+				cur->type != fractional && i % 8 != 0)
 			i += 4;
 		if (cur->type == integer || cur->type == fractional)
 			ft_memcpy(res + i, cur->data, 4);
-		else
-		{
-			if ((cur->type == string && !(tmp = get_string(cur))) ||
-				(cur->type == array && !(tmp = get_array(cur))) ||
-				(cur->type == object && !(tmp = jtoc_get_raw_data(cur))))
-			{
-				free(res);
-				return (NULL);
-			}
-			else if (cur->type == none)
-				tmp = NULL;
-			ft_memcpy(res + i, &tmp, 8);
-			i += 4;
-		}
+		else if (jtoc_get_raw_data_help(cur, res, &tmp, &i))
+			return (NULL);
 		cur = cur->right;
 		i += 4;
 	}

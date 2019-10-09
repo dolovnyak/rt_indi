@@ -35,7 +35,6 @@
 #  define SPEED1 0.5f
 #  define SPEED2 (float)(M_PI / 90)
 #  define SPEED3 1.f
-#  define SPEED4 1.f
 #  define CHANNEL_NUM 3
 # else
 #  define MAX_DIST	10000.f
@@ -114,6 +113,7 @@ typedef struct			s_object
 	enum e_object_type	e_type;
 	t_material			mat;
 # else
+
 	float3				center;
 	float3				vector;
 	float				radius;
@@ -231,11 +231,11 @@ typedef struct			s_gpu_mem
 	cl_mem				cl_counter_buffer;
 }						t_gpu_mem;
 
-typedef struct 			s_fps
+typedef struct			s_fps
 {
-	struct	timeval		stop;
-	struct	timeval		start;
-	float 				fps;
+	struct timeval		stop;
+	struct timeval		start;
+	float				fps;
 }						t_fps;
 
 typedef struct			s_rt

@@ -1,7 +1,7 @@
 {
   "antialiasing": 0,
   "ambient" : 0.1,
-  "samples": 10000,
+  "samples": 100,
   "brightness": 2.5,
   "camera":
   {

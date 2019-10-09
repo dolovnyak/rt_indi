@@ -6,7 +6,7 @@
 /*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 20:33:59 by sbednar           #+#    #+#             */
-/*   Updated: 2019/09/29 21:18:33 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/08/19 03:53:12 by sbecker          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	jtoc_parse_object(t_jnode *p, const char *str, int b, int e)
 {
 	int	c;
 
-	if (e - b == 3 && !ft_strncmp(str + b, "null", 4))
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
 	{
 		p->data = NULL;
 		return (FUNCTION_SUCCESS);
@@ -40,7 +40,7 @@ int	jtoc_parse_string(t_jnode *p, const char *str, int b, int e)
 {
 	char	*sub;
 
-	if (e - b == 3 && !ft_strncmp(str + b, "null", 4))
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
 	{
 		p->data = NULL;
 		return (FUNCTION_SUCCESS);
@@ -53,6 +53,18 @@ int	jtoc_parse_string(t_jnode *p, const char *str, int b, int e)
 	return (FUNCTION_SUCCESS);
 }
 
+int	jtoc_parse_array_norm(t_jnode *p, const char *str, int *b, int *e)
+{
+	if (*e - *b == 3 && !ft_strncmp(str + *b, "NULL", 4))
+	{
+		p->data = NULL;
+		return (FUNCTION_SUCCESS);
+	}
+	++(*b);
+	--(*e);
+	return (1);
+}
+
 int	jtoc_parse_array(t_jnode *p, const char *str, int b, int e)
 {
 	t_jnode	*child;
@@ -60,13 +72,8 @@ int	jtoc_parse_array(t_jnode *p, const char *str, int b, int e)
 	int		c;
 	int		i;
 
-	if (e - b == 3 && !ft_strncmp(str + b, "null", 4))
-	{
-		p->data = NULL;
+	if (!(jtoc_parse_array_norm(p, str, &b, &e)))
 		return (FUNCTION_SUCCESS);
-	}
-	++b;
-	--e;
 	i = -1;
 	while (b < e)
 	{
@@ -96,7 +103,8 @@ int	jtoc_parse_field(t_jnode *p, const char *str, int b, int e)
 	c = jtoc_find(str, ':', b, F_RIGHT);
 	if (!(name = ft_strsub(str, b + 1, c - b - 2)))
 		return (FUNCTION_FAILURE);
-	child = jtoc_node_create(jtoc_get_field_type((char *)str + c + 1), name, NULL);
+	child = jtoc_node_create(jtoc_get_field_type(
+				(char *)str + c + 1), name, NULL);
 	free(name);
 	if (!child)
 		return (FUNCTION_FAILURE);

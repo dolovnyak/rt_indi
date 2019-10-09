@@ -6,7 +6,7 @@
 /*   By: sbednar <sbednar@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/02 20:30:23 by sbednar           #+#    #+#             */
-/*   Updated: 2019/09/29 21:18:33 by rkeli            ###   ########.fr       */
+/*   Updated: 2019/06/02 20:31:49 by sbednar          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	jtoc_validate_number(const char *str, int b, int e)
 
 int	jtoc_validate_string(const char *str, int b, int e)
 {
-	if (e - b == 3 && !ft_strncmp(str + b, "null", 4))
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
 		return (FUNCTION_SUCCESS);
 	return (str[b] == '"' && str[e] == '"' ?
 		FUNCTION_SUCCESS :
@@ -44,7 +44,7 @@ int	jtoc_validate_object(const char *str, int b, int e)
 
 	if (str[e] == '\n')
 		--e;
-	if (e - b == 3 && !ft_strncmp(str + b, "null", 4))
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
 		return (FUNCTION_SUCCESS);
 	if (str[b++] != '{' || str[e--] != '}')
 		return (FUNCTION_FAILURE);
@@ -63,7 +63,7 @@ int	jtoc_validate_array(const char *str, int b, int e)
 {
 	int	c;
 
-	if (e - b == 3 && !ft_strncmp(str + b, "null", 4))
+	if (e - b == 3 && !ft_strncmp(str + b, "NULL", 4))
 		return (FUNCTION_SUCCESS);
 	if (str[b++] != '[' || str[e--] != ']')
 		return (FUNCTION_FAILURE);

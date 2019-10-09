@@ -1,18 +1,18 @@
 {
   "antialiasing": 0,
   "ambient" : 0.1,
-  "samples": 100,
-  "brightness": 4.4,
+  "samples": 5000,
+  "brightness": 5.0,
   "camera":
   {
-      "pos":
-      {
-        "x": -110.0,
-        "y": 0.0,
-        "z": 20.0
-      },
-      "alpha": 0.0,
-      "betta": 190.0
+    "pos":
+    {
+      "x": -129.560516,
+      "y": 8.047763,
+      "z": 141.673065
+    },
+    "alpha": 26.0,
+    "betta": 88.0
   },
   "lights":
   [
@@ -21,7 +21,7 @@
       {
         "x": -40.0,
         "y": 14.0,
-        "z": 60.0
+        "z": 145.0
       },
       "intens": 1.5
     }
@@ -36,265 +36,39 @@
   "objects":
   [
     {
-      "type": "sphere",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "radius": 10.0,
-      "phong":
-      {
-        "al1": 1.0,
-        "al2": 0.4,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 123.0,
-        "y": 116.0,
-        "z": 45.0
-      },
-      "pos":
-      {
-        "x": 0.0,
-        "y": 2.0,
-        "z": 0.0
-      }
-    },
-    {
       "type": "plane",
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
-      "param": -10.0,
-      "phong":
-      {
+      "param": 130.0,
+      "phong": {
         "al1": 0.4,
         "al2": 0.1,
         "sp_ex": 50.0
       },
-      "emission":
-      {
+      "emission": {
         "x": 0.0,
         "y": 0.0,
         "z": 0.0
       },
-      "vec":
-      {
+      "vec": {
         "x": 0.0,
         "y": 0.0,
         "z": 1.0
       },
-      "color":
-      {
+      "color": {
         "x": 40.0,
         "y": 123.0,
         "z": 35.0
       }
     },
     {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 100.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 80.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": -80.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 1.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 150.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 1.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
-      "type": "plane",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": -150.0,
-      "phong":
-      {
-        "al1": 0.4,
-        "al2": 0.1,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 2.0,
-        "y": 2.0,
-        "z": 2.0
-      },
-      "vec":
-      {
-        "x": 1.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
-      }
-    },
-    {
       "type": "cylinder",
       "texture": "none",
-      "reflection": 0.0,
+      "reflection": 1.0,
       "refraction": 0.0,
-      "radius": 3.0,
-      "phong":
-      {
-        "al1": 1.0,
-        "al2": 0.4,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 45.0,
-        "y": 54.0,
-        "z": 123.0
-      },
-      "pos":
-      {
-        "x": 0.0,
-        "y": -20.0,
-        "z": 0.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
-      }
-    },
-    {
-      "type": "cone",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "param": 0.3,
+      "length": 90.0,
+      "radius": 10.0,
       "phong":
       {
         "al1": 1.0,
@@ -316,8 +90,8 @@
       "pos":
       {
         "x": 0.0,
-        "y": 30.0,
-        "z": 30.0
+        "y": 40.0,
+        "z": 70.0
       },
       "vec":
       {
@@ -327,11 +101,12 @@
       }
     },
     {
-      "type": "hyper",
+      "type": "sphere",
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
-      "param": 0.3,
+      "length": 90.0,
+      "radius": 20.0,
       "phong":
       {
         "al1": 1.0,
@@ -342,71 +117,34 @@
       {
         "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 4.0
       },
       "color":
       {
-        "x": 48.0,
-        "y": 3.0,
-        "z": 32.0
-      },
-      "pos":
-      {
-        "x": 0.0,
-        "y": -40.0,
-        "z": -10.0
-      },
-      "vec":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
-      }
-    },
-    {
-      "type": "torus",
-      "texture": "none",
-      "reflection": 0.0,
-      "refraction": 0.0,
-      "radius": 12.0,
-      "inner_radius": 4.0,
-      "phong":
-      {
-        "al1": 1.0,
-        "al2": 0.4,
-        "sp_ex": 50.0
-      },
-      "emission":
-      {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 0.0
-      },
-      "color":
-      {
-        "x": 16.0,
+        "x": 111.0,
         "y": 45.0,
-        "z": 120.0
+        "z": 123.0
       },
       "pos":
       {
         "x": 0.0,
-        "y": 0.0,
-        "z": 30.0
+        "y": 40.0,
+        "z": 170.0
       },
       "vec":
       {
-        "x": 1.0,
+        "x": 0.0,
         "y": 0.0,
-        "z": 0.0
+        "z": 1.0
       }
-    }
-  ,
+    },
     {
-      "type": "sqr",
+      "type": "cylinder",
       "texture": "none",
-      "reflection": 0.0,
+      "reflection": 1.0,
       "refraction": 0.0,
+      "length": 90.0,
+      "radius": 10.0,
       "phong":
       {
         "al1": 1.0,
@@ -421,27 +159,363 @@
       },
       "color":
       {
-        "x": 126.0,
-        "y": 196.0,
-        "z": 32.0
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
       },
       "pos":
       {
         "x": 0.0,
+        "y": 90.0,
+        "z": 70.0
+      },
+      "vec":
+      {
+        "x": 0.0,
         "y": 0.0,
-        "z": 60.0
+        "z": 1.0
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 20.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
       },
-      "first":
+      "emission":
       {
         "x": 0.0,
-        "y": 10.0,
-        "z": 70.0
+        "y": 4.0,
+        "z": 0.0
       },
-      "second":
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
       {
         "x": 0.0,
-        "y": 1.0,
+        "y": 90.0,
+        "z": 170.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "cylinder",
+      "texture": "none",
+      "reflection": 1.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 10.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 0.0,
+        "y": 130.0,
         "z": 70.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 20.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 4.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 0.0,
+        "y": 130.0,
+        "z": 170.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "cylinder",
+      "texture": "none",
+      "reflection": 1.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 10.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 70.0,
+        "y": 40.0,
+        "z": 70.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 20.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 4.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 70.0,
+        "y": 40.0,
+        "z": 170.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "cylinder",
+      "texture": "none",
+      "reflection": 1.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 10.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 70.0,
+        "y": 90.0,
+        "z": 70.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 20.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 4.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 70.0,
+        "y": 90.0,
+        "z": 170.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "cylinder",
+      "texture": "none",
+      "reflection": 1.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 10.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 70.0,
+        "y": 130.0,
+        "z": 70.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "length": 90.0,
+      "radius": 20.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 4.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 111.0,
+        "y": 45.0,
+        "z": 123.0
+      },
+      "pos":
+      {
+        "x": 70.0,
+        "y": 130.0,
+        "z": 170.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
       }
     }
   ]
