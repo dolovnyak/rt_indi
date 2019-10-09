@@ -1,8 +1,8 @@
 {
   "antialiasing": 0,
   "ambient" : 0.5,
-  "samples": 100,
-  "brightness": 5.4,
+  "samples": 30,
+  "brightness": 4.4,
   "camera":
   {
       "pos":
@@ -37,8 +37,8 @@
   [
     {
       "type": "sphere",
-      "texture": "none",
-      "reflection": 1.0,
+      "texture": "earth",
+      "reflection": 0.0,
       "refraction": 0.0,
       "radius": 10.0,
       "phong":
@@ -55,9 +55,9 @@
       },
       "color":
       {
-        "x": 123.0,
-        "y": 116.0,
-        "z": 45.0
+        "x": 255.0,
+        "y": 0.0,
+        "z": 0.0
       },
       "pos":
       {
@@ -68,7 +68,7 @@
     },
     {
       "type": "plane",
-      "texture": "none",
+      "texture": "park",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": -10.0,
@@ -99,7 +99,7 @@
     },
     {
       "type": "plane",
-      "texture": "none",
+      "texture": "potolok",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": 100.0,
@@ -130,7 +130,7 @@
     },
     {
       "type": "plane",
-      "texture": "none",
+      "texture": "brick",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": 80.0,
@@ -161,7 +161,7 @@
     },
     {
       "type": "plane",
-      "texture": "none",
+      "texture": "brick",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": -80.0,
@@ -192,7 +192,7 @@
     },
     {
       "type": "plane",
-      "texture": "none",
+      "texture": "brick",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": 150.0,
@@ -223,7 +223,7 @@
     },
     {
       "type": "plane",
-      "texture": "none",
+      "texture": "brick",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": -150.0,
@@ -235,9 +235,9 @@
       },
       "emission":
       {
-        "x": 4.0,
-        "y": 4.0,
-        "z": 4.0
+        "x": 2.0,
+        "y": 2.0,
+        "z": 2.0
       },
       "vec":
       {
@@ -254,7 +254,7 @@
     },
     {
       "type": "cylinder",
-      "texture": "none",
+      "texture": "marble",
       "reflection": 0.0,
       "refraction": 0.0,
       "radius": 3.0,
@@ -279,19 +279,19 @@
       "pos":
       {
         "x": 0.0,
-        "y": -20.0,
-        "z": 0.0
+        "y": -30.0,
+        "z": 40.0
       },
       "vec":
       {
-        "x": 0.0,
-        "y": 0.0,
+        "x": -1.0,
+        "y": -1.0,
         "z": 1.0
       }
     },
     {
       "type": "cone",
-      "texture": "none",
+      "texture": "texture1",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": 0.3,
@@ -321,14 +321,14 @@
       },
       "vec":
       {
-        "x": 0.0,
-        "y": 0.0,
-        "z": 1.0
+        "x": -1.0,
+        "y": -1.0,
+        "z": -1.0
       }
     },
     {
       "type": "hyper",
-      "texture": "none",
+      "texture": "blue",
       "reflection": 0.0,
       "refraction": 0.0,
       "param": 0.3,
@@ -365,7 +365,7 @@
     },
     {
       "type": "torus",
-      "texture": "none",
+      "texture": "steel",
       "reflection": 0.0,
       "refraction": 0.0,
       "radius": 12.0,

@@ -1,0 +1,306 @@
+{
+  "antialiasing": 0,
+  "ambient" : 0.1,
+  "samples": 30,
+  "brightness": 4.4,
+  "camera":
+  {
+    "pos":
+    {
+      "x": -10.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "alpha": 0.0,
+    "betta": 190.0
+  },
+  "lights":
+  [
+    {
+      "pos":
+      {
+        "x": -10.0,
+        "y": 20.0,
+        "z": 75.0
+      },
+      "intens": 1.5
+    },
+    {
+      "pos":
+      {
+        "x": 0.0,
+        "y": 14.0,
+        "z": 30.0
+      },
+      "intens": 1.0
+    },
+    {
+      "pos":
+      {
+        "x": 0.0,
+        "y": -16.0,
+        "z": 30.0
+      },
+      "intens": 1.0
+    }
+  ],
+  "effects":
+  {
+    "gray": 0,
+    "3d": 0,
+    "gauss_blure": 0,
+    "dithering": 0
+  },
+  "objects":
+  [
+    {
+      "type": "mandelbulb",
+      "texture": "none",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "iteration": 128.0,
+      "power": 8.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 100.0,
+        "y": 0.0,
+        "z": 200.0
+      },
+      "pos":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "type": "sphere",
+      "texture": "ball_2",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "radius": 41.0,
+      "phong":
+      {
+        "al1": 1.0,
+        "al2": 0.4,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 255.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "pos":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      }
+    },
+    {
+      "type": "plane",
+      "texture": "gz",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "param": -10.0,
+      "phong":
+      {
+        "al1": 0.4,
+        "al2": 0.1,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "color":
+      {
+        "x": 40.0,
+        "y": 123.0,
+        "z": 35.0
+      }
+    },
+    {
+      "type": "plane",
+      "texture": "potolok",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "param": 100.0,
+      "phong":
+      {
+        "al1": 0.4,
+        "al2": 0.1,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 1.0
+      },
+      "color":
+      {
+        "x": 45.0,
+        "y": 123.0,
+        "z": 112.0
+      }
+    },
+    {
+      "type": "plane",
+      "texture": "wallpaper_1",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "param": 80.0,
+      "phong":
+      {
+        "al1": 0.4,
+        "al2": 0.1,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 45.0,
+        "y": 123.0,
+        "z": 112.0
+      }
+    },
+    {
+      "type": "plane",
+      "texture": "wallpaper_1",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "param": -80.0,
+      "phong":
+      {
+        "al1": 0.4,
+        "al2": 0.1,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "vec":
+      {
+        "x": 0.0,
+        "y": 1.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 45.0,
+        "y": 123.0,
+        "z": 112.0
+      }
+    },
+    {
+      "type": "plane",
+      "texture": "wallpaper_1",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "param": 150.0,
+      "phong":
+      {
+        "al1": 0.4,
+        "al2": 0.1,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "vec":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 45.0,
+        "y": 123.0,
+        "z": 112.0
+      }
+    },
+    {
+      "type": "plane",
+      "texture": "wallpaper_1",
+      "reflection": 0.0,
+      "refraction": 0.0,
+      "param": -150.0,
+      "phong":
+      {
+        "al1": 0.4,
+        "al2": 0.1,
+        "sp_ex": 50.0
+      },
+      "emission":
+      {
+        "x": 2.0,
+        "y": 2.0,
+        "z": 2.0
+      },
+      "vec":
+      {
+        "x": 1.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "color":
+      {
+        "x": 45.0,
+        "y": 123.0,
+        "z": 112.0
+      }
+    }
+  ]
+}

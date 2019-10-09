@@ -29,16 +29,16 @@ int		rt_jtoc_get_effects(t_rt *rt, t_jnode *n)
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	if (jtoc_get_int(tmp) == 1)
-	rt->screen.effects |= THREE_D;
+		rt->screen.effects |= THREE_D;
 	if (!(tmp = jtoc_node_get_by_path(n, "gauss_blure"))
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	if (jtoc_get_int(tmp) == 1)
-	rt->screen.effects |= GAYSS_BLURE;
+		rt->screen.effects |= GAYSS_BLURE;
 	if (!(tmp = jtoc_node_get_by_path(n, "dithering"))
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	if (jtoc_get_int(tmp) == 1)
-	rt->screen.effects |= DITHERING;
+		rt->screen.effects |= DITHERING;
 	return (FUNCTION_SUCCESS);
 }
