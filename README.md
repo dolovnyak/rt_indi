@@ -16,6 +16,7 @@
 Runs on **OSX**.  
 Run `make` and programm will compile.  
 Run it with `./RT path_map path_texture`.  
+Maps and textures(textures.json) are stored in a folder `json`.
 
 ## Controls
 `ESC` - Close the program.  
