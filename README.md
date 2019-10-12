@@ -32,6 +32,8 @@ Maps and textures(textures.json) are stored in a folder `json`.
 `2`-`4` - fsaa on(mouse event off it).   
 `L` - path trace on / off (mouse event off it).   
 `0` - screen shot.   
+`ESC` - quit programm.   
+
 
 ## Authors
 IlyaSviridov - https://github.com/IlyaSviridov   
