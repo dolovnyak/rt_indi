@@ -1,5 +1,5 @@
 # RT
-## RT is a rendering project of school 21(Ecole 42). It implements Path Tracing, Raytrace, Raymarching algorithm, uses GPU acceleration via OpenCL.
+## RT is a rendering project of school 21(Ecole 42). It implements: lighting models: Phong, Path Tracing; Intersection methods: Raytracing, Raymarching algorithm. It uses GPU acceleration via OpenCL.   
 
 ## All obhect with texture scene (Phong shading via Raytrace and Raymarching algorithm)
 ![Image alt](https://github.com/dolovnyak/rt_indi/raw/master/images/12.10.2019%2016.17.47.png)
