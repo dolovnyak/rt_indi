@@ -1,7 +1,7 @@
 {
   "antialiasing": 0,
   "ambient" : 0.1,
-  "samples": 100,
+  "samples": 2000,
   "brightness": 4.4,
   "camera":
   {
@@ -148,7 +148,7 @@
     },
     {
       "type": "plane",
-      "texture": "wallpaper_1",
+      "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
       "param": 80.0,
@@ -172,9 +172,9 @@
       },
       "color":
       {
-        "x": 45.0,
-        "y": 123.0,
-        "z": 112.0
+        "x": 255.0,
+        "y": 255.0,
+        "z": 255.0
       }
     },
     {
