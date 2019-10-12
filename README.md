@@ -1,15 +1,15 @@
 # RT
 ## RT is a rendering project of school 21(Ecole 42). It implements Path Tracing, Raytrace, Raymarching algorithm, uses GPU acceleration via OpenCL.
 
-## All obhect with texture scene (raytrace + raymarching algorithm)
+## All obhect with texture scene (Phong shading)
 ![Image alt](https://github.com/dolovnyak/rt_indi/raw/master/images/12.10.2019%2016.17.47.png)
-## Glass scene (path trace algorithm)
+## Glass scene (Path trace algorithm)
 ![Image alt](https://github.com/dolovnyak/rt_indi/raw/master/images/12.10.2019%2016.19.50.png)
-## Stained glass scene (path trace algorithm)
+## Stained glass scene (Path trace algorithm)
 ![Image alt](https://github.com/dolovnyak/rt_indi/raw/master/images/12.10.2019%2016.22.34.png)
-## Student hostel scene (path trace algorithm)
+## Student hostel scene (Path trace algorithm)
 ![Image alt](https://github.com/dolovnyak/rt_indi/raw/master/images/12.10.2019%2016.27.14.png)
-## Mandelbulb scene (raymarching algorithm)
+## Mandelbulb scene (Phong shading via Raymarching algorithm)
 ![Image alt](https://github.com/dolovnyak/rt_indi/raw/master/images/12.10.2019%2016.29.09.png)
 
 ## Compiling and running
@@ -30,7 +30,7 @@ Run it with `./RT path_map path_texture`.
 `0` - screen shot.   
 
 ## Authors
-Ilya Sviridov - https://github.com/IlyaSviridov   
+IlyaSviridov - https://github.com/IlyaSviridov   
 dolovnyak - https://github.com/dolovnyak   
 godflight - https://github.com/GodFlight   
 pgilly   
