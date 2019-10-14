@@ -90,15 +90,13 @@ __kernel void	phong_render(
 					texture_w, texture_h, prev_texture_size, texture))
 				color += light_shadow(dir, obj, l, &lighting, counter,
 						texture_w, texture_h, prev_texture_size, texture, ambient);
-			else
+			else if (screen->skybox_id != -1)
 			{
 				float3	vec;
 				float 	v;
 				float 	u;
 
 				vec = -dir;
-				//vec = fast_normalize((float3)(4.f * vec.x, 4.f * vec.y, 4.f * vec.z));
-
 				u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
 				v = 0.5f + (asin(vec.z) / M_PI_F);
 				float2 uv = (float2)(u, v);
@@ -108,11 +106,11 @@ __kernel void	phong_render(
 				int coord_y;
 				float3 color_uv;
 
-				coord_x = (int)((uv.x * texture_w[0]));
-				coord_y = (int)((uv.y * texture_h[0]));
-				coord_y *= (texture_w[0]);
+				coord_x = (int)((uv.x * texture_w[screen->skybox_id]));
+				coord_y = (int)((uv.y * texture_h[screen->skybox_id]));
+				coord_y *= (texture_w[screen->skybox_id]);
 				coord = coord_x + coord_y;
-				coord += prev_texture_size[0];
+				coord += prev_texture_size[screen->skybox_id];
 
 				color_uv.z = (RED(texture[coord]));
 				color_uv.y = (GREEN(texture[coord]));
@@ -121,8 +119,9 @@ __kernel void	phong_render(
 				color_uv.y *= 0.00392156862f;
 				color_uv.z *= 0.00392156862f;
 				color += color_uv;
-//				color += (float3)(0.f);
 			}
+			else
+				color += (float3)(0.f);
 		}
 	}
 	color = color / ((fsaa + 1) * (fsaa + 1));
