@@ -2,6 +2,9 @@
   "textures":
   [
     {
+      "path": "./textures/nice.png"
+    },
+    {
       "path": "./textures/texture1.png"
     },
     {
