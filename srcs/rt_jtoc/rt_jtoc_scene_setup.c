@@ -63,6 +63,8 @@ static int		rt_jtoc_get_samples(t_rt *rt, t_jnode *root)
 	else
 		rt->screen.skybox_id = rt_jtoc_compare_str_with_texture_name(
 				rt->texture, jtoc_get_string(tmp));
+	if (rt->screen.skybox_id == -2)
+		return (rt_jtoc_sdl_log_error("SKYBOX NAME ERROR OR MISSING", -1));
 	return (FUNCTION_SUCCESS);
 }
 
