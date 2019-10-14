@@ -55,6 +55,14 @@ static int		rt_jtoc_get_samples(t_rt *rt, t_jnode *root)
 	rt->screen.samples = jtoc_get_int(tmp);
 	if (rt->screen.samples < 2 || rt->screen.samples > 100000)
 		return (rt_jtoc_sdl_log_error("SAMPLES ERROR", -1));
+	if (!(tmp = jtoc_node_get_by_path(root, "skybox"))
+		|| tmp->type != string)
+		return (rt_jtoc_sdl_log_error("SKYBOX ERROR OR MISSING", -1));
+	if (!(ft_strcmp(jtoc_get_string(tmp), "none")))
+		rt->screen.skybox_id = -1;
+	else
+		rt->screen.skybox_id = rt_jtoc_compare_str_with_texture_name(
+				rt->texture, jtoc_get_string(tmp));
 	return (FUNCTION_SUCCESS);
 }
 

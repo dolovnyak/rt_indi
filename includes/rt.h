@@ -138,6 +138,7 @@ typedef struct			s_screen
 	cl_int				effects;
 	cl_int				params;
 	cl_int				samples;
+	cl_int				skybox_id;
 # else
 
 	float3				v1;
@@ -148,6 +149,7 @@ typedef struct			s_screen
 	int					effects;
 	int					params;
 	int					samples;
+	int					skybox_id;
 # endif
 
 }						t_screen;
