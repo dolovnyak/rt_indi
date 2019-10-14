@@ -58,7 +58,38 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 		if (!scene_intersect(path_orig, path_dir, obj, &lighting, count,
 				texture_w, texture_h, prev_texture_size, texture))
 		{
-			path_color += mask * 0.01f;
+			float3 vec;
+			float v;
+			float u;
+
+			vec = -path_dir;
+			u = 0.5f + (atan2(vec.x, vec.y) / (2.f * M_PI_F));
+			v = 0.5f + (asin(vec.z) / M_PI_F);
+			float2 uv = (float2)(u, v);
+
+			int coord;
+			int coord_x;
+			int coord_y;
+			float3 color_uv;
+
+			coord_x = (int) ((uv.x * texture_w[0]));
+			coord_y = (int) ((uv.y * texture_h[0]));
+			coord_y *= (texture_w[0]);
+			coord = coord_x + coord_y;
+			coord += prev_texture_size[0];
+
+			color_uv.
+			z = (RED(texture[coord]));
+			color_uv.
+			y = (GREEN(texture[coord]));
+			color_uv.
+			x = (BLUE(texture[coord]));
+			color_uv.x *= 0.00392156862f;
+			color_uv.y *= 0.00392156862f;
+			color_uv.z *= 0.00392156862f;
+//			path_color = color_uv;
+
+			path_color += mask * 0.2f * color_uv; // 0.2f - like params in json
 			break;
 		}
 		float	rand1 = get_random((unsigned int *)seed0, (unsigned int *)seed1) * 2.0f * M_PI_F;
