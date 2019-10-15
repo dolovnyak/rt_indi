@@ -3,6 +3,7 @@
   "ambient" : 0.5,
   "samples": 10,
   "brightness": 5.4,
+  "skybox": "none",
   "camera":
   {
       "pos":

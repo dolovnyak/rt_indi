@@ -1,19 +1,19 @@
 {
-  "antialiasing": 0,
+  "antialiasing": 4,
   "ambient" : 0.5,
   "samples": 100,
   "brightness": 6.0,
-  "skybox": "nice",
+  "skybox": "tex.jpg",
   "camera":
   {
     "pos":
     {
-      "x": -10.0,
-      "y": 0.0,
-      "z": 20.0
+      "x": 3.293570,
+      "y": -8.513237,
+      "z": 24.464319
     },
-    "alpha": 0.0,
-    "betta": 190.0
+    "alpha": 110.0,
+    "betta": 120.0
   },
   "lights":
   [
