@@ -59,6 +59,12 @@ int			rt_jtoc_get_obj_color_param(t_object *obj, t_jnode *n)
 	obj->mat.refraction = jtoc_get_float(tmp);
 	if (obj->mat.refraction < 1.f || obj->mat.refraction > 1.3f)
 		obj->mat.refraction = 0.f;
+	if (!(tmp = jtoc_node_get_by_path(n ,"clouding"))
+	|| tmp->type != fractional)
+		return(rt_jtoc_sdl_log_error("CLOUDING ERROR OR MISSING", -1));
+	obj->mat.clouding = jtoc_get_float(tmp);
+	if (obj->mat.clouding > 1.f || obj->mat.clouding < 0.96)
+		obj->mat.clouding = 1.f;
 	return (FUNCTION_SUCCESS);
 }
 

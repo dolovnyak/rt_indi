@@ -119,7 +119,8 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 		}
 		else if (lighting.mat.refraction > 0.f)
 		{
-			newdir = fast_normalize(refract(path_dir, lighting.n, lighting.mat.refraction));
+			newdir = fast_normalize(lighting.mat.clouding * fast_normalize(refract(path_dir, lighting.n, lighting.mat.refraction))
+				+ (1.f - lighting.mat.clouding) * newdir);
 			path_orig = lighting.hit - lighting.n * 3e-1f;
 			mirr += 1;
 			float	cos_n = fabs(dot(path_dir, lighting.n));

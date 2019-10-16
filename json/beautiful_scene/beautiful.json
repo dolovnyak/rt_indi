@@ -39,8 +39,9 @@
     {
       "type": "sphere",
       "texture": "none",
-      "reflection": 1.0,
-      "refraction": 0.0,
+      "reflection": 0.0,
+      "refraction": 1.05,
+      "clouding": 0.99,
       "radius": 2.0,
       "phong":
       {
