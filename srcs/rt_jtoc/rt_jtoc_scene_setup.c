@@ -52,7 +52,7 @@ static int		rt_jtoc_get_samples(t_rt *rt, t_jnode *root)
 		|| tmp->type != integer)
 		return (rt_jtoc_sdl_log_error("SAMPLES ERRROR OR MISSING", -1));
 	rt->screen.samples = jtoc_get_int(tmp);
-	if (rt->screen.samples < 2 || rt->screen.samples > 100000)
+	if (rt->screen.samples < 2 || rt->screen.samples > 2000)
 		return (rt_jtoc_sdl_log_error("SAMPLES ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(root, "skybox"))
 		|| tmp->type != string)

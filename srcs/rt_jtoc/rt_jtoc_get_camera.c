@@ -36,5 +36,7 @@ int			rt_jtoc_get_camera(t_cam *camera, t_jnode *n)
 	camera->betta *= (M_PI / 180);
 	if (camera->betta < 0 || camera->betta > M_PI)
 		camera->betta = M_PI_2;
+	if (camera->betta < 0.001f)
+		camera->betta = 0.001f;
 	return (FUNCTION_SUCCESS);
 }

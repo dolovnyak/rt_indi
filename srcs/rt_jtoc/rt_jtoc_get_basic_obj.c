@@ -55,8 +55,10 @@ int			rt_jtoc_get_cone(t_object *obj, t_jnode *n)
 
 	if (!(tmp = jtoc_node_get_by_path(n, "param"))
 		|| tmp->type != fractional)
-		return (rt_jtoc_sdl_log_error("VEC TYPE ERROR OR VEC IS MISSING", -1));
+		return (rt_jtoc_sdl_log_error("PARAM TYPE ERROR OR MISSING", -1));
 	obj->param = jtoc_get_float(tmp);
+	if (obj->param <= 0.f)
+		return (rt_jtoc_sdl_log_error("PARAM ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "vec")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("VEC ERROR OR VEC IS MISSING", -1));
 	g_err_str = "PARAMS TYPE ERROR OR PARAMS IS MISSING";
@@ -69,6 +71,8 @@ int			rt_jtoc_get_cone(t_object *obj, t_jnode *n)
 	if (!(tmp = jtoc_node_get_by_path(n, "length")))
 		return (rt_jtoc_sdl_log_error("LENGTH ERROR OR LENGTH MISSING", -1));
 	obj->radius = jtoc_get_float((tmp));
+	if (obj->radius <= 0.f)
+		return (rt_jtoc_sdl_log_error("LENGTH ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }
 
@@ -95,5 +99,7 @@ int			rt_jtoc_get_cylinder(t_object *obj, t_jnode *n)
 	if (!(tmp = jtoc_node_get_by_path(n, "length")))
 		return (rt_jtoc_sdl_log_error("LENGTH ERROR OR LENGTH MISSING", -1));
 	obj->param = jtoc_get_float((tmp));
+	if (obj->param <= 0.f)
+		return (rt_jtoc_sdl_log_error("LENGTH ERROR", -1));
 	return (FUNCTION_SUCCESS);
 }
