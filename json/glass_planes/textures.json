@@ -1,0 +1,71 @@
+{
+  "textures":
+  [
+    {
+      "path": "./textures/nice.png"
+    },
+    {
+      "path": "./textures/texture1.png"
+    },
+    {
+      "path": "./textures/earth.jpg"
+    },
+    {
+      "path": "./textures/brick.jpg"
+    },
+    {
+      "path": "./textures/steel.jpg"
+    },
+    {
+      "path": "./textures/marble.png"
+    },
+    {
+      "path": "./textures/park.jpg"
+    },
+    {
+      "path": "./textures/potolok.jpg"
+    },
+    {
+      "path": "./textures/blue.jpg"
+    },
+    {
+      "path": "./textures/plitka.jpg"
+    },
+    {
+      "path": "./textures/gz.jpg"
+    },
+    {
+      "path": "./textures/wallpaper_1.jpg"
+    },
+    {
+      "path": "./textures/ball_2.jpg"
+    },
+    {
+      "path": "./textures/ball1.jpg"
+    },
+    {
+      "path": "./textures/wood1.jpg"
+    },
+    {
+      "path": "./textures/glass.jpg"
+    },
+    {
+      "path": "./textures/glass2.jpg"
+    },
+    {
+      "path": "./textures/gold.jpg"
+    },
+    {
+      "path": "./textures/black.jpg"
+    },
+    {
+      "path": "./textures/panels.jpg"
+    },
+    {
+      "path": "./textures/marble_1.jpg"
+    },
+    {
+      "path": "./textures/skulls.png"
+    }
+  ]
+}

@@ -43,7 +43,7 @@ int	rt_jtoc_get_lights(t_rt *rt, t_jnode *n)
 	if (rt_jtoc_get_objects_num_in_arr(&g, n))
 		return (FUNCTION_FAILURE);
 	rt->counter.l = g;
-	lights = ft_memalloc(sizeof(t_light) * rt->texture->textures_count);
+	lights = ft_memalloc(sizeof(t_light) * rt->counter.l);
 	i = 0;
 	tmp = n->down;
 	g_err_str = "LIGHTS IS NOT SET OR LIGHT TYPE ERROR";
