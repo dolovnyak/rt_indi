@@ -36,6 +36,7 @@ int			rt_jtoc_phong_processing(t_object *obj, t_jnode *n)
 int			rt_jtoc_get_obj_color_param(t_object *obj, t_jnode *n)
 {
 	t_jnode *tmp;
+	int		err;
 
 	if (rt_jtoc_phong_processing(obj, n))
 		return (rt_jtoc_sdl_log_error("PHONG ERROR", -1));
@@ -51,20 +52,9 @@ int			rt_jtoc_get_obj_color_param(t_object *obj, t_jnode *n)
 		|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error("REFLECTION ERROR OR MISSING", -1));
 	obj->mat.reflection = jtoc_get_float(tmp);
-	if (obj->mat.reflection > 1.f)
-		return (rt_jtoc_sdl_log_error("REFLECTION ERROR", -1));
-	if (!(tmp = jtoc_node_get_by_path(n, "refraction"))
-	|| tmp->type != fractional)
-		return (rt_jtoc_sdl_log_error("REFRACTION ERROR OR MISSING", -1));
-	obj->mat.refraction = jtoc_get_float(tmp);
-	if (obj->mat.refraction < 1.f || obj->mat.refraction > 1.3f)
-		obj->mat.refraction = 0.f;
-	if (!(tmp = jtoc_node_get_by_path(n ,"clouding"))
-	|| tmp->type != fractional)
-		return(rt_jtoc_sdl_log_error("CLOUDING ERROR OR MISSING", -1));
-	obj->mat.clouding = jtoc_get_float(tmp);
-	if (obj->mat.clouding > 1.f || obj->mat.clouding < 0.96)
-		obj->mat.clouding = 1.f;
+	err = rt_jtoc_get_obj_color_param2(obj, n, tmp);
+	if (err != 0)
+		return (err);
 	return (FUNCTION_SUCCESS);
 }
 

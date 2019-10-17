@@ -29,6 +29,8 @@ int			rt_jtoc_get_objects(t_rt *rt, t_jnode *n,
 									t_obj_texture *texture);
 int			rt_jtoc_get_object_texture(t_object *obj, t_obj_texture *texture,
 										t_jnode *n);
+int			rt_jtoc_get_obj_color_param2(t_object *obj, t_jnode *n,
+											t_jnode *tmp);
 int			rt_jtoc_compare_str_with_texture_name(t_obj_texture *texture,
 										char *str);
 int			rt_jtoc_get_object_type(t_object *obj, t_jnode *n);

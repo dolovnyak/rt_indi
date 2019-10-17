@@ -37,6 +37,7 @@ float2	uv_mapping_for_cylinder(t_lighting *lighting, __global t_object *obj);
 float2	uv_mapping_for_torus(t_lighting *lighting, __global t_object *obj);
 float2	uv_mapping_for_plane(t_lighting *lighting);
 float2	uv_mapping_for_cone(t_lighting *lighting, __global t_object *obj);
+float2	uv_mapping_for_sqr(t_lighting *lighting, __global t_object *obj);
 
 //utilities
 float	reverse(int n);
