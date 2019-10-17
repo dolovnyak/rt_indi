@@ -136,6 +136,7 @@ typedef struct			s_screen
 	cl_float3			v2;
 	cl_float3			center;
 	cl_float			brightness;
+	cl_float			skyboxs_light;
 	cl_int				fsaa_n;
 	cl_int				effects;
 	cl_int				params;
@@ -147,6 +148,7 @@ typedef struct			s_screen
 	float3				v2;
 	float3				center;
 	float				brightness;
+	float				skyboxs_light;
 	int					fsaa_n;
 	int					effects;
 	int					params;

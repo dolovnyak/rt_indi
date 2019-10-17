@@ -42,7 +42,7 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 			const unsigned int *seed0, const unsigned int *seed1,
 			const __global int *texture_w,  const __global int *texture_h,
 			const __global int *prev_texture_size,  const __global int *texture,
-			float brightness, int skybox_id)
+			float brightness, int skybox_id, float skyboxs_light)
 {
 	float3		path_color = (float3)(0.0f, 0.0f, 0.0f);
 	float3		mask = (float3)(1.0f, 1.0f, 1.0f);
@@ -90,10 +90,10 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 				color_uv.x *= 0.00392156862f;
 				color_uv.y *= 0.00392156862f;
 				color_uv.z *= 0.00392156862f;
-				path_color += mask * 0.2f * color_uv; // 0.2f - like params in json
+				path_color += mask * skyboxs_light * color_uv; // 0.2f - like params in json
 			}
 			else
-				path_color += mask * 0.01f;
+				path_color += mask * skyboxs_light;
 			break;
 		}
 		float	rand1 = get_random((unsigned int *)seed0, (unsigned int *)seed1) * 2.0f * M_PI_F;
@@ -181,7 +181,7 @@ __kernel void   path_trace_render(
 				get_random(&seed1, &seed0);
 				color += trace(orig, dir, obj, counter->all_obj, &seed0, &seed1,
 						texture_w, texture_h, prev_texture_size, texture,
-						screen->brightness, screen->skybox_id);
+						screen->brightness, screen->skybox_id, screen->skyboxs_light);
 			}
 		}
 	}

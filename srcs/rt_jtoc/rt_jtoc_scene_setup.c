@@ -48,10 +48,9 @@ static int		rt_jtoc_get_samples(t_rt *rt, t_jnode *root)
 {
 	t_jnode *tmp;
 
-	g_err_str = "SAMPLES ERRROR OR SAMPLES MISSING";
 	if (!(tmp = jtoc_node_get_by_path(root, "samples"))
 		|| tmp->type != integer)
-		return (rt_jtoc_sdl_log_error(g_err_str, -1));
+		return (rt_jtoc_sdl_log_error("SAMPLES ERRROR OR MISSING", -1));
 	rt->screen.samples = jtoc_get_int(tmp);
 	if (rt->screen.samples < 2 || rt->screen.samples > 100000)
 		return (rt_jtoc_sdl_log_error("SAMPLES ERROR", -1));
@@ -65,6 +64,12 @@ static int		rt_jtoc_get_samples(t_rt *rt, t_jnode *root)
 				rt->texture, jtoc_get_string(tmp));
 	if (rt->screen.skybox_id == -2)
 		return (rt_jtoc_sdl_log_error("SKYBOX NAME ERROR OR MISSING", -1));
+	if (!(tmp = jtoc_node_get_by_path(root, "skyboxs_light"))
+		|| tmp->type != fractional)
+		return (rt_jtoc_sdl_log_error("SKYBOXS_LIGHT ERROR OR MISSING", -1));
+	if ((rt->screen.skyboxs_light = jtoc_get_float(tmp)) < 0.f ||
+			rt->screen.skyboxs_light > 1.f)
+		rt->screen.skyboxs_light = 0.2f;
 	return (FUNCTION_SUCCESS);
 }
 

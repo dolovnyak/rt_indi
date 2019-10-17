@@ -121,7 +121,7 @@ __kernel void	phong_render(
 				color += color_uv;
 			}
 			else
-				color += (float3)(0.f);
+				color += screen->skyboxs_light;
 		}
 	}
 	color = color / ((fsaa + 1) * (fsaa + 1));
