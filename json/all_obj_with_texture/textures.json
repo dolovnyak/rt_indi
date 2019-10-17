@@ -1,0 +1,29 @@
+{
+  "textures":
+  [
+    {
+      "path": "./textures/earth.jpg"
+    },
+    {
+      "path": "./textures/park.jpg"
+    },
+    {
+      "path": "./textures/potolok.jpg"
+    },
+    {
+      "path": "./textures/brick.jpg"
+    },
+    {
+      "path": "./textures/marble.png"
+    },
+    {
+      "path": "./textures/texture1.png"
+    },
+    {
+      "path": "./textures/blue.jpg"
+    },
+    {
+      "path": "./textures/steel.jpg"
+    }
+  ]
+}
