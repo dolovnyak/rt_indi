@@ -53,6 +53,8 @@ int			rt_jtoc_get_hyper(t_object *obj, t_jnode *n)
 		|| tmp->type != fractional)
 		return (rt_jtoc_sdl_log_error(g_err_str, -1));
 	obj->param = jtoc_get_float(tmp);
+	if (obj->param <= 0.f)
+		return (rt_jtoc_sdl_log_error("PARAM ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "vec")) || tmp->type != object)
 		return (rt_jtoc_sdl_log_error("VEC ERROR OR VEC IS MISSING", -1));
 	if (rt_jtoc_get_float3(&obj->vector, tmp))
