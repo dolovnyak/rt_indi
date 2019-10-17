@@ -102,7 +102,8 @@ int			rt_jtoc_get_phong_param(t_object *obj, t_jnode *n)
 int			rt_jtoc_get_obj_color_param2(t_object *obj, t_jnode *n,
 																t_jnode *tmp)
 {
-	if (obj->mat.reflection > 1.f)
+	if (obj->mat.reflection > 1.f || (obj->mat.reflection < 0.89
+		&& obj->mat.reflection > 0.f))
 		return (rt_jtoc_sdl_log_error("REFLECTION ERROR", -1));
 	if (!(tmp = jtoc_node_get_by_path(n, "refraction"))
 		|| tmp->type != fractional)
