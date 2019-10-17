@@ -122,3 +122,25 @@ float2 			uv_mapping_for_cone(t_lighting *lighting, __global t_object *obj)
 	v = 0.5f - modf(vec.z * 100.f / 1024.f, &v) / 2.f;
 	return ((float2) {u, v});
 }
+
+float2			uv_mapping_for_sqr(t_lighting *lighting, __global t_object *obj)
+{
+	float3 vec;
+	float3 normvec;
+	float3 crossvec;
+	float v;
+	float u;
+
+	vec = lighting->hit;
+	vec = vec_change(lighting, obj);
+
+	if (lighting->n.x != 0.0f || lighting->n.y != 0.0f)
+		normvec = normalize((float3) {lighting->n.y, -lighting->n.x, 0.0f});
+	else
+		normvec = (float3) {0.0f, 1.0f, 0.0f};
+
+	crossvec = cross(lighting->n, normvec);
+	u = 0.5f + fmod(dot(normvec, vec), 32.0f) / 64.f;
+	v = 0.5f + fmod(dot(crossvec, vec), 32.0f) / 64.f;
+	return ((float2){u, v});
+}

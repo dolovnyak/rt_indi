@@ -6,6 +6,9 @@
     },
     {
       "path": "./textures/city.jpg"
+    },
+    {
+      "path": "./textures/marble.png"
     }
   ]
 }

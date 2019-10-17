@@ -567,6 +567,11 @@ int		scene_intersect(float3 orig, float3 dir, __global t_object *obj,
 				if (dot(dir, lighting->n) > 0.f)
 					lighting->n *= -1;
 				lighting->mat = (*(obj + i)).mat;
+				if ((*(obj + i)).mat.texture_id != -1)
+				{
+					uv = uv_mapping_for_sqr(lighting, obj + i);
+					normalize_coord_for_texture((obj + i), uv, &(lighting->mat.diffuse_color), texture, texture_w, texture_h, prev_texture_size);
+				}
 			}
 		}
 		else if ((*(obj + i)).e_type == o_mandelbulb)
