@@ -4,6 +4,7 @@
   "samples": 100,
   "brightness": 6.0,
   "skybox": "tex.jpg",
+  "skyboxs_light": 0.2,
   "camera":
   {
     "pos":

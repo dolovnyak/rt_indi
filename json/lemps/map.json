@@ -1,8 +1,10 @@
 {
   "antialiasing": 0,
   "ambient" : 0.1,
-  "samples": 5000,
+  "samples": 500,
   "brightness": 5.0,
+  "skybox": "none",
+  "skyboxs_light": 0.01,
   "camera":
   {
     "pos":
@@ -40,6 +42,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": 130.0,
       "phong": {
         "al1": 0.4,
@@ -67,6 +70,7 @@
       "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 10.0,
       "phong":
@@ -105,6 +109,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 20.0,
       "phong":
@@ -143,6 +148,7 @@
       "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 10.0,
       "phong":
@@ -181,6 +187,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 20.0,
       "phong":
@@ -219,6 +226,7 @@
       "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 10.0,
       "phong":
@@ -257,6 +265,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 20.0,
       "phong":
@@ -295,6 +304,7 @@
       "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 10.0,
       "phong":
@@ -333,6 +343,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 20.0,
       "phong":
@@ -371,6 +382,7 @@
       "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 10.0,
       "phong":
@@ -409,6 +421,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 20.0,
       "phong":
@@ -447,6 +460,7 @@
       "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 10.0,
       "phong":
@@ -485,6 +499,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "length": 90.0,
       "radius": 20.0,
       "phong":

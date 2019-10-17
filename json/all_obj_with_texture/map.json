@@ -1,9 +1,10 @@
 {
   "antialiasing": 0,
   "ambient" : 0.5,
-  "samples": 250,
+  "samples": 50,
   "brightness": 6.4,
   "skybox": "none",
+  "skyboxs_light": 0.2,
   "camera":
   {
       "pos":
@@ -65,7 +66,7 @@
       {
         "x": 0.0,
         "y": 2.0,
-        "z": 1.0
+        "z": 0.0
       }
     },
     {

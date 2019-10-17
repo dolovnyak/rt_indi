@@ -1,0 +1,17 @@
+{
+  "textures":
+  [
+    {
+      "path": "./textures/potolok.jpg"
+    },
+    {
+      "path": "./textures/gz.jpg"
+    },
+    {
+      "path": "./textures/wallpaper_1.jpg"
+    },
+    {
+      "path": "./textures/ball1.jpg"
+    }
+  ]
+}

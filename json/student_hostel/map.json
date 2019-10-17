@@ -3,6 +3,8 @@
   "ambient" : 0.1,
   "samples": 2000,
   "brightness": 4.4,
+  "skybox": "none",
+  "skyboxs_light": 0.01,
   "camera":
   {
     "pos":
@@ -58,6 +60,7 @@
       "texture": "ball1",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "radius": 10.0,
       "phong":
       {
@@ -89,6 +92,7 @@
       "texture": "gz",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": -10.0,
       "phong":
       {
@@ -120,6 +124,7 @@
       "texture": "potolok",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": 100.0,
       "phong":
       {
@@ -151,6 +156,7 @@
       "texture": "none",
       "reflection": 1.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": 80.0,
       "phong":
       {
@@ -182,6 +188,7 @@
       "texture": "wallpaper_1",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": -80.0,
       "phong":
       {
@@ -213,6 +220,7 @@
       "texture": "wallpaper_1",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": 150.0,
       "phong":
       {
@@ -244,6 +252,7 @@
       "texture": "wallpaper_1",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": -150.0,
       "phong":
       {

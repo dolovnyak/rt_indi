@@ -53,7 +53,7 @@ int			rt_jtoc_get_obj_color_param(t_object *obj, t_jnode *n)
 		return (rt_jtoc_sdl_log_error("REFLECTION ERROR OR MISSING", -1));
 	obj->mat.reflection = jtoc_get_float(tmp);
 	err = rt_jtoc_get_obj_color_param2(obj, n, tmp);
-	if (err != 0)
+	if (err != FUNCTION_SUCCESS)
 		return (err);
 	return (FUNCTION_SUCCESS);
 }

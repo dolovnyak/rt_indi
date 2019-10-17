@@ -3,6 +3,8 @@
   "ambient" : 0.1,
   "samples": 100,
   "brightness": 2.5,
+  "skybox": "none",
+  "skyboxs_light": 0.01,
   "camera":
   {
     "pos":
@@ -46,9 +48,10 @@
   [
     {
       "type": "sphere",
-      "texture": "texture",
+      "texture": "texture1",
       "reflection": 0.0,
       "refraction": 1.0,
+      "clouding": 0.0,
       "radius": 10.0,
       "phong":
       {
@@ -80,6 +83,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": 20.0,
       "phong":
       {
@@ -111,6 +115,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "radius": 15.0,
       "phong":
       {

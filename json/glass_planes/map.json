@@ -1,8 +1,10 @@
 {
   "antialiasing": 0,
-  "ambient" : 0.1,
-  "samples": 200,
-  "brightness": 2.5,
+  "ambient" : 0.2,
+  "samples": 600,
+  "brightness": 6.5,
+  "skyboxs_light": 0.01,
+  "skybox": "none",
   "camera":
   {
       "pos":
@@ -20,17 +22,8 @@
       "pos":
       {
         "x": 0.0,
-        "y": 30.0,
-        "z": 80.0
-      },
-      "intens": 1.0
-    },
-    {
-      "pos":
-      {
-        "x": 0.0,
-        "y": -30.0,
-        "z": 80.0
+        "y": 200.0,
+        "z": 0.0
       },
       "intens": 1.0
     }
@@ -46,9 +39,10 @@
   [
     {
       "type": "sphere",
-      "texture": "texture",
+      "texture": "texture1",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "radius": 5.0,
       "phong":
       {
@@ -64,9 +58,9 @@
       },
       "color":
       {
-        "x": 1.0,
-        "y": 1.0,
-        "z": 1.0
+        "x": 255.0,
+        "y": 255.0,
+        "z": 255.0
       },
       "pos":
       {
@@ -80,6 +74,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "radius": 400.0,
       "phong":
       {
@@ -89,9 +84,9 @@
       },
       "emission":
       {
-        "x": 1.0,
-        "y": 1.0,
-        "z": 1.0
+        "x": 5.0,
+        "y": 5.0,
+        "z": 5.0
       },
       "color":
       {
@@ -102,7 +97,7 @@
       "pos":
       {
         "x": 0.0,
-        "y": 500.0,
+        "y": 1800.0,
         "z": 0.0
       }
     },
@@ -111,6 +106,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "param": -10.0,
       "phong":
       {
@@ -145,9 +141,10 @@
     },
     {
       "type": "plane",
-      "texture": "texture",
+      "texture": "texture1",
       "reflection": 0.0,
       "refraction": 1.0,
+      "clouding": 0.0,
       "param": 0.0,
       "phong":
       {

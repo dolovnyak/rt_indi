@@ -3,6 +3,8 @@
   "ambient" : 0.1,
   "samples": 5,
   "brightness": 1.0,
+  "skybox": "none",
+  "skyboxs_light": 0.01,
   "camera":
   {
     "pos":
@@ -49,6 +51,7 @@
       "texture": "none",
       "reflection": 0.0,
       "refraction": 0.0,
+      "clouding": 0.0,
       "iteration": 128.0,
       "power": 8.0,
       "phong":

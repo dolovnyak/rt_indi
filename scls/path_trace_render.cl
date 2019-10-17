@@ -110,14 +110,14 @@ static float3 trace(float3 orig, float3 dir, __global t_object *obj, int count,
 		float	part = pow((8.f - bounces + mirr) * 0.125f, 5);
 		path_color += mask * lighting.mat.emission * part;
 
-		if (lighting.mat.reflection > 0.f)
+		if (lighting.mat.reflection > 0.f)		// Зеркало
 		{
 			mirr += 1;
 			newdir = fast_normalize(lighting.mat.reflection * fast_normalize(reflect(path_dir, lighting.n)) + (1.f - lighting.mat.reflection) * newdir);
 			mask *= pow(fabs(dot(path_dir, lighting.n)), 0.01f);
 			mask *= 0.95f;
 		}
-		else if (lighting.mat.refraction > 0.f)
+		else if (lighting.mat.refraction > 0.f)	// Линза
 		{
 			newdir = fast_normalize(lighting.mat.clouding * fast_normalize(refract(path_dir, lighting.n, lighting.mat.refraction))
 				+ (1.f - lighting.mat.clouding) * newdir);

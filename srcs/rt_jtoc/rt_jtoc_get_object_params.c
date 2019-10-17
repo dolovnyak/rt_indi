@@ -116,5 +116,5 @@ int			rt_jtoc_get_obj_color_param2(t_object *obj, t_jnode *n,
 	obj->mat.clouding = jtoc_get_float(tmp);
 	if (obj->mat.clouding > 1.f || obj->mat.clouding < 0.96)
 		obj->mat.clouding = 1.f;
-	return (0);
+	return (FUNCTION_SUCCESS);
 }
